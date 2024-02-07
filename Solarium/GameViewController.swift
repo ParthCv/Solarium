@@ -10,18 +10,24 @@ import QuartzCore
 import SceneKit
 
 class GameViewController: UIViewController {
+    var gameView: GameView{
+        return view as! GameView
+    }
+    
     var mainScene: SCNScene!
+    var touch: UITouch?
+    var direction = simd_float2(0, 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Tr
         mainScene = createMainScene()
-        let sceneView = self.view as! SCNView
+        let sceneView = gameView
         sceneView.scene = mainScene
         
         sceneView.showsStatistics = true
-        sceneView.allowsCameraControl = true
+        //sceneView.allowsCameraControl = true
         
         
         mainScene!.rootNode.addChildNode(addAmbientLighting())
@@ -38,7 +44,7 @@ class GameViewController: UIViewController {
         if wifeNode == nil {
             print("fuk")
         }
-               
+        
     }
     
     
@@ -62,6 +68,30 @@ class GameViewController: UIViewController {
         ambientLight.light?.type = .ambient
         
         return ambientLight
+    }
+    
+}
+
+extension GameViewController {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touch = touches.first
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {    if let touch = touch {
+        
+        let touchLocation = touch.location(in: self.view)
+        if gameView.virtualDPad().contains(touchLocation) {
+            let middleOfCircleX = gameView.virtualDPad().origin.x + 75
+            let middleOfCircleY = gameView.virtualDPad().origin.y + 75
+            let lengthOfX = Float(touchLocation.x - middleOfCircleX)
+            let lengthOfY = Float(touchLocation.y - middleOfCircleY)
+            direction = simd_float2(x: lengthOfX, y: lengthOfY)
+            direction = normalize(direction)
+            let degree = atan2(direction.x, direction.y)
+            print(degree)
+        }
+    }
     }
 }
 
