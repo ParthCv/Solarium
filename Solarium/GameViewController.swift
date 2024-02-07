@@ -44,7 +44,7 @@ class GameViewController: UIViewController {
     
     
     func createMainScene() -> SCNScene {
-        let mainScene = SCNScene(named: "art.scnassets/parthTestScene.scn")!
+        let mainScene = SCNScene(named: "art.scnassets/kyleTestScene.scn")!
         return mainScene
     }
     
