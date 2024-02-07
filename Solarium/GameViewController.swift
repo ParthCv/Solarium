@@ -10,107 +10,58 @@ import QuartzCore
 import SceneKit
 
 class GameViewController: UIViewController {
-
+    var mainScene: SCNScene!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        // Tr
+        mainScene = createMainScene()
+        let sceneView = self.view as! SCNView
+        sceneView.scene = mainScene
         
-        // create and add a camera to the scene
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        scene.rootNode.addChildNode(cameraNode)
+        sceneView.showsStatistics = true
+        sceneView.allowsCameraControl = true
         
-        // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
         
-        // create and add a light to the scene
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light!.type = .omni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-        scene.rootNode.addChildNode(lightNode)
+        mainScene!.rootNode.addChildNode(addAmbientLighting())
         
-        // create and add an ambient light to the scene
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = .ambient
-        ambientLightNode.light!.color = UIColor.darkGray
-        scene.rootNode.addChildNode(ambientLightNode)
+        mainScene!.rootNode.addChildNode(createFloor())
         
-        // retrieve the ship node
-        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
+        mainScene.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
-        // animate the 3d object
-        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
+        let cameraNode = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true)
+        //cameraNode?.position = SCNVector3(50, 0, -20)
         
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        let wifeNode = mainScene.rootNode.childNode(withName: "wife", recursively: true)
         
-        // set the scene to the view
-        scnView.scene = scene
-        
-        // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
-        
-        // show statistics such as fps and timing information
-        scnView.showsStatistics = true
-        
-        // configure the view
-        scnView.backgroundColor = UIColor.black
-        
-        // add a tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        scnView.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc
-    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        // check what nodes are tapped
-        let p = gestureRecognize.location(in: scnView)
-        let hitResults = scnView.hitTest(p, options: [:])
-        // check that we clicked on at least one object
-        if hitResults.count > 0 {
-            // retrieved the first clicked object
-            let result = hitResults[0]
-            
-            // get its material
-            let material = result.node.geometry!.firstMaterial!
-            
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.5
-            
-            // on completion - unhighlight
-            SCNTransaction.completionBlock = {
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = 0.5
-                
-                material.emission.contents = UIColor.black
-                
-                SCNTransaction.commit()
-            }
-            
-            material.emission.contents = UIColor.red
-            
-            SCNTransaction.commit()
+        if wifeNode == nil {
+            print("fuk")
         }
+               
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
+    
+    
+    func createMainScene() -> SCNScene {
+        let mainScene = SCNScene(named: "art.scnassets/parthTestScene.scn")!
+        return mainScene
     }
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
+    func createFloor() -> SCNNode {
+        let floorNode = SCNNode()
+        floorNode.geometry = SCNFloor()
+        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/dessert.jpeg"
+        
+        return floorNode
     }
-
+    
+    func addAmbientLighting() -> SCNNode {
+        let ambientLight = SCNNode()
+        ambientLight.light = SCNLight()
+        ambientLight.light?.type = .ambient
+        
+        return ambientLight
+    }
 }
+
