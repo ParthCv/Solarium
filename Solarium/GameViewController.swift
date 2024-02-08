@@ -16,7 +16,7 @@ class GameViewController: UIViewController {
     
     var mainScene: SCNScene!
     var touch: UITouch?
-    var direction = simd_float2(0, 0)
+    var direction = SIMD2<Float>(0, 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,22 +76,37 @@ extension GameViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touch = touches.first
+        if let touch = touch {
+            readDpadInput(touch)
+        }
+        gameView.updateJoystick(direction)
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {    if let touch = touch {
-        
-        let touchLocation = touch.location(in: self.view)
-        if gameView.virtualDPad().contains(touchLocation) {
-            let middleOfCircleX = gameView.virtualDPad().origin.x + 75
-            let middleOfCircleY = gameView.virtualDPad().origin.y + 75
-            let lengthOfX = Float(touchLocation.x - middleOfCircleX)
-            let lengthOfY = Float(touchLocation.y - middleOfCircleY)
-            direction = simd_float2(x: lengthOfX, y: lengthOfY)
-            direction = normalize(direction)
-            let degree = atan2(direction.x, direction.y)
-            print(degree)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touch {
+            readDpadInput(touch)
         }
     }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //Reset the movement axis
+        direction = SIMD2<Float>.zero
+        gameView.updateJoystick(direction)
+    }
+    
+    func readDpadInput(_ touch: UITouch){
+        let touchLocation = touch.location(in: self.view)
+        if gameView.virtualDPad().contains(touchLocation) {
+            let middleOfCircleX = gameView.virtualDPad().origin.x + gameView.dpadRadius
+            let middleOfCircleY = gameView.virtualDPad().origin.y + gameView.dpadRadius
+            let lengthOfX = Float(touchLocation.x - middleOfCircleX)
+            let lengthOfY = Float(touchLocation.y - middleOfCircleY)
+            print(lengthOfX, lengthOfY)
+            direction = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
+            let degree = atan2(direction.x, direction.y)
+            print(degree)
+          
+        }
     }
 }
 
