@@ -86,6 +86,7 @@ extension GameViewController {
         if let touch = touch {
             readDpadInput(touch)
         }
+        gameView.updateJoystick(direction)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -95,18 +96,29 @@ extension GameViewController {
     }
     
     func readDpadInput(_ touch: UITouch){
-        let touchLocation = touch.location(in: self.view)
+        let touchLocation = touch.location(in: self.view)        
+        
         if gameView.virtualDPad().contains(touchLocation) {
+            
             let middleOfCircleX = gameView.virtualDPad().origin.x + gameView.dpadRadius
             let middleOfCircleY = gameView.virtualDPad().origin.y + gameView.dpadRadius
             let lengthOfX = Float(touchLocation.x - middleOfCircleX)
             let lengthOfY = Float(touchLocation.y - middleOfCircleY)
-            print(lengthOfX, lengthOfY)
+            print("Length", lengthOfX, lengthOfY)
             direction = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
-            let degree = atan2(direction.x, direction.y)
-            print(degree)
-          
+            
+            let degree = calculateTilt()
+            print("Degree",degree)
         }
+    }
+    
+    private func calculateTilt() -> Float{
+        if(pow(direction.x ,2) + pow(direction.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
+            return 0
+        }
+        let normalized = normalize(direction)
+        let degree = atan2(normalized.x, normalized.y)
+        return degree
     }
 }
 

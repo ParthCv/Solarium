@@ -13,6 +13,7 @@ final class GameView: SCNView {
     let joystickName = "JoysticNub"
     let dpadRadius: CGFloat = 75
     let joystickRadius: CGFloat = 25
+    let deadZoneRadius: CGFloat = 25
     var joystickOrigin = CGPoint.zero
     
     override func awakeFromNib() {
@@ -62,9 +63,19 @@ final class GameView: SCNView {
     
     func updateJoystick(_ direction:SIMD2<Float>){
         if let joystick = overlaySKScene?.childNode(withName: ".//"+joystickName){
-            print(direction)
-            joystick.position.x = joystickOrigin.x + CGFloat(direction.x) * dpadRadius
-            joystick.position.y = joystickOrigin.y + CGFloat(direction.y) * dpadRadius
+            print("Direction",direction)
+            var position = CGPointZero
+            //Clamp to within dpadRadius
+            if(pow(direction.x ,2) + pow(direction.y,2) < pow(Float(dpadRadius), 2)){
+                position.x = CGFloat(direction.x)
+                position.y = CGFloat(direction.y)
+            }else{
+                let normalized = normalize(direction)
+                position.x = CGFloat(normalized.x) * dpadRadius
+                position.y = CGFloat(normalized.y) * dpadRadius
+            }
+            joystick.position.x = joystickOrigin.x + position.x// * joystickRadius
+            joystick.position.y = joystickOrigin.y - position.y// * joystickRadius
         }
       
     }
