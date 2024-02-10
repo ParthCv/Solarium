@@ -9,11 +9,11 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var gameView: GameView{
         return view as! GameView
     }
-    
+
     var mainScene: SCNScene!
     var touch: UITouch?
     var direction = SIMD2<Float>(0, 0)
@@ -25,7 +25,8 @@ class GameViewController: UIViewController {
         mainScene = createMainScene()
         let sceneView = gameView
         sceneView.scene = mainScene
-        
+        sceneView.delegate = self
+        sceneView.isPlaying = true
         sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
         
@@ -36,7 +37,7 @@ class GameViewController: UIViewController {
         
         mainScene.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
-        let cameraNode = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true)
+        let _cameraNode = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true)
         //cameraNode?.position = SCNVector3(50, 0, -20)
         
         let wifeNode = mainScene.rootNode.childNode(withName: "wife", recursively: true)
@@ -57,7 +58,7 @@ class GameViewController: UIViewController {
     func createFloor() -> SCNNode {
         let floorNode = SCNNode()
         floorNode.geometry = SCNFloor()
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/dessert.jpeg"
+        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
         
         return floorNode
     }
@@ -68,6 +69,24 @@ class GameViewController: UIViewController {
         ambientLight.light?.type = .ambient
         
         return ambientLight
+    }
+    
+    @objc
+    func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {
+        let moveDistance = Float(1.0)
+        let moveSpeed = TimeInterval(1.0)
+        
+        let wifeNode = mainScene.rootNode.childNode(withName: "wife", recursively: true)
+        
+        let currentX = wifeNode?.position.x
+        let currentZ = wifeNode?.position.z
+        
+        let newPos = SCNVector3(x: currentX! + direction.x, y: 0, z: currentZ! + direction.y)
+        
+        let action = SCNAction.move(to: newPos, duration: moveSpeed)
+        
+        wifeNode?.runAction(action)
+        
     }
     
 }
