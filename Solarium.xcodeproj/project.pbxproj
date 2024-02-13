@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B5722A042B743E0D0088CB64 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5722A032B743E0D0088CB64 /* GameView.swift */; };
+		B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4701E2B7C26D80078612C /* AnimationController.swift */; };
 		E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */; };
 		E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13D72B7C1370002B6CBD /* PlayerController.swift */; };
 		E2E00A5F2B72EA5000B35D6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E00A5E2B72EA5000B35D6C /* AppDelegate.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		B5722A032B743E0D0088CB64 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		B5E4701E2B7C26D80078612C /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
 		E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCharacter.swift; sourceTree = "<group>"; };
 		E2DE13D72B7C1370002B6CBD /* PlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerController.swift; sourceTree = "<group>"; };
 		E2E00A5B2B72EA5000B35D6C /* Solarium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Solarium.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +49,7 @@
 			children = (
 				E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */,
 				E2DE13D72B7C1370002B6CBD /* PlayerController.swift */,
+				B5E4701E2B7C26D80078612C /* AnimationController.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -154,6 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */,
 				E2E00A632B72EA5000B35D6C /* GameViewController.swift in Sources */,
 				B5722A042B743E0D0088CB64 /* GameView.swift in Sources */,
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,
@@ -310,7 +314,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J2BLHYCNW6;
+				DEVELOPMENT_TEAM = 8B4465V4QS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -338,7 +342,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J2BLHYCNW6;
+				DEVELOPMENT_TEAM = 8B4465V4QS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

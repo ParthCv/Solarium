@@ -5,6 +5,7 @@ class PlayerCharacter {
     var mesh: SCNGeometry = SCNGeometry()
     
     var animations: [CAAnimation] = []
+    let animationController: AnimationController = AnimationController()
     
     var modelFilePath: String
     
@@ -30,6 +31,8 @@ class PlayerCharacter {
         self.modelNode = modelNode_Player
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController.playerCharacterNode = modelNode
+        
+        self.animationController.loadAnimation(sceneName: "art.scnassets/wifeIdleAnim", extensionName: "dae", targetNode: modelNode_Player)
         
         return modelNode_Player
     }

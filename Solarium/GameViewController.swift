@@ -17,7 +17,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var mainScene: SCNScene!
     var touch: UITouch?
     var direction = SIMD2<Float>(0, 0)
-    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/wife.scn", nodeName: "PlayerNode_Wife")
+    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/wifeNoAnimation.dae", nodeName: "PlayerNode_Wife")
     var mainCamera: SCNNode = SCNNode()
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         mainCamera = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
         
         print(playerCharacter.mesh)
-        playerCharacter.modelNode.removeAllAnimations()
+        //playerCharacter.modelNode.removeAllAnimations()
         print(playerCharacter.mesh.animationKeys)
         
     }
