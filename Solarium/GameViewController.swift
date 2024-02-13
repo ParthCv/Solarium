@@ -17,6 +17,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var mainScene: SCNScene!
     var touch: UITouch?
     var direction = SIMD2<Float>(0, 0)
+    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/wife.scn", nodeName: "PlayerNode_Wife")
+    var mainCamera: SCNNode = SCNNode()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,29 +31,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         sceneView.isPlaying = true
         sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
+                
+        mainScene.rootNode.addChildNode(addAmbientLighting())
         
+        mainScene.rootNode.addChildNode(createFloor())
         
-        mainScene!.rootNode.addChildNode(addAmbientLighting())
-        
-        mainScene!.rootNode.addChildNode(createFloor())
+        mainScene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter())
         
         mainScene.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
-        let _cameraNode = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true)
-        //cameraNode?.position = SCNVector3(50, 0, -20)
+        mainCamera = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
         
-        let wifeNode = mainScene.rootNode.childNode(withName: "wife", recursively: true)
-        
-        if wifeNode == nil {
-            print("fuk")
-        }
+        print(playerCharacter.mesh)
+        playerCharacter.modelNode.removeAllAnimations()
+        print(playerCharacter.mesh.animationKeys)
         
     }
     
-    
-    
     func createMainScene() -> SCNScene {
-        let mainScene = SCNScene(named: "art.scnassets/kyleTestScene.scn")!
+        let mainScene = SCNScene(named: "art.scnassets/ParthModelSpawn.scn")!
+        
         return mainScene
     }
     
@@ -73,22 +72,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     @objc
     func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {
-        let moveDistance = Float(1.0)
-        let moveSpeed = TimeInterval(1.0)
+        //let moveDistance = Float(0.5)
         
-        let wifeNode = mainScene.rootNode.childNode(withName: "wife", recursively: true)
-        
-        let currentX = wifeNode?.position.x
-        let currentZ = wifeNode?.position.z
-        
-        let newPos = SCNVector3(x: currentX! + direction.x, y: 0, z: currentZ! + direction.y)
-        
-        let action = SCNAction.move(to: newPos, duration: moveSpeed)
-        
-        wifeNode?.runAction(action)
-        
+        playerCharacter.playerController.movePlayerInXAndYDirection(changeInX: direction.x, changeInZ: direction.y)
+        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
     }
-    
 }
 
 extension GameViewController {
@@ -115,7 +103,7 @@ extension GameViewController {
     }
     
     func readDpadInput(_ touch: UITouch){
-        let touchLocation = touch.location(in: self.view)        
+        let touchLocation = touch.location(in: self.view)
         
         if gameView.virtualDPad().contains(touchLocation) {
             
@@ -123,11 +111,11 @@ extension GameViewController {
             let middleOfCircleY = gameView.virtualDPad().origin.y + gameView.dpadRadius
             let lengthOfX = Float(touchLocation.x - middleOfCircleX)
             let lengthOfY = Float(touchLocation.y - middleOfCircleY)
-            print("Length", lengthOfX, lengthOfY)
+            //print("Length", lengthOfX, lengthOfY)
             direction = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
             
             let degree = calculateTilt()
-            print("Degree",degree)
+            //print("Degree",degree)
         }
     }
     
