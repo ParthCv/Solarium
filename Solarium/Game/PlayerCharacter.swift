@@ -14,6 +14,8 @@ class PlayerCharacter {
     
     var playerController: PlayerController
     
+    var physicsBody: SCNPhysicsBody = SCNPhysicsBody()
+    
     init(modelFilePath: String, nodeName: String) {
         self.modelFilePath = modelFilePath
         self.nodeName = nodeName
@@ -25,11 +27,21 @@ class PlayerCharacter {
         modelNode_Player.position = spawnPosition
         modelNode_Player.scale = modelScale
         modelNode_Player.name = nodeName
-        
         //Update the properties again
         self.modelNode = modelNode_Player
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController.playerCharacterNode = modelNode
+        let collisionBox = SCNBox(width: 1, height: 1.5, length: 1, chamferRadius: 0)
+        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape:
+                                                    //SCNPhysicsShape(geometry: SCNCapsule(capRadius: 1.0, height: 0.25))
+                                                    //SCNPhysicsShape(geometry: mesh)
+                                                    //nil
+                                                    SCNPhysicsShape(geometry: collisionBox, options: nil)
+        )
+            
+        
+        //set the collision params
+        setCollisionBitMask()
         
         return modelNode_Player
     }
@@ -41,8 +53,10 @@ class PlayerCharacter {
         return refNode!        
     }
     
-
-    
-    
+    private func setCollisionBitMask() {
+        modelNode.physicsBody!.categoryBitMask = PhysicsCategory.player.rawValue
+        modelNode.physicsBody!.contactTestBitMask = PhysicsCategory.interactable.rawValue
+        modelNode.physicsBody!.collisionBitMask = PhysicsCategory.interactable.rawValue
+    }
     
 }
