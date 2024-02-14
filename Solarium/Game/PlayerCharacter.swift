@@ -4,8 +4,9 @@ class PlayerCharacter {
         
     var mesh: SCNGeometry = SCNGeometry()
     
-    var animations: [CAAnimation] = []
+    var animations: Dictionary<String, CAAnimation> = Dictionary<String, CAAnimation>()
     let animationController: AnimationController = AnimationController()
+    let animationFile = "WifeAnimations"
     
     var modelFilePath: String
     
@@ -32,8 +33,10 @@ class PlayerCharacter {
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController.playerCharacterNode = modelNode
         
-        self.animationController.loadAnimation(sceneName: "art.scnassets/wifeIdleAnim", extensionName: "dae", targetNode: modelNode_Player)
         
+        self.animations = animationController.loadAnimations(animationFile: animationFile)
+        //self.animationController.loadAnimation(sceneName: "art.scnassets/wifeIdleAnim.dae", extensionName: "", targetNode: modelNode_Player)
+        self.animationController.playAnimation(animation: self.animations["idle"]!, node: modelNode_Player)
         return modelNode_Player
     }
     
