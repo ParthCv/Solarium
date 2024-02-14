@@ -54,9 +54,10 @@ class PlayerCharacter {
     }
     
     private func setCollisionBitMask() {
-        modelNode.physicsBody!.categoryBitMask = PhysicsCategory.player.rawValue
-        modelNode.physicsBody!.contactTestBitMask = PhysicsCategory.interactable.rawValue
-        modelNode.physicsBody!.collisionBitMask = PhysicsCategory.interactable.rawValue
+        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.player.rawValue
+        
+        modelNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.interactable.rawValue
+        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.ground.rawValue | 1
     }
     
 }

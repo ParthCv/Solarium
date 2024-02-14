@@ -29,9 +29,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         sceneView.scene = mainScene
         sceneView.delegate = self
         sceneView.isPlaying = true
-        //sceneView.scene?.physicsWorld.contactDelegate = self
+        
         //sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
+        
         sceneView.debugOptions = [
             SCNDebugOptions.showPhysicsShapes
             //,SCNDebugOptions.renderAsWireframe
@@ -67,8 +68,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
 
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         
-        floorNode.physicsBody?.categoryBitMask = 3
-        floorNode.physicsBody?.collisionBitMask = 1 | 2
+        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
+        floorNode.physicsBody?.collisionBitMask = 1 | SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
         
         return floorNode
     }
@@ -87,23 +88,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         cubeNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)))
         cubeNode.position = SCNVector3(x: 2, y: 3, z: 3)
         
-        cubeNode.physicsBody!.categoryBitMask = PhysicsCategory.interactable.rawValue
-        cubeNode.physicsBody!.contactTestBitMask = PhysicsCategory.player.rawValue
-        cubeNode.physicsBody!.collisionBitMask = PhysicsCategory.player.rawValue
+        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+        //cubeNode.physicsBody!.contactTestBitMask = PhysicsCategory.player.rawValue
+        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue | 1
         
         return cubeNode
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        print("Contact")
+        switch contact.nodeB.physicsBody!.categoryBitMask {
+            
+            case SolariumCollisionBitMask.player.rawValue:
+                print("Hit a cube")
+                            
+            default:
+                break;
+        }
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
-        print("End")
+        
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
-        print("Update")
+        
     }
     
     @objc
