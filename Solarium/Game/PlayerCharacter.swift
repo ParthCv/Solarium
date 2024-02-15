@@ -1,12 +1,12 @@
 import SceneKit
 
 class PlayerCharacter {
-        
+    
     var mesh: SCNGeometry = SCNGeometry()
     
     var animations: Dictionary<String, CAAnimation> = Dictionary<String, CAAnimation>()
     let animationController: AnimationController = AnimationController()
-    let animationFile = "WifeAnimations"
+    let animationFile = "DummyAnimations"
     
     var modelFilePath: String
     
@@ -14,12 +14,12 @@ class PlayerCharacter {
     
     var nodeName: String
     
-    var playerController: PlayerController
+    var playerController: PlayerController!
     
     init(modelFilePath: String, nodeName: String) {
         self.modelFilePath = modelFilePath
         self.nodeName = nodeName
-        self.playerController = PlayerController(playerCharacterNode: modelNode)
+        self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
     }
     
     func loadPlayerCharacter(spawnPosition: SCNVector3 = SCNVector3Zero, modelScale: SCNVector3 = SCNVector3(x: 1, y: 1, z: 1)) -> SCNNode {
@@ -40,15 +40,21 @@ class PlayerCharacter {
         return modelNode_Player
     }
     
+    func playIdleAnimation() {
+        self.animationController.playAnimation(animation: self.animations["idle"]!, node: self.modelNode)
+    }
+    
+    func playWalkAnimation() {
+        self.animationController.playAnimation(animation: self.animations["walk"]!, node: self.modelNode)
+    }
+    
+    
     private func loadModelFromFile(fileName:String, fileExtension:String) -> SCNReferenceNode {
         let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension)
         let refNode = SCNReferenceNode(url: url!)
         refNode?.load()
-        return refNode!        
+        return refNode!
     }
-    
-
-    
     
     
 }

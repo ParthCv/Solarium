@@ -1,16 +1,37 @@
 import SceneKit
 
+enum PlayerState{
+    case IDLE, WALKING
+}
+
 class PlayerController {
     
     var playerCharacterNode: SCNNode
     
     var movementUpdateSpeed: TimeInterval = 1.5
     
-    init(playerCharacterNode: SCNNode) {
+    var playerCharacter: PlayerCharacter!
+    var playerState:PlayerState = PlayerState.IDLE
+    
+    init(playerCharacterNode: SCNNode, playerCharacter: PlayerCharacter) {
         self.playerCharacterNode = playerCharacterNode
+        self.playerCharacter = playerCharacter
     }
     
     func movePlayerInXAndYDirection(changeInX: Float, changeInZ: Float) {
+        if(changeInX == 0 && changeInZ == 0){
+            if (playerState != PlayerState.IDLE) {
+                setPlayerState(PlayerState.IDLE)
+                playerCharacterNode.removeAllActions()
+                playerCharacter.playIdleAnimation()             
+            }
+            return
+        }
+        
+        if(playerState != PlayerState.WALKING) {
+            setPlayerState(PlayerState.WALKING)
+            playerCharacter.playWalkAnimation()
+        }
         let currentX = playerCharacterNode.position.x
         let currentZ = playerCharacterNode.position.z
         let newPos = SCNVector3(x: currentX + changeInX/2, y: 0, z: currentZ + changeInZ/2)
@@ -34,5 +55,13 @@ class PlayerController {
         cameraPosition = SCNVector3(cameraXPos, cameraYPos, cameraZPos)
         mainCamera.position = cameraPosition
         
+    }
+    
+    func getPlayerState() -> PlayerState{
+        return playerState
+    }
+    
+    func setPlayerState(_ state:PlayerState){
+        playerState = state
     }
 }
