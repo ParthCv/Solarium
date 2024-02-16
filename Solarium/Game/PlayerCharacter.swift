@@ -1,3 +1,4 @@
+
 import SceneKit
 
 class PlayerCharacter {
@@ -10,16 +11,19 @@ class PlayerCharacter {
     
     var modelNode: SCNNode = SCNNode()
     
+    var collider: SCNNode = SCNNode()
+    
     var nodeName: String
     
-    var playerController: PlayerController
+    var playerController: PlayerController = PlayerController(playerCharacterNode: SCNNode())
     
     var physicsBody: SCNPhysicsBody = SCNPhysicsBody()
+    
+    // MARK: Initialization
     
     init(modelFilePath: String, nodeName: String) {
         self.modelFilePath = modelFilePath
         self.nodeName = nodeName
-        self.playerController = PlayerController(playerCharacterNode: modelNode)
     }
     
     func loadPlayerCharacter(spawnPosition: SCNVector3 = SCNVector3Zero, modelScale: SCNVector3 = SCNVector3(x: 1, y: 1, z: 1)) -> SCNNode {
@@ -27,19 +31,25 @@ class PlayerCharacter {
         modelNode_Player.position = spawnPosition
         modelNode_Player.scale = modelScale
         modelNode_Player.name = nodeName
+        
         //Update the properties again
         self.modelNode = modelNode_Player
         self.mesh = modelNode.geometry ?? SCNGeometry()
-        self.playerController.playerCharacterNode = modelNode
-        let collisionBox = SCNBox(width: 1, height: 1.5, length: 1, chamferRadius: 0)
+        self.playerController = PlayerController(playerCharacterNode: modelNode)
+        
+        let collisionBox = SCNCapsule(capRadius: 1, height: 1)
         self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape:
-                                                    //SCNPhysicsShape(geometry: SCNCapsule(capRadius: 1.0, height: 0.25))
-                                                    //SCNPhysicsShape(geometry: mesh)
-                                                    //nil
                                                     SCNPhysicsShape(geometry: collisionBox, options: nil)
         )
-            
         
+//        let orientation = modelNode.orientation
+        let lockRotation =
+        SCNTransformConstraint.orientationConstraint(inWorldSpace: true, with: {(node, orientation) -> SCNQuaternion in
+            let euler = node.eulerAngles
+            return SCNQuaternion(0, euler.y, 0, 0)
+            
+        })
+        modelNode.constraints = [lockRotation]
         //set the collision params
         setCollisionBitMask()
         
@@ -55,8 +65,6 @@ class PlayerCharacter {
     
     private func setCollisionBitMask() {
         modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.player.rawValue
-        
-        modelNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.interactable.rawValue
         modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.ground.rawValue | 1
     }
     

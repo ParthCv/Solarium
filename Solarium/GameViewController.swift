@@ -22,8 +22,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Tr
+
         mainScene = createMainScene()
         let sceneView = gameView
         sceneView.scene = mainScene
@@ -31,7 +30,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         sceneView.isPlaying = true
         
         //sceneView.showsStatistics = true
-        //sceneView.allowsCameraControl = true
+//        sceneView.allowsCameraControl = true
         
         sceneView.debugOptions = [
             SCNDebugOptions.showPhysicsShapes
@@ -50,9 +49,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         mainScene.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
         mainCamera = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
-        
-        //print(sceneView.scene?.physicsWorld.contactDelegate)
-        
     }
     
     func createMainScene() -> SCNScene {
@@ -69,7 +65,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
-        floorNode.physicsBody?.collisionBitMask = 1 | SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
+        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
         
         return floorNode
     }
@@ -84,18 +80,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     func addCube() -> SCNNode {
         let cubeNode = SCNNode()
-        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
-        cubeNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)))
-        cubeNode.position = SCNVector3(x: 2, y: 3, z: 3)
+        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
+        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        cubeNode.position = SCNVector3(x: 2, y: 1, z: 1)
         
         cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-        //cubeNode.physicsBody!.contactTestBitMask = PhysicsCategory.player.rawValue
-        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue | 1
+        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
+        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
         
         return cubeNode
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        print(contact.nodeB.physicsBody!.categoryBitMask)
+        print(contact.nodeA.physicsBody!.categoryBitMask)
         switch contact.nodeB.physicsBody!.categoryBitMask {
             
             case SolariumCollisionBitMask.player.rawValue:
@@ -104,6 +102,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             default:
                 break;
         }
+        
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
