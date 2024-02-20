@@ -4,7 +4,7 @@ class PlayerCharacter {
     
     var mesh: SCNGeometry = SCNGeometry()
     
-    var animations: Dictionary<String, CAAnimation> = Dictionary<String, CAAnimation>()
+    var animations: Dictionary<String, SCNAnimationPlayer> = Dictionary<String, SCNAnimationPlayer>()
     let animationController: AnimationController = AnimationController()
     let animationFile = "DummyAnimations"
     
@@ -35,17 +35,21 @@ class PlayerCharacter {
         
         
         self.animations = animationController.loadAnimations(animationFile: animationFile)
+        for (key, anim) in animations{
+            self.modelNode.addAnimationPlayer(anim, forKey: key)
+        }
+        
         //self.animationController.loadAnimation(sceneName: "art.scnassets/wifeIdleAnim.dae", extensionName: "", targetNode: modelNode_Player)
-        self.animationController.playAnimation(animation: self.animations["idle"]!, node: modelNode_Player)
+        playIdleAnimation()
         return modelNode_Player
     }
     
     func playIdleAnimation() {
-        self.animationController.playAnimation(animation: self.animations["idle"]!, node: self.modelNode)
+        self.animationController.playAnimation(animations: self.animations, key: "idle")
     }
     
     func playWalkAnimation() {
-        self.animationController.playAnimation(animation: self.animations["walk"]!, node: self.modelNode)
+        self.animationController.playAnimation(animations: self.animations, key: "walk")
     }
     
     

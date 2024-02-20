@@ -1,4 +1,4 @@
 {
-    "idle": "art.scnassets/RASWave.dae",
-    "walk": "art.scnassets/RASWaggle.dae"
+    "idle": "art.scnassets/RASWave.scn",
+    "walk": "art.scnassets/RASWaggle.scn"
 }

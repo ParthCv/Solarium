@@ -17,7 +17,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var mainScene: SCNScene!
     var touch: UITouch?
     var direction = SIMD2<Float>(0, 0)
-    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/RASStatic.dae", nodeName: "PlayerNode_Wife")
+    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/RASStatic.scn", nodeName: "PlayerNode_Wife")
     var mainCamera: SCNNode = SCNNode()
     
     override func viewDidLoad() {
