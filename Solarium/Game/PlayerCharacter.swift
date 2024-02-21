@@ -28,21 +28,23 @@ class PlayerCharacter {
     
     func loadPlayerCharacter(spawnPosition: SCNVector3 = SCNVector3Zero, modelScale: SCNVector3 = SCNVector3(x: 1, y: 1, z: 1)) -> SCNNode {
         let modelNode_Player = loadModelFromFile(fileName: self.modelFilePath, fileExtension: "")
-        modelNode_Player.position = spawnPosition
-        modelNode_Player.scale = modelScale
-        modelNode_Player.name = nodeName
         
         //Update the properties again
         self.modelNode = modelNode_Player
+        self.modelNode.position = spawnPosition
+        self.modelNode.name = nodeName
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController = PlayerController(playerCharacterNode: modelNode)
         
-        let collisionBox = SCNCapsule(capRadius: 1, height: 1)
+        let collisionBox = 
+                            //SCNCapsule(capRadius: 1, height: 1)
+                            SCNBox(width: 1, height: 1, length: 1, chamferRadius: 1)
         self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape:
                                                     SCNPhysicsShape(geometry: collisionBox, options: nil)
         )
         
-//        let orientation = modelNode.orientation
+        self.modelNode.physicsBody?.friction = 0.75
+        
         let lockRotation =
         SCNTransformConstraint.orientationConstraint(inWorldSpace: true, with: {(node, orientation) -> SCNQuaternion in
             let euler = node.eulerAngles
