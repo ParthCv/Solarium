@@ -27,10 +27,10 @@ class PlayerCharacter {
     }
     
     func loadPlayerCharacter(spawnPosition: SCNVector3 = SCNVector3Zero, modelScale: SCNVector3 = SCNVector3(x: 1, y: 1, z: 1)) -> SCNNode {
-        let modelNode_Player = loadModelFromFile(fileName: self.modelFilePath, fileExtension: "")
-        
+        let modelNode_Player = SCNScene(named: modelFilePath)!
+
         //Update the properties again
-        self.modelNode = modelNode_Player
+        self.modelNode = modelNode_Player.rootNode.childNodes[0]
         self.modelNode.position = spawnPosition
         self.modelNode.name = nodeName
         self.mesh = modelNode.geometry ?? SCNGeometry()
@@ -55,14 +55,7 @@ class PlayerCharacter {
         //set the collision params
         setCollisionBitMask()
         
-        return modelNode_Player
-    }
-    
-    private func loadModelFromFile(fileName:String, fileExtension:String) -> SCNReferenceNode {
-        let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension)
-        let refNode = SCNReferenceNode(url: url!)
-        refNode?.load()
-        return refNode!        
+        return modelNode
     }
     
     private func setCollisionBitMask() {
