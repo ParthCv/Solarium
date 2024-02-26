@@ -8,6 +8,7 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import GameplayKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     var gameView: GameView{
@@ -30,10 +31,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         sceneView.isPlaying = true
         
         //sceneView.showsStatistics = true
-//        sceneView.allowsCameraControl = true
+        //sceneView.allowsCameraControl = true
         
         sceneView.debugOptions = [
-            SCNDebugOptions.showPhysicsShapes
+            //SCNDebugOptions.showPhysicsShapes
             //,SCNDebugOptions.renderAsWireframe
         ]
         mainScene.physicsWorld.contactDelegate = self
@@ -92,11 +93,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        print(contact.nodeB.physicsBody!.categoryBitMask)
-        print(contact.nodeA.physicsBody!.categoryBitMask)
-        switch contact.nodeB.physicsBody!.categoryBitMask {
+        switch contact.nodeA.physicsBody!.categoryBitMask {
             
-            case SolariumCollisionBitMask.player.rawValue:
+            case SolariumCollisionBitMask.interactable.rawValue:
                 print("Hit a cube")
                             
             default:

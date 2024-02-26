@@ -6,6 +6,8 @@ class PlayerController {
     
     let movementUpdateSpeed: TimeInterval = 1.5
     
+    let forceDampingFactor: Float = 90
+    
     let cameraOffset: Float = 15
     
     init(playerCharacterNode: SCNNode) {
@@ -17,12 +19,14 @@ class PlayerController {
         let currentZ = playerCharacterNode.position.z
         let newPos = SCNVector3(x: currentX + changeInX/2, y: 0, z: currentZ + changeInZ/2)
         let action = SCNAction.move(to: newPos, duration: movementUpdateSpeed)
+
+        playerCharacterNode.physicsBody?.applyForce(SCNVector3(changeInX/forceDampingFactor, 0, changeInZ/forceDampingFactor), asImpulse: false)
         
-        //playerCharacterNode.runAction(action)
-        playerCharacterNode.physicsBody?.applyForce(SCNVector3(changeInX/100, 0, changeInZ/100), asImpulse: false)
+        //reset the node position to the physcis body
         playerCharacterNode.position = playerCharacterNode.presentation.worldPosition
+        
+        //rest the transformations
         playerCharacterNode.physicsBody?.resetTransform()
-        //print(playerCharacterNode.position)
     }
     
     func repositionCameraToFollowPlayer(mainCamera: SCNNode) {
