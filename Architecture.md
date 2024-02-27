@@ -32,8 +32,8 @@ they belong to. Example: 0_Button, 1_Button, 2_Button. <br> This is parsed and p
 4. Interactable Objects have trigger volumes around them. When entered by the player, the highest priority triggger volume subscribes to the player's interact handler
 5. Player Presses interact button and consumes interact, calling the interactable object's DoInteract() function (Part of <Interactable> interface)
 6. Interactable object performs its respective game logic
-7. Often the game logic runs some checks and communicates up to puzzle if puzzle conditions met
-8. Puzzle triggers win, puzzle triggers scripted environmental interaction, currentpuzzle is iterated to next in the scene's puzzle list. <br>
+7. The game logic that has ran some checks and communicates up to puzzle if puzzle win conditions met
+8. Puzzle triggers win if conditions met, puzzle triggers scripted environmental interaction, currentpuzzle is iterated to next in the scene's puzzle list. <br>
 If no puzzles remain, player is expected to have access to a volume that will move to the next scene.
 
 
