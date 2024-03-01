@@ -1,5 +1,5 @@
 //
-//  BaseScene.swift
+//  OtherScene.swift
 //  Solarium
 //
 //  Created by Parth Chaturvedi on 2024-02-29.
@@ -7,26 +7,24 @@
 
 import SceneKit
 
-class BaseScene: SceneTemplate{
+class OtherScene: SceneTemplate{
+   
     var scene: SCNScene!
     
     var isUnloadable: Bool = true
     
-     init() {    
-        scene = SCNScene(named: "art.scnassets/ParthModelSpawn.scn")
-    }
+    init() {
+       scene = SCNScene(named: "art.scnassets/ship.scn")
+   }
     
     func load() {
         
     }
     
     func unload() {
-        if isUnloadable {
-            scene.rootNode.enumerateChildNodes { (node, stop) in
-                    node.removeFromParentNode()
-                }
-        }
+        
     }
+
     
     func update() {
         
@@ -44,5 +42,4 @@ class BaseScene: SceneTemplate{
         
     }
     
-
 }

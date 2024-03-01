@@ -7,35 +7,23 @@
 
 import SceneKit
 
-class SceneTemplate {
+protocol SceneTemplate {
     
     //var sceneFile: String
     
-    var scene: SCNScene!
+    var scene: SCNScene! { get }
     
-    init(sceneFile: String){
-        scene = SCNScene(named: sceneFile)
-        doSetUp()
-    }
+    var isUnloadable: Bool { get }
     
-    func doSetUp(){
-        
-    }
+    func load()
     
-    func update(){
-        
-    }
+    func unload()
     
-    func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact) {
-       
-        
-    }
+    func update()
+    
+    func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
 
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact) {
-        
-    }
+    func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
 
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact) {
-        
-    }
+    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
 }

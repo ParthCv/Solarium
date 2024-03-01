@@ -9,22 +9,25 @@ import SceneKit
 import SpriteKit
 
 enum SceneEnum : String{
-    case SCN1
+    case SCN1, SCN2
 }
 
 class SceneController {
     static let singleton = SceneController()
     
-    var sceneDictionary: [SceneEnum : SceneTemplate] = [.SCN1: BaseScene()]
+    var sceneDictionary: [SceneEnum : SceneTemplate] = [.SCN1: BaseScene(), .SCN2: OtherScene()]
 
     init(){
         
     }
     
     @MainActor
-    func switchScene(_ gameView: GameView, currScn: SceneTemplate?, nextScn: SceneEnum){
+    func switchScene(_ gameView: GameView, currScn: SceneTemplate?, nextScn: SceneEnum) -> SceneTemplate?{
         if let sceneTemplate = sceneDictionary[nextScn]{
-            gameView.present(sceneTemplate.scene, with: .fade(withDuration: 0.1), incomingPointOfView: nil, completionHandler: nil)
+            gameView.present(sceneTemplate.scene, with: .fade(withDuration: 0.5), incomingPointOfView: nil, completionHandler: nil)
+            if (currScn != nil) { currScn?.unload()}
+            return sceneTemplate
         }
+        return nil
     }
 }
