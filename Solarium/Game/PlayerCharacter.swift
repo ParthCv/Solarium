@@ -45,13 +45,6 @@ class PlayerCharacter {
         
         self.modelNode.physicsBody?.friction = 0.75
         
-        let lockRotation =
-        SCNTransformConstraint.orientationConstraint(inWorldSpace: true, with: {(node, orientation) -> SCNQuaternion in
-            let euler = node.eulerAngles
-            return SCNQuaternion(0, euler.y, 0, 0)
-            
-        })
-        modelNode.constraints = [lockRotation]
         //set the collision params
         setCollisionBitMask()
         

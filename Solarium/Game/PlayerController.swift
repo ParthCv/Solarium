@@ -21,12 +21,7 @@ class PlayerController {
         let newPos = SCNVector3(x: currentX + changeInX/2, y: 0, z: currentZ + changeInZ/2)
         let action = SCNAction.move(to: newPos, duration: movementUpdateSpeed)
 
-                
-        // Adjust the rotation angle to account for camera's orientation (-45 Euler in X axis)
-        let adjustedAngle = rotAngle + Float.pi / 4   // Assuming camera has -45 degrees. (pi=180; 180/4 = 45)
-        
-        let rotationAngle = CGFloat(adjustedAngle) - CGFloat.pi / 2 // subtract CGFloat.Pi / 2 to convert Radians into a CGFloat
-        let rotationAction = SCNAction.rotateTo(x: 0, y: rotationAngle, z: 0, duration: 0.1)
+        let rotationAction = SCNAction.rotateTo(x: 0, y: CGFloat(rotAngle), z: 0, duration: 0.0)
         
         playerCharacterNode.runAction(rotationAction)
 
