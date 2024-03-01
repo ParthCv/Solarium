@@ -18,6 +18,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var mainScene: SCNScene!
     var touch: UITouch?
     var direction = SIMD2<Float>(0, 0)
+    var degree: Float = 0
     let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/wife.scn", nodeName: "PlayerNode_Wife")
     var mainCamera: SCNNode = SCNNode()
     
@@ -114,7 +115,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     @objc
     func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {
-        playerCharacter.playerController.movePlayerInXAndYDirection(changeInX: direction.x, changeInZ: direction.y)
+
+        //let moveDistance = Float(0.5)
+        
+        playerCharacter.playerController.movePlayerInXAndYDirection(changeInX: direction.x, changeInZ: direction.y, rotAngle: degree)
+
         playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
     }
     
@@ -156,7 +161,7 @@ extension GameViewController {
             //print("Length", lengthOfX, lengthOfY)
             direction = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
             
-            let degree = calculateTilt()
+            degree = calculateTilt()
             //print("Degree",degree)
         }
     }
