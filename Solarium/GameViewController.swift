@@ -14,6 +14,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var gameView: GameView{
         return view as! GameView
     }
+    
 
     var mainScene: SCNScene!
     var touch: UITouch?
@@ -25,12 +26,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        mainScene = createMainScene()
+        //mainScene = createMainScene()
         let sceneView = gameView
-        sceneView.scene = mainScene
+        //sceneView.scene = mainScene
         sceneView.delegate = self
         sceneView.isPlaying = true
-        
+        SceneController.singleton.switchScene(sceneView, currScn: nil, nextScn: SceneEnum.SCN1)
         //sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
         
@@ -38,19 +39,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             SCNDebugOptions.showPhysicsShapes
             //,SCNDebugOptions.renderAsWireframe
         ]
-        mainScene.physicsWorld.contactDelegate = self
+        
+        gameView.scene!.physicsWorld.contactDelegate = self
                 
-        mainScene.rootNode.addChildNode(addAmbientLighting())
+        gameView.scene!.rootNode.addChildNode(addAmbientLighting())
         
-        mainScene.rootNode.addChildNode(createFloor())
+        gameView.scene!.rootNode.addChildNode(createFloor())
         
-        mainScene.rootNode.addChildNode(addCube())
+        gameView.scene!.rootNode.addChildNode(addCube())
         
-        mainScene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 0, 0)))
+        gameView.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 0, 0)))
         
-        mainScene.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
+        gameView.scene!.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
-        mainCamera = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
+        mainCamera = gameView.scene!.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
     }
     
     func createMainScene() -> SCNScene {
