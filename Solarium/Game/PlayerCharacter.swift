@@ -1,3 +1,4 @@
+
 import SceneKit
 
 class PlayerCharacter {
@@ -12,8 +13,13 @@ class PlayerCharacter {
     
     var modelNode: SCNNode = SCNNode()
     
+    var collider: SCNNode = SCNNode()
+    
     var nodeName: String
     
+    var physicsBody: SCNPhysicsBody = SCNPhysicsBody()
+    
+    // MARK: Initialization
     var playerController: PlayerController!
     
     init(modelFilePath: String, nodeName: String) {
@@ -23,15 +29,26 @@ class PlayerCharacter {
     }
     
     func loadPlayerCharacter(spawnPosition: SCNVector3 = SCNVector3Zero, modelScale: SCNVector3 = SCNVector3(x: 1, y: 1, z: 1)) -> SCNNode {
-        let modelNode_Player = loadModelFromFile(fileName: self.modelFilePath, fileExtension: "")
-        modelNode_Player.position = spawnPosition
-        modelNode_Player.scale = modelScale
-        modelNode_Player.name = nodeName
-        
+        let modelNode_Player = SCNScene(named: modelFilePath)!
+
         //Update the properties again
-        self.modelNode = modelNode_Player
+        self.modelNode = modelNode_Player.rootNode.childNodes[0]
+        self.modelNode.position = spawnPosition
+        self.modelNode.name = nodeName
         self.mesh = modelNode.geometry ?? SCNGeometry()
-        self.playerController.playerCharacterNode = modelNode
+        self.playerController = PlayerController(playerCharacterNode: modelNode)
+        
+        let collisionBox = 
+                            //SCNCapsule(capRadius: 1, height: 1)
+                            SCNBox(width: 1, height: 1, length: 1, chamferRadius: 1)
+        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape:
+                                                    SCNPhysicsShape(geometry: collisionBox, options: nil)
+        )
+        
+        self.modelNode.physicsBody?.friction = 0.75
+        
+        //set the collision params
+        setCollisionBitMask()
         
         
         self.animations = animationController.loadAnimations(animationFile: animationFile)
@@ -41,7 +58,7 @@ class PlayerCharacter {
         
         //self.animationController.loadAnimation(sceneName: "art.scnassets/wifeIdleAnim.dae", extensionName: "", targetNode: modelNode_Player)
         playIdleAnimation()
-        return modelNode_Player
+        return modelNode
     }
     
     func playIdleAnimation() {
@@ -59,6 +76,10 @@ class PlayerCharacter {
         refNode?.load()
         return refNode!
     }
-    
+
+private func setCollisionBitMask() {
+        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.player.rawValue
+        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.ground.rawValue | 1
+    }
     
 }

@@ -63,7 +63,7 @@ final class GameView: SCNView {
     
     func updateJoystick(_ direction:SIMD2<Float>){
         if let joystick = overlaySKScene?.childNode(withName: ".//"+joystickName){
-            print("Direction",direction)
+            //print("Direction",direction)
             var position = CGPointZero
             //Clamp to within dpadRadius
             if(pow(direction.x ,2) + pow(direction.y,2) < pow(Float(dpadRadius), 2)){
