@@ -35,7 +35,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         //sceneView.allowsCameraControl = true
         
         sceneView.debugOptions = [
-            //SCNDebugOptions.showPhysicsShapes
+            SCNDebugOptions.showPhysicsShapes
             //,SCNDebugOptions.renderAsWireframe
         ]
         mainScene.physicsWorld.contactDelegate = self

@@ -36,13 +36,13 @@ class PlayerCharacter {
         self.modelNode.position = spawnPosition
         self.modelNode.name = nodeName
         self.mesh = modelNode.geometry ?? SCNGeometry()
-        self.playerController = PlayerController(playerCharacterNode: modelNode)
+        self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
         
         let collisionBox = 
                             //SCNCapsule(capRadius: 1, height: 1)
                             SCNBox(width: 1, height: 1, length: 1, chamferRadius: 1)
-        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape:
-                                                    SCNPhysicsShape(geometry: collisionBox, options: nil)
+        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil
+                                                    //SCNPhysicsShape(geometry: collisionBox, options: nil)
         )
         
         self.modelNode.physicsBody?.friction = 0.75
