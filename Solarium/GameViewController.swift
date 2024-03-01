@@ -14,6 +14,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var gameView: GameView{
         return view as! GameView
     }
+    
 
     var mainScene: SCNScene!
     var touch: UITouch?
@@ -22,15 +23,17 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/RASStatic.scn", nodeName: "PlayerNode_Wife")
     var mainCamera: SCNNode = SCNNode()
     
+    var currScn: SceneTemplate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        mainScene = createMainScene()
+        //mainScene = createMainScene()
         let sceneView = gameView
-        sceneView.scene = mainScene
+        //sceneView.scene = mainScene
         sceneView.delegate = self
         sceneView.isPlaying = true
-        
+        currScn = SceneController.singleton.switchScene(sceneView, currScn: nil, nextScn: SceneEnum.SCN1)
         //sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
         
@@ -38,19 +41,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             SCNDebugOptions.showPhysicsShapes
             //,SCNDebugOptions.renderAsWireframe
         ]
-        mainScene.physicsWorld.contactDelegate = self
+        
+        gameView.scene!.physicsWorld.contactDelegate = self
                 
-        mainScene.rootNode.addChildNode(addAmbientLighting())
+        gameView.scene!.rootNode.addChildNode(addAmbientLighting())
         
-        mainScene.rootNode.addChildNode(createFloor())
+        gameView.scene!.rootNode.addChildNode(createFloor())
         
-        mainScene.rootNode.addChildNode(addCube())
+        gameView.scene!.rootNode.addChildNode(addCube())
         
-        mainScene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 0, 0)))
+        gameView.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 0, 0)))
         
-        mainScene.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
+        gameView.scene!.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
-        mainCamera = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
+        mainCamera = gameView.scene!.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
     }
     
     func createMainScene() -> SCNScene {
@@ -84,7 +88,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         let cubeNode = SCNNode()
         cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        cubeNode.position = SCNVector3(x: 2, y: 1, z: 1)
+        cubeNode.position = SCNVector3(x: 20, y: 1, z: 1)
         
         cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
         cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
@@ -96,11 +100,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         switch contact.nodeA.physicsBody!.categoryBitMask {
             
-            case SolariumCollisionBitMask.interactable.rawValue:
-                print("Hit a cube")
-                            
-            default:
-                break;
+        case SolariumCollisionBitMask.interactable.rawValue:
+            print("Hit a cube")
+            currScn = SceneController.singleton.switchScene(gameView, currScn: currScn, nextScn: .SCN2)
+            gameView.scene!.rootNode.addChildNode(playerCharacter.modelNode)
+            //Set player pos to scene entrance
+            break
+            
+        default:
+            break
         }
         
     }
