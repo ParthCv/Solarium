@@ -24,6 +24,7 @@ class SceneController {
     @MainActor
     func switchScene(_ gameView: GameView, currScn: SceneTemplate?, nextScn: SceneEnum) -> SceneTemplate?{
         if let sceneTemplate = sceneDictionary[nextScn]{
+            sceneTemplate.load()
             gameView.present(sceneTemplate.scene, with: .fade(withDuration: 0.5), incomingPointOfView: nil, completionHandler: nil)
             if (currScn != nil) { currScn?.unload()}
             return sceneTemplate

@@ -21,7 +21,7 @@ protocol SceneTemplate {
     
     func update()
     
-    func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
+    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact , gameViewController: GameViewController)
 
     func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
 

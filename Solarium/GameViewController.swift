@@ -11,105 +11,67 @@ import SceneKit
 import GameplayKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
-    var gameView: GameView{
+    
+    // Get the overlay view for the game
+    var gameView: GameView {
         return view as! GameView
     }
-    
 
-    var mainScene: SCNScene!
+    //Save the touch from the on screen taps
     var touch: UITouch?
-    var direction = SIMD2<Float>(0, 0)
-    var degree: Float = 0
-    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/RASStatic.scn", nodeName: "PlayerNode_Wife")
-    var mainCamera: SCNNode = SCNNode()
     
+    // Direction 2-D vector to save the input from the d-pad
+    var direction = SIMD2<Float>(0, 0)
+    
+    // Rotation for player from the d-pad
+    var degree: Float = 0
+    
+    // Player character object with all its properties
+    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/RASStatic.scn", nodeName: "PlayerNode_Wife")
+    
+    // Main camera in the scene
+    var mainCamera: SCNNode = SCNNode()
+
+    // The current scence o
     var currScn: SceneTemplate?
     
+    // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //mainScene = createMainScene()
+        // Setup the view
         let sceneView = gameView
-        //sceneView.scene = mainScene
         sceneView.delegate = self
         sceneView.isPlaying = true
+        
+        // Initialize and load the current scene
         currScn = SceneController.singleton.switchScene(sceneView, currScn: nil, nextScn: SceneEnum.SCN1)
+        
         //sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
         
+        //Degub Options
         sceneView.debugOptions = [
             SCNDebugOptions.showPhysicsShapes
             //,SCNDebugOptions.renderAsWireframe
         ]
         
+        // Setup the collision physics
         gameView.scene!.physicsWorld.contactDelegate = self
-                
-        gameView.scene!.rootNode.addChildNode(addAmbientLighting())
         
-        gameView.scene!.rootNode.addChildNode(createFloor())
-        
-        gameView.scene!.rootNode.addChildNode(addCube())
-        
+        // Add the player to the scene
         gameView.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 0, 0)))
         
-        gameView.scene!.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
+        //gameView.scene!.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
+        // Add a camera to the scene
         mainCamera = gameView.scene!.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
     }
     
-    func createMainScene() -> SCNScene {
-        let mainScene = SCNScene(named: "art.scnassets/ParthModelSpawn.scn")!
-        
-        return mainScene
-    }
+    // Physics Loops
     
-    func createFloor() -> SCNNode {
-        let floorNode = SCNNode()
-        floorNode.geometry = SCNFloor()
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        
-        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
-        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
-        
-        return floorNode
-    }
-    
-    func addAmbientLighting() -> SCNNode {
-        let ambientLight = SCNNode()
-        ambientLight.light = SCNLight()
-        ambientLight.light?.type = .ambient
-        
-        return ambientLight
-    }
-    
-    func addCube() -> SCNNode {
-        let cubeNode = SCNNode()
-        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
-        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        cubeNode.position = SCNVector3(x: 20, y: 1, z: 1)
-        
-        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
-        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
-        
-        return cubeNode
-    }
-
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        switch contact.nodeA.physicsBody!.categoryBitMask {
-            
-        case SolariumCollisionBitMask.interactable.rawValue:
-            print("Hit a cube")
-            currScn = SceneController.singleton.switchScene(gameView, currScn: currScn, nextScn: .SCN2)
-            gameView.scene!.rootNode.addChildNode(playerCharacter.modelNode)
-            //Set player pos to scene entrance
-            break
-            
-        default:
-            break
-        }
+        currScn?.physicsWorldDidBegin(world, contact: contact, gameViewController: self)
         
     }
 
@@ -120,6 +82,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
         
     }
+    
+    // Rendering Loop
     
     @objc
     func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {

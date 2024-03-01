@@ -30,7 +30,7 @@ class OtherScene: SceneTemplate{
         
     }
     
-    func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
         
     }
     

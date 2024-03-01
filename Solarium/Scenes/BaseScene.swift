@@ -17,7 +17,9 @@ class BaseScene: SceneTemplate{
     }
     
     func load() {
-        
+        scene.rootNode.addChildNode(addCube())
+        scene.rootNode.addChildNode(addAmbientLighting())
+        scene.rootNode.addChildNode(createFloor())
     }
     
     func unload() {
@@ -32,7 +34,18 @@ class BaseScene: SceneTemplate{
         
     }
     
-    func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
+        switch contact.nodeA.physicsBody!.categoryBitMask {
+            
+        case SolariumCollisionBitMask.interactable.rawValue:
+            print("Hit a cube")
+            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
+            //Set player pos to scene entrance
+            break
+            
+        default:
+            break
+        }
         
     }
     
@@ -43,6 +56,41 @@ class BaseScene: SceneTemplate{
     func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
         
     }
-    
 
+}
+
+extension BaseScene {
+    func createFloor() -> SCNNode {
+        let floorNode = SCNNode()
+        floorNode.geometry = SCNFloor()
+        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
+
+        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        
+        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
+        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
+        
+        return floorNode
+    }
+    
+    func addAmbientLighting() -> SCNNode {
+        let ambientLight = SCNNode()
+        ambientLight.light = SCNLight()
+        ambientLight.light?.type = .ambient
+        
+        return ambientLight
+    }
+    
+    func addCube() -> SCNNode {
+        let cubeNode = SCNNode()
+        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
+        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        cubeNode.position = SCNVector3(x: 20, y: 1, z: 1)
+        
+        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
+        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
+        
+        return cubeNode
+    }
 }
