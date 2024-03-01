@@ -8,8 +8,9 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import GameplayKit
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     var gameView: GameView{
         return view as! GameView
     }
@@ -23,30 +24,33 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Tr
+
         mainScene = createMainScene()
         let sceneView = gameView
         sceneView.scene = mainScene
         sceneView.delegate = self
         sceneView.isPlaying = true
-        sceneView.showsStatistics = true
+        
+        //sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
+        
+        sceneView.debugOptions = [
+            //SCNDebugOptions.showPhysicsShapes
+            //,SCNDebugOptions.renderAsWireframe
+        ]
+        mainScene.physicsWorld.contactDelegate = self
                 
         mainScene.rootNode.addChildNode(addAmbientLighting())
         
         mainScene.rootNode.addChildNode(createFloor())
         
-        mainScene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter())
+        mainScene.rootNode.addChildNode(addCube())
+        
+        mainScene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 0, 0)))
         
         mainScene.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
         mainCamera = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
-        
-        print(playerCharacter.mesh)
-        playerCharacter.modelNode.removeAllAnimations()
-        print(playerCharacter.mesh.animationKeys)
-        
     }
     
     func createMainScene() -> SCNScene {
@@ -59,6 +63,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let floorNode = SCNNode()
         floorNode.geometry = SCNFloor()
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
+
+        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        
+        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
+        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
         
         return floorNode
     }
@@ -71,13 +80,50 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         return ambientLight
     }
     
+    func addCube() -> SCNNode {
+        let cubeNode = SCNNode()
+        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
+        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        cubeNode.position = SCNVector3(x: 2, y: 1, z: 1)
+        
+        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
+        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
+        
+        return cubeNode
+    }
+
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        switch contact.nodeA.physicsBody!.categoryBitMask {
+            
+            case SolariumCollisionBitMask.interactable.rawValue:
+                print("Hit a cube")
+                            
+            default:
+                break;
+        }
+        
+    }
+
+    func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
+        
+    }
+
+    func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
+        
+    }
+    
     @objc
     func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {
+
         //let moveDistance = Float(0.5)
         
         playerCharacter.playerController.movePlayerInXAndYDirection(changeInX: direction.x, changeInZ: direction.y, rotAngle: degree)
+
         playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
     }
+    
+
 }
 
 extension GameViewController {
@@ -129,4 +175,5 @@ extension GameViewController {
         return degree
     }
 }
+
 
