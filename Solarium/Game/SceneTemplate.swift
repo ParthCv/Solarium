@@ -7,23 +7,30 @@
 
 import SceneKit
 
+// Abstract class to hold the basic info for a scene
 protocol SceneTemplate {
     
-    //var sceneFile: String
-    
+    // the scene itself in the scnasset folder
     var scene: SCNScene! { get }
     
+    // flag to make the scene unloaded after the switch
     var isUnloadable: Bool { get }
     
+    // preload for the scene
     func load()
     
+    // delete the nodes from memeory
     func unload()
     
+    // the rendering update for the scene
     func update()
     
+    // physics updates for the scene
     @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact , gameViewController: GameViewController)
 
+    // physics updates for the scene
     func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
 
+    // physics updates for the scene
     func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
 }

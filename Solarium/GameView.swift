@@ -7,8 +7,8 @@
 // Source: https://martinlasek.medium.com/tutorial-how-to-implement-a-d-pad-7e8b6047badf
 
 import SceneKit
-import SpriteKit/// Is used in Main.storyboard
-/// under Identity Inspector
+import SpriteKit
+
 final class GameView: SCNView {
     let joystickName = "JoysticNub"
     let dpadRadius: CGFloat = 75

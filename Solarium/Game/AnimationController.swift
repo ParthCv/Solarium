@@ -10,6 +10,7 @@ import QuartzCore
 
 class AnimationController {
     
+    // load animation from a JSON to a dictionary poulate it to the player with keys and vale of animaitons
     func loadAnimations(animationFile:String) -> Dictionary<String, SCNAnimationPlayer> {
         var animations = Dictionary<String,SCNAnimationPlayer>()
         if let path = Bundle.main.path(forResource: animationFile, ofType: "json") {
@@ -23,9 +24,6 @@ class AnimationController {
                         print(key, value)
                         animations[key] = loadAnimationPlayer(sceneName: value as! String, extensionName: "")
                     }
-                    //print(animations)
-                    // loadAnimation for each animation pair
-                    //store into array/list of CAAnimation
                 }
             }
             catch {
@@ -35,32 +33,8 @@ class AnimationController {
         return animations
     }
     
+    // read the animationa for the scene and return the animation object
     func loadAnimationPlayer(sceneName: String, extensionName: String) -> SCNAnimationPlayer? {
-        // source of .dae with animation
-//        guard let sceneURL = Bundle.main.url(forResource: sceneName, withExtension: extensionName) else{
-//            return nil
-//        }
-//        
-//        let sceneSource = SCNSceneSource(url: sceneURL, options: nil)
-//        for key in sceneSource?.identifiersOfEntries(withClass: SCNAnimation.self) ?? [] {
-//            guard let animationObj = sceneSource?.entryWithIdentifier(key,
-//                                                                      withClass: CAAnimation.self) else {
-//                continue
-//            }
-//            if animationObj.isKind(of: CAAnimationGroup.self) {
-//                
-//                animationObj.repeatCount = .infinity
-//                animationObj.fadeInDuration = CGFloat(0)
-//                animationObj.fadeOutDuration = CGFloat(0.0)
-//                
-//                // play animation in target .dae node
-//                //playAnimation(animation: animationObj, node: targetNode)
-//                
-//                return animationObj
-//                
-//            }
-//        }
-        
         let scene = SCNScene(named: sceneName)
         var animationObj: SCNAnimationPlayer! = nil
         scene?.rootNode.enumerateChildNodes{(child, stop) in
@@ -82,3 +56,30 @@ class AnimationController {
     }
 }
  
+
+// function for loadiung .dae
+
+// source of .dae with animation
+//        guard let sceneURL = Bundle.main.url(forResource: sceneName, withExtension: extensionName) else{
+//            return nil
+//        }
+//
+//        let sceneSource = SCNSceneSource(url: sceneURL, options: nil)
+//        for key in sceneSource?.identifiersOfEntries(withClass: SCNAnimation.self) ?? [] {
+//            guard let animationObj = sceneSource?.entryWithIdentifier(key,
+//                                                                      withClass: CAAnimation.self) else {
+//                continue
+//            }
+//            if animationObj.isKind(of: CAAnimationGroup.self) {
+//
+//                animationObj.repeatCount = .infinity
+//                animationObj.fadeInDuration = CGFloat(0)
+//                animationObj.fadeOutDuration = CGFloat(0.0)
+//
+//                // play animation in target .dae node
+//                //playAnimation(animation: animationObj, node: targetNode)
+//
+//                return animationObj
+//
+//            }
+//        }
