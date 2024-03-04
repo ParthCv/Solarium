@@ -33,11 +33,11 @@ they belong to. Example: 0_Button, 1_Button, 2_Button. <br> This is parsed and p
 <br> Puzzles themselves are signaled by external objects or are continuously ticking to check for success conditions.
 3. Reset Scene's puzzle index (The current puzzle the player is playing) to 0.
 4. Game Sim Runs
-5. Interactable Objects implement the interface <Interactable>. <br> Interactables have trigger volumes around them. When trigger volumes are entered into by the player, the highest priority trigger volume subscribes to the player's interact handler.
-6. Player Presses interact button and consumes the interact, unsubscribing the interactable and calling the interactable object's DoInteract() function (Part of <Interactable> interface)
+5. Interactable Objects implement the interface \<Interactable\>. <br> Interactables have trigger volumes around them. When trigger volumes are entered into by the player, the highest priority trigger volume subscribes to the player's interact handler.
+6. Player Presses interact button and consumes the interact, unsubscribing the interactable and calling the interactable object's DoInteract() function (Part of \<Interactable\> interface)
 7. Interactable object performs its game logic in DoInteract()
 8. The game logic runs some checks and communicates up to puzzle if puzzle win conditions met
-9. Puzzle triggers win if conditions met, puzzle triggers scripted environmental interaction, currentpuzzle is iterated to next in the scene's puzzle list. <br>
+9. Puzzle triggers win if conditions met, puzzle triggers scripted environmental interaction, Scene's current_puzzle is iterated to next in the scene's puzzle list. <br>
 If no puzzles remain, player is expected to have access to a volume that will move to the next scene.
 
 
