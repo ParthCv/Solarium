@@ -73,6 +73,7 @@ extension s01_TutorialScene {
         
         return ambientLight
     }
+    
     func createFloor() -> SCNNode {
         let floorNode = SCNNode()
         floorNode.geometry = SCNFloor()
@@ -81,26 +82,41 @@ extension s01_TutorialScene {
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
-        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
+        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.cube.rawValue | 1
         
         return floorNode
     }
+    
     func setUpWallCollision(){
         let modelNode = scene.rootNode.childNode(withName: "RoomBase", recursively: true)!
-        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        
+        let collisionBox  = SCNBox(width: 10, height: 10, length: 10, chamferRadius: 0)
+        
+        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil
+//                                                SCNPhysicsShape(geometry: collisionBox, options: nil)
+        )
         // Player own bitmask
         modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
         
         // Bitmask of things the player will collide with
-        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
+        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
+        SolariumCollisionBitMask.interactable.rawValue | 1
     
     }
     
     func setUpButtonCollisionTest(){
         let modelNode = scene.rootNode.childNode(withName: "SM_Button", recursively: true)!
-        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        
+        //let collisionBox  = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+        
+        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil
+//                                                SCNPhysicsShape(geometry: collisionBox, options: nil)
+        )
+        
+        //modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue
+        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
+        SolariumCollisionBitMask.ground.rawValue | 1
     }
     
 }
