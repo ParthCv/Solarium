@@ -8,6 +8,8 @@
 import SceneKit
 
 class OtherScene: SceneTemplate{
+    var deletableNodes: [SCNNode]
+    
     var interactableEntities: [Interactables]
        
     var scene: SCNScene!
@@ -17,6 +19,7 @@ class OtherScene: SceneTemplate{
     init() {
         scene = SCNScene(named: "art.scnassets/ship.scn")
         interactableEntities = []
+        deletableNodes = []
    }
     
     func load() {

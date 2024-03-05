@@ -19,6 +19,9 @@ protocol SceneTemplate {
     // list of all interactable
     var interactableEntities: [Interactables] {set get}
     
+    // list of all deletable nodes
+    var deletableNodes: [SCNNode] {get set}
+    
     // preload for the scene
     func load()
     

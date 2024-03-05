@@ -8,6 +8,7 @@
 import SceneKit
 
 class SceneChangeInteractable: SCNNode, Interactables {
+    
     var displayText: String = "Interact"
     
     var priority: TriggerPriority = .highPriority
@@ -15,8 +16,7 @@ class SceneChangeInteractable: SCNNode, Interactables {
     var triggerVolume: Float = 3.0
     
     init(displayText: String, priority: TriggerPriority, triggerVolume: Float) {
-        super.init()
-        
+        super.init()        
         self.displayText = displayText
         self.priority = priority
         self.triggerVolume = triggerVolume

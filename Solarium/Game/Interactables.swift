@@ -6,8 +6,12 @@
 //
 import SceneKit
 
-enum TriggerPriority {
-    case lowPriority, mediumPriority, highPriority
+enum TriggerPriority: Int, Comparable {
+    case noPriority, lowPriority, mediumPriority, highPriority
+    
+    static func < (lhs: TriggerPriority, rhs: TriggerPriority) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }
 
 protocol Interactables: SCNNode {
@@ -18,7 +22,7 @@ protocol Interactables: SCNNode {
     // Area in which the event gets triggerd
     var triggerVolume: Float { get }
     
-    // Text on the button that get displayed on the 
+    // Text on the button that get displayed on the button
     var displayText: String { get }
     
     // Innteract function that is happens on the click
