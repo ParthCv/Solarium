@@ -15,6 +15,7 @@
 		E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF72B918CE90024EC74 /* SceneTemplate.swift */; };
 		E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF92B9194F50024EC74 /* BaseScene.swift */; };
 		E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AFB2B919B380024EC74 /* OtherScene.swift */; };
+		E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40802B96C362003DFE95 /* JKButtonNode.swift */; };
 		E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */; };
 		E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13D72B7C1370002B6CBD /* PlayerController.swift */; };
 		E2DE13E12B7C57CD002B6CBD /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13E02B7C57CD002B6CBD /* SharedConstants.swift */; };
@@ -35,6 +36,7 @@
 		E2120AF72B918CE90024EC74 /* SceneTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTemplate.swift; sourceTree = "<group>"; };
 		E2120AF92B9194F50024EC74 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		E2120AFB2B919B380024EC74 /* OtherScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScene.swift; sourceTree = "<group>"; };
+		E2DC40802B96C362003DFE95 /* JKButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKButtonNode.swift; sourceTree = "<group>"; };
 		E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCharacter.swift; sourceTree = "<group>"; };
 		E2DE13D72B7C1370002B6CBD /* PlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerController.swift; sourceTree = "<group>"; };
 		E2DE13E02B7C57CD002B6CBD /* SharedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConstants.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				E2DE13E02B7C57CD002B6CBD /* SharedConstants.swift */,
+				E2DC40802B96C362003DFE95 /* JKButtonNode.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */,
 				E2120AF52B918BA70024EC74 /* SceneController.swift in Sources */,
 				E2E00A632B72EA5000B35D6C /* GameViewController.swift in Sources */,
+				E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */,
 				B5722A042B743E0D0088CB64 /* GameView.swift in Sources */,
 				E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */,
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,

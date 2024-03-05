@@ -23,14 +23,14 @@ protocol SceneTemplate {
     func unload()
     
     // the rendering update for the scene
-    func update()
+    @MainActor func update(gameViewController: GameViewController)
     
     // physics updates for the scene
-    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact , gameViewController: GameViewController)
+    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)
 
     // physics updates for the scene
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
+    @MainActor func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact,  gameViewController: GameViewController)
 
     // physics updates for the scene
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
+    @MainActor func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)
 }

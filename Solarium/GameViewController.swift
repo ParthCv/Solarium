@@ -35,6 +35,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     // The current scence o
     var currScn: SceneTemplate?
     
+    let interactButton = JKButtonNode(title: "Interact", state: .normal)
+    
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,17 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             SCNDebugOptions.showPhysicsShapes
             //,SCNDebugOptions.renderAsWireframe
         ]
+        
+        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        //interactButton.canChangeState = false
+        interactButton.canPlaySounds = false
+        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
+        interactButton.position.x = 750
+        interactButton.position.y = 100
+        interactButton.isHidden = true
+        interactButton.action = interactButtonClick
+        
+        gameView.overlaySKScene?.addChild(interactButton)
         
         // Setup the collision physics
         gameView.scene!.physicsWorld.contactDelegate = self
@@ -80,7 +93,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
-        
+        currScn?.physicsWorldDidEnd(world, contact: contact, gameViewController: self)
     }
     
     // Rendering Loop
@@ -92,6 +105,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         // Make the camera follow the player
         playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
+        currScn?.update(gameViewController: self)
     }
     
 
@@ -148,6 +162,13 @@ extension GameViewController {
         let normalized = normalize(direction)
         let degree = atan2(normalized.x, normalized.y)
         return degree
+    }
+}
+
+extension GameViewController {
+    func interactButtonClick(_ sender: JKButtonNode) {
+        print("pressed")
+        currScn = SceneController.singleton.switchScene(gameView, currScn: currScn, nextScn: .SCN2)
     }
 }
 

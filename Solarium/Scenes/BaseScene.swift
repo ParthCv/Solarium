@@ -30,17 +30,28 @@ class BaseScene: SceneTemplate{
         }
     }
     
-    func update() {
+    func update(gameViewController: GameViewController) {
+        
+        //TODO: Parth - clean up this code into a function also add the glkvector shit into a util function
+        let cube = self.scene.rootNode.childNode(withName: "cube", recursively: true)
+        
+        let node1Pos = SCNVector3ToGLKVector3(cube!.presentation.worldPosition)
+        let node2Pos = SCNVector3ToGLKVector3(gameViewController.playerCharacter.modelNode.presentation.worldPosition)
+
+        let distance = GLKVector3Distance(node1Pos, node2Pos)
+        gameViewController.interactButton.isHidden = (distance > 5)
         
     }
     
-    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
+    func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
         switch contact.nodeA.physicsBody!.categoryBitMask {
             
         case SolariumCollisionBitMask.interactable.rawValue:
             print("Hit a cube")
-            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
-            //Set player pos to scene entrance
+//            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
+//            //Set player pos to scene entrance
+            //gameViewController.gameView.interactButton.isHidden = false
+            
             break
             
         default:
@@ -49,12 +60,37 @@ class BaseScene: SceneTemplate{
         
     }
     
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
-        
+    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
+        switch contact.nodeA.physicsBody!.categoryBitMask {
+            
+        case SolariumCollisionBitMask.interactable.rawValue:
+//            print("Hit a cube")
+//            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
+//            //Set player pos to scene entrance
+            //gameViewController.gameView.interactButton.isHidden = true
+            
+            break
+            
+        default:
+            break
+        }
     }
     
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
-        
+    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
+    
+        switch contact.nodeA.physicsBody!.categoryBitMask {
+            
+        case SolariumCollisionBitMask.interactable.rawValue:
+//            print("Hit a cube")
+//            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
+//            //Set player pos to scene entrance
+            //gameViewController.gameView.interactButton.isHidden = false
+            
+            break
+            
+        default:
+            break
+        }
     }
 
 }
@@ -84,6 +120,7 @@ extension BaseScene {
     func addCube() -> SCNNode {
         let cubeNode = SCNNode()
         cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
+        cubeNode.name = "cube"
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         cubeNode.position = SCNVector3(x: 20, y: 1, z: 1)
         

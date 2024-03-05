@@ -26,7 +26,7 @@ class OtherScene: SceneTemplate{
     }
 
     
-    func update() {
+    func update(gameViewController: GameViewController) {
         
     }
     
@@ -34,11 +34,11 @@ class OtherScene: SceneTemplate{
         
     }
     
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
         
     }
     
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
         
     }
     
