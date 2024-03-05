@@ -39,7 +39,7 @@ class BaseScene: SceneTemplate{
             
         case SolariumCollisionBitMask.interactable.rawValue:
             print("Hit a cube")
-            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
+            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN1)
             //Set player pos to scene entrance
             break
             
