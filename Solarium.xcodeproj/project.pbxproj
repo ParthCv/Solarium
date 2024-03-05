@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AAE3F042B9703B80064DD8B /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE3F032B9703B80064DD8B /* Puzzle.swift */; };
 		B5722A042B743E0D0088CB64 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5722A032B743E0D0088CB64 /* GameView.swift */; };
 		B5D395E02B7D5CEC008C2CB2 /* WifeAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */; };
 		B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1AAE3F032B9703B80064DD8B /* Puzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
 		B5722A032B743E0D0088CB64 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WifeAnimations.json; sourceTree = "<group>"; };
 		B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DummyAnimations.json; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				B5E4701E2B7C26D80078612C /* AnimationController.swift */,
 				E2120AF42B918BA70024EC74 /* SceneController.swift */,
 				E2120AF72B918CE90024EC74 /* SceneTemplate.swift */,
+				1AAE3F032B9703B80064DD8B /* Puzzle.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,
 				E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */,
 				E2E00A5F2B72EA5000B35D6C /* AppDelegate.swift in Sources */,
+				1AAE3F042B9703B80064DD8B /* Puzzle.swift in Sources */,
 				E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */,
 				E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */,
 			);
