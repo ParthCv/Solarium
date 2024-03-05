@@ -20,4 +20,5 @@ extension SCNNode {
         
         return distanceBetweenNode
     }
+
 }

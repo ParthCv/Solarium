@@ -16,11 +16,17 @@ protocol SceneTemplate {
     // flag to make the scene unloaded after the switch
     var isUnloadable: Bool { get }
     
+    // list of all interactable
+    var interactableEntities: [Interactables] {set get}
+    
     // preload for the scene
     func load()
     
     // delete the nodes from memeory
     func unload()
+    
+    // trihher any interactable in the scene based on conditions and priority
+    @MainActor func triggerInteractables(gameViewController: GameViewController)
     
     // the rendering update for the scene
     @MainActor func update(gameViewController: GameViewController)

@@ -65,7 +65,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         interactButton.position.x = 750
         interactButton.position.y = 100
         interactButton.isHidden = true
-        interactButton.action = interactButtonClick
+        interactButton.action = interactButtonClick(_:)
         
         gameView.overlaySKScene?.addChild(interactButton)
         
