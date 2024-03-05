@@ -19,7 +19,9 @@ class s01_TutorialScene: SceneTemplate{
     func load() {
         scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
+        scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
+        setUpButtonCollisionTest()
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
         // Assign associated classes to nodes
@@ -71,16 +73,34 @@ extension s01_TutorialScene {
         
         return ambientLight
     }
-    
+    func createFloor() -> SCNNode {
+        let floorNode = SCNNode()
+        floorNode.geometry = SCNFloor()
+        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
+
+        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        
+        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
+        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
+        
+        return floorNode
+    }
     func setUpWallCollision(){
-        let modelNode = scene.rootNode.childNode(withName: "RoomBase", recursively: true) ?? SCNNode()
+        let modelNode = scene.rootNode.childNode(withName: "RoomBase", recursively: true)!
         modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         // Player own bitmask
         modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
         
         // Bitmask of things the player will collide with
-        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.player.rawValue | 1
+        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
     
+    }
+    
+    func setUpButtonCollisionTest(){
+        let modelNode = scene.rootNode.childNode(withName: "SM_Button", recursively: true)!
+        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue
     }
     
 }

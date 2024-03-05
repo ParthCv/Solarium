@@ -60,7 +60,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         gameView.scene!.physicsWorld.contactDelegate = self
         
         // Add the player to the scene
-        gameView.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 0, 0)))
+        gameView.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
         
         //gameView.scene!.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
         
