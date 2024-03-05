@@ -8,13 +8,18 @@
 import SceneKit
 
 class OtherScene: SceneTemplate{
-   
+    var deletableNodes: [SCNNode]
+    
+    var interactableEntities: [Interactable]
+       
     var scene: SCNScene!
     
     var isUnloadable: Bool = true
     
     init() {
-       scene = SCNScene(named: "art.scnassets/ship.scn")
+        scene = SCNScene(named: "art.scnassets/ship.scn")
+        interactableEntities = []
+        deletableNodes = []
    }
     
     func load() {
@@ -24,21 +29,30 @@ class OtherScene: SceneTemplate{
     func unload() {
         
     }
+    
+    func triggerInteractables(gameViewController: GameViewController) {
+        print("scn2 ",interactableEntities.count)
+        for interactableEntity in interactableEntities {
+            if interactableEntity.distanceToNode(to: gameViewController.playerCharacter.modelNode) > interactableEntity.triggerVolume {
+                print("triggerable ", interactableEntity.displayText)
+            }
+        }
+    }
 
     
-    func update() {
-        
+    func update(gameViewController: GameViewController) {
+        triggerInteractables(gameViewController: gameViewController)
     }
     
     func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
         
     }
     
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
         
     }
     
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
         
     }
     
