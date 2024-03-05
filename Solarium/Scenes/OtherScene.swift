@@ -10,7 +10,7 @@ import SceneKit
 class OtherScene: SceneTemplate{
     var deletableNodes: [SCNNode]
     
-    var interactableEntities: [Interactables]
+    var interactableEntities: [Interactable]
        
     var scene: SCNScene!
     

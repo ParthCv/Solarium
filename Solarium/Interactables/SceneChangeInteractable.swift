@@ -7,7 +7,7 @@
 
 import SceneKit
 
-class SceneChangeInteractable: SCNNode, Interactables {
+class SceneChangeInteractable: SCNNode, Interactable {
     
     var displayText: String = "Interact"
     

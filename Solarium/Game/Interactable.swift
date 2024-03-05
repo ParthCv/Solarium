@@ -14,7 +14,7 @@ enum TriggerPriority: Int, Comparable {
     }
 }
 
-protocol Interactables: SCNNode {
+protocol Interactable: SCNNode {
     
     // Priority of the Interactable
     var priority: TriggerPriority { get }

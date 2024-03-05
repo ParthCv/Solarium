@@ -7,7 +7,7 @@
 
 import SceneKit
 
-class ConsumableInteractable: SCNNode, Interactables {
+class ConsumableInteractable: SCNNode, Interactable {
     
     var sceneTemplate : SceneTemplate?
     

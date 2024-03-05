@@ -10,7 +10,7 @@ import SceneKit
 class BaseScene: SceneTemplate{
     var deletableNodes: [SCNNode]
     
-    var interactableEntities: [Interactables]
+    var interactableEntities: [Interactable]
     
     var scene: SCNScene!
     
@@ -24,7 +24,7 @@ class BaseScene: SceneTemplate{
     
     func triggerInteractables(gameViewController: GameViewController) {
         var highestPriority: TriggerPriority? = nil
-        var interactableObject: Interactables? = nil
+        var interactableObject: Interactable? = nil
         
         for interactableEntity in interactableEntities {
             if interactableEntity.distanceToNode(to: gameViewController.playerCharacter.modelNode) < interactableEntity.triggerVolume && highestPriority ?? TriggerPriority.noPriority < interactableEntity.priority {

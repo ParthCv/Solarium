@@ -17,7 +17,7 @@ protocol SceneTemplate {
     var isUnloadable: Bool { get }
     
     // list of all interactable
-    var interactableEntities: [Interactables] {set get}
+    var interactableEntities: [Interactable] {set get}
     
     // list of all deletable nodes
     var deletableNodes: [SCNNode] {get set}
