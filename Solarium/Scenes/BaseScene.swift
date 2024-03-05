@@ -34,11 +34,11 @@ class BaseScene: SceneTemplate{
         
         //TODO: Parth - clean up this code into a function also add the glkvector shit into a util function
         let cube = self.scene.rootNode.childNode(withName: "cube", recursively: true)
-        
-        let node1Pos = SCNVector3ToGLKVector3(cube!.presentation.worldPosition)
-        let node2Pos = SCNVector3ToGLKVector3(gameViewController.playerCharacter.modelNode.presentation.worldPosition)
 
-        let distance = GLKVector3Distance(node1Pos, node2Pos)
+        let distance = cube!.distanceToNode(to: gameViewController.playerCharacter.modelNode)
+        
+        
+        
         gameViewController.interactButton.isHidden = (distance > 5)
         
     }

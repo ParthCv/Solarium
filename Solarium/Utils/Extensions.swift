@@ -7,10 +7,10 @@
 
 import SceneKit
 
-extension SCNVector3 {
-    func distanceBetweenTwoNodes(to: SCNNode, from: SCNNode) -> Float {
-        let toNodeRenderPosition = to.presentation.worldPosition
-        let fromNodeRenderPosition = from.presentation.worldPosition
+extension SCNNode {
+    func distanceToNode(to: SCNNode) -> Float {
+        let toNodeRenderPosition = self.presentation.worldPosition
+        let fromNodeRenderPosition = to.presentation.worldPosition
         
         //Convert to GLKVector3
         let glkToVector = SCNVector3ToGLKVector3(toNodeRenderPosition)
@@ -18,6 +18,6 @@ extension SCNVector3 {
         
         let distanceBetweenNode = GLKVector3Distance(glkToVector, glkFromVector)
         
-        return distanceBetweenNode        
+        return distanceBetweenNode
     }
 }
