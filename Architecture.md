@@ -14,9 +14,12 @@ using these entities will be elaborated on in the text below. <br>
 
 ### Major Classes, member variables and Structure
 
-- GameInstance
-  - Scene
-    - [Nodes]: The Scene's nodes
+- GameInstance: Wrapper class for the entire application, concerned with lifetime logic of game.
+  - Scene: The Game Scene
+    - PlayerController: The class issuing control events to the "pawn" PlayerCharacter object
+    - PlayerCharacter: The actual physical entity representing the player, with animation logic.
+      - PlayerAnimationController: Member of PlayerCharacter responsible for controlling/ blending animations.
+    - [Nodes]: The Scene's nodes of Objects
     - [Puzzles]: List of Puzzles in the scene in order of gameplay
       - [Tracked_Entities]: A collection of entities the puzzle needs to know about to complete itself
       
@@ -24,16 +27,17 @@ using these entities will be elaborated on in the text below. <br>
 The following is the logic and order of a scene running from start to puzzle completion.
 
 1. Game Starts, Scene loads.
-2. Init: We assign tracked entities to puzzles based on prefix naming inside the scene's nodes. Reset Scene's puzzle index <br>
-This looks like this. If there are two buttons and they belong to seperate puzzles, they are prefixed by the puzzle
+2. Init: We assign tracked entities to puzzles based on prefix naming inside the scene's nodes. <br> "Tracked Entities" are items in the puzzle level that we require some kind of information from, such as on or off state, whether they were interacted with, etc. <br>
+Case Example: If there are two buttons and they belong to seperate puzzles, they are prefixed by the puzzle
 they belong to. Example: 0_Button, 1_Button, 2_Button. <br> This is parsed and passed to the appropriate index of the puzzle linkedlist.
 <br> Puzzles themselves are signaled by external objects or are continuously ticking to check for success conditions.
-3. Game Sim Runs
-4. Interactable Objects have trigger volumes around them. When entered by the player, the highest priority triggger volume subscribes to the player's interact handler
-5. Player Presses interact button and consumes interact, calling the interactable object's DoInteract() function (Part of <Interactable> interface)
-6. Interactable object performs its respective game logic
-7. The game logic that has ran some checks and communicates up to puzzle if puzzle win conditions met
-8. Puzzle triggers win if conditions met, puzzle triggers scripted environmental interaction, currentpuzzle is iterated to next in the scene's puzzle list. <br>
+3. Reset Scene's puzzle index (The current puzzle the player is playing) to 0.
+4. Game Sim Runs
+5. Interactable Objects implement the interface \<Interactable\>. <br> Interactables have trigger volumes around them. When trigger volumes are entered into by the player, the highest priority trigger volume subscribes to the player's interact handler.
+6. Player Presses interact button and consumes the interact, unsubscribing the interactable and calling the interactable object's DoInteract() function (Part of \<Interactable\> interface)
+7. Interactable object performs its game logic in DoInteract()
+8. The game logic runs some checks and communicates up to puzzle if puzzle win conditions met
+9. Puzzle triggers win if conditions met, puzzle triggers scripted environmental interaction, Scene's current_puzzle is iterated to next in the scene's puzzle list. <br>
 If no puzzles remain, player is expected to have access to a volume that will move to the next scene.
 
 
