@@ -130,7 +130,7 @@ extension BaseScene {
     }
     
     func addCube() -> SCNNode {
-        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0)
+        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0, mesh: SCNGeometry())
         cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
         cubeNode.name = "cube_sceneChange"
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
@@ -144,7 +144,7 @@ extension BaseScene {
     }
     
     func addConsumeableCube() -> SCNNode {
-        let cubeNode = ConsumableInteractable(displayText: "Consume", priority: .mediumPriority, triggerVolume: 15.0, sceneTemp: self)
+        let cubeNode = ConsumableInteractable(displayText: "Consume", priority: .mediumPriority, triggerVolume: 15.0, sceneTemp: self, mesh: SCNGeometry())
         cubeNode.geometry = SCNBox(width: 2, height: 2, length: 2, chamferRadius: 0)
         cubeNode.name = "cube_consumable"
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)

@@ -8,6 +8,8 @@
 import SceneKit
 
 class ConsumableInteractable: SCNNode, Interactable {
+
+    var mesh: SCNGeometry = SCNGeometry()    
     
     var sceneTemplate : SceneTemplate?
     
@@ -17,12 +19,13 @@ class ConsumableInteractable: SCNNode, Interactable {
     
     var triggerVolume: Float = 5.0
     
-    init(displayText: String, priority: TriggerPriority, triggerVolume: Float, sceneTemp : SceneTemplate) {
+    init(displayText: String, priority: TriggerPriority, triggerVolume: Float, sceneTemp : SceneTemplate, mesh: SCNGeometry) {
         super.init()
         self.displayText = displayText
         self.priority = priority
         self.triggerVolume = triggerVolume
         self.sceneTemplate = sceneTemp
+        self.mesh = mesh
     }
     
     required init?(coder: NSCoder) {

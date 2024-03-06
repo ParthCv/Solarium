@@ -15,6 +15,7 @@ enum TriggerPriority: Int, Comparable {
 }
 
 protocol Interactable: SCNNode {
+    var mesh : SCNGeometry { get }
     
     // Priority of the Interactable
     var priority: TriggerPriority { get }
