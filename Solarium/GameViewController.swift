@@ -47,7 +47,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         sceneView.isPlaying = true
         
         // Initialize and load the current scene
-        currScn = SceneController.singleton.switchScene(sceneView, currScn: nil, nextScn: SceneEnum.SCN1)
+        currScn = SceneController.singleton.switchScene(sceneView, currScn: nil, nextScn: SceneEnum.SCN2)
         
         //sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true

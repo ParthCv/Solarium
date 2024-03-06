@@ -50,7 +50,8 @@ class BaseScene: SceneTemplate{
         scene.rootNode.addChildNode(addCube())
         scene.rootNode.addChildNode(addAmbientLighting())
         scene.rootNode.addChildNode(createFloor())
-        scene.rootNode.addChildNode(addConsumeableCube())
+        //scene.rootNode.addChildNode(addConsumeableCube())
+        setUpPedestal()
     }
     
     func unload() {
@@ -130,11 +131,11 @@ extension BaseScene {
     }
     
     func addCube() -> SCNNode {
-        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0, mesh: SCNGeometry())
+        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0)
         cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
         cubeNode.name = "cube_sceneChange"
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        cubeNode.position = SCNVector3(x: 2.5, y: 1, z: 1)
+        cubeNode.position = SCNVector3(x: 5, y: 1, z: 1)
         
         cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
         cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
@@ -144,11 +145,11 @@ extension BaseScene {
     }
     
     func addConsumeableCube() -> SCNNode {
-        let cubeNode = ConsumableInteractable(displayText: "Consume", priority: .mediumPriority, triggerVolume: 15.0, sceneTemp: self, mesh: SCNGeometry())
+        let cubeNode = PedestalInteractable(displayText: "Consume", priority: .mediumPriority, triggerVolume: 15.0, sceneTemp: self, node: SCNNode())
         cubeNode.geometry = SCNBox(width: 2, height: 2, length: 2, chamferRadius: 0)
         cubeNode.name = "cube_consumable"
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        cubeNode.position = SCNVector3(x: -2.5, y: 1, z: 1)
+        cubeNode.position = SCNVector3(x: -5, y: 1, z: 1)
         
         cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
         cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
@@ -156,6 +157,22 @@ extension BaseScene {
         self.interactableEntities.append(cubeNode)
         //self.deletableNodes.append(cubeNode)
         return cubeNode
+    }
+    
+    func setUpPedestal() {
+//        var pedastal = scene.rootNode.childNode(withName: "Pedestal", recursively: true)!
+//        var ball = pedastal.childNodes[0]
+//        var base = pedastal.childNodes[1]
+//        
+//        var ped = PedestalInteractable(displayText: "Pick up", priority: .mediumPriority, triggerVolume: 5.0, sceneTemp: self, node: ball)
+//        ped = pedastal as! PedestalInteractable
+//        pedastal.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        
+//        pedastal.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+//        pedastal.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
+//        
+//        self.interactableEntities.append(ped)
+        
     }
     
     func deleteNodes() {

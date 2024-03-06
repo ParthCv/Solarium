@@ -8,7 +8,6 @@
 import SceneKit
 
 class SceneChangeInteractable: SCNNode, Interactable {
-    var mesh: SCNGeometry = SCNGeometry()
     
     var displayText: String = "Interact"
     
@@ -16,12 +15,11 @@ class SceneChangeInteractable: SCNNode, Interactable {
     
     var triggerVolume: Float = 3.0
     
-    init(displayText: String, priority: TriggerPriority, triggerVolume: Float, mesh: SCNGeometry) {
+    init(displayText: String, priority: TriggerPriority, triggerVolume: Float) {
         super.init()
         self.displayText = displayText
         self.priority = priority
         self.triggerVolume = triggerVolume
-        self.mesh = mesh
     }
     
     required init?(coder: NSCoder) {
