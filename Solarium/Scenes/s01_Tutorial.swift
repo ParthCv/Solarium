@@ -33,7 +33,7 @@ class s01_TutorialScene: SceneTemplate{
     var isUnloadable: Bool = true
     
      init() {
-        scene = SCNScene(named: "scenes.scnassets/SolariumAlphaRooms.scn")
+        scene = SCNScene(named: "scenes.scnassets/s01_Tutorial.scn")
          interactableEntities = []
          deletableNodes = []
     }
@@ -41,9 +41,9 @@ class s01_TutorialScene: SceneTemplate{
     func load() {
         scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
-        scene.rootNode.addChildNode(createFloor())
+        //scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
-        setUpButtonCollisionTest()
+        //setUpButtonCollisionTest()
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
         // Assign associated classes to nodes
