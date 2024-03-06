@@ -43,7 +43,7 @@ class s01_TutorialScene: SceneTemplate{
         // Setup collision of scene objects
         //scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
-        //setUpButtonCollisionTest()
+        setUpButtonCollision(buttonName: "i0_SM_Button")
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
         // Assign associated classes to nodes
@@ -126,8 +126,8 @@ extension s01_TutorialScene {
     
     }
     
-    func setUpButtonCollisionTest(){
-        let modelNode = scene.rootNode.childNode(withName: "SM_Button", recursively: true)!
+    func setUpButtonCollision(buttonName: String){
+        let modelNode = scene.rootNode.childNode(withName: buttonName, recursively: true)!
         
         //let collisionBox  = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
         
