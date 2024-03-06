@@ -17,7 +17,7 @@ class BaseScene: SceneTemplate{
     var isUnloadable: Bool = true
     
     init() {
-        scene = SCNScene(named: "art.scnassets/ParthModelSpawn.scn")
+        scene = SCNScene(named: "scenes.scnassets/ParthModelSpawn.scn")
         interactableEntities = []
         deletableNodes = []
     }

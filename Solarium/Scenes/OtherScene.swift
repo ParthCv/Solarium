@@ -17,7 +17,7 @@ class OtherScene: SceneTemplate{
     var isUnloadable: Bool = true
     
     init() {
-        scene = SCNScene(named: "art.scnassets/ship.scn")
+        scene = SCNScene(named: "scenes.scnassets/ship.scn")
         interactableEntities = []
         deletableNodes = []
    }
