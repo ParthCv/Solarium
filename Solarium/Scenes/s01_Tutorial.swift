@@ -12,22 +12,6 @@ class s01_TutorialScene: SceneTemplate{
     
     var deletableNodes: [SCNNode]
     
-    func triggerInteractables(gameViewController: GameViewController) {
-        
-    }
-    
-    func update(gameViewController: GameViewController) {
-        
-    }
-    
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
-        
-    }
-    
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
-        
-    }
-    
     var scene: SCNScene!
     
     var isUnloadable: Bool = true
@@ -40,6 +24,7 @@ class s01_TutorialScene: SceneTemplate{
     
     func load() {
         scene.rootNode.addChildNode(addAmbientLighting())
+        scene.rootNode.addChildNode(addSceneChangeCube())
         // Setup collision of scene objects
         //scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
@@ -58,8 +43,9 @@ class s01_TutorialScene: SceneTemplate{
         }
     }
     
-    func update() {
-        
+    func update(gameViewController: GameViewController) {
+        deleteNodes()
+        triggerInteractables(gameViewController: gameViewController)
     }
     
     @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
@@ -77,11 +63,35 @@ class s01_TutorialScene: SceneTemplate{
         
     }
     
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
         
     }
     
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
+    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
+        
+    }
+    
+    func triggerInteractables(gameViewController: GameViewController) {
+        var highestPriority: TriggerPriority? = nil
+        var interactableObject: Interactable? = nil
+        
+        for interactableEntity in interactableEntities {
+            if interactableEntity.distanceToNode(to: gameViewController.playerCharacter.modelNode) < interactableEntity.triggerVolume && highestPriority ?? TriggerPriority.noPriority < interactableEntity.priority {
+                highestPriority = interactableEntity.priority
+                interactableObject = interactableEntity
+            }
+        }
+        
+        if (interactableObject == nil) {
+            gameViewController.interactButton.action = nil
+            gameViewController.interactButton.title.text = ""
+            gameViewController.interactButton.isHidden = true
+        } else {
+            gameViewController.interactButton.action = interactableObject!.doInteract
+            gameViewController.interactButton.title.text = interactableObject!.displayText
+            gameViewController.interactButton.isHidden = false
+        }
+        
         
     }
 
@@ -157,4 +167,39 @@ extension s01_TutorialScene {
         SolariumCollisionBitMask.ground.rawValue | 1
     }
     
+    func addSceneChangeCube() -> SCNNode {
+        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0)
+        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
+        cubeNode.name = "cube_sceneChange"
+        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        cubeNode.position = SCNVector3(x: 5, y: 1, z: 1)
+        
+        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
+        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
+        self.interactableEntities.append(cubeNode)
+        return cubeNode
+    }
+    
+    func deleteNodes() {
+        if (!self.deletableNodes.isEmpty) {
+            for node in self.deletableNodes {
+                
+                //TODO: Parth -> rn we dont delete the interactable from the list (! we need to delete it in this loop, otherwise the array might be accessed in some other frame while we are removing the elelment [Race condition])
+                
+                // remove if interactable
+//                if let interactableToRemove = node as? Interactables {
+//                    for interactableEntity in self.interactableEntities {
+//                        if (interactableEntity == interactableToRemove)
+//                            self.interactableEntities.
+//                    }
+//                }
+                
+                // remove SceneKit SCNNode
+                node.geometry!.firstMaterial!.normal.contents = nil
+                node.geometry!.firstMaterial!.diffuse.contents = nil
+                node.removeFromParentNode()
+            }
+        }
+    }
 }
