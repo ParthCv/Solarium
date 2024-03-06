@@ -89,3 +89,5 @@ fastlane/test_output
 
 iOSInjectionProject/
 Solarium.xcodeproj/project.xcworkspace/xcuserdata/pchaturvedi.xcuserdatad/UserInterfaceState.xcuserstate
+xcuserdata/
+.DS_Store
