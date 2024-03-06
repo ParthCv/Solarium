@@ -30,6 +30,7 @@ class s01_TutorialScene: SceneTemplate{
         setUpWallCollision()
         setUpButtonCollision(buttonName: "i0_SM_Button")
         setUpDoorCollision(doorName: "i0_SK_Door")
+        setUpButtonInteract(buttonName: "i0_SM_Button", doorName: "i0_SK_Door")
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
         // Assign associated classes to nodes
@@ -150,6 +151,7 @@ extension s01_TutorialScene {
         modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
         modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
         SolariumCollisionBitMask.ground.rawValue | 1
+        
     }
     
     func setUpDoorCollision(doorName: String){
@@ -165,6 +167,19 @@ extension s01_TutorialScene {
         modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
         modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
         SolariumCollisionBitMask.ground.rawValue | 1
+    }
+    
+    func setUpButtonInteract(buttonName: String, doorName: String){
+        let buttonNode = scene.rootNode.childNode(withName: buttonName, recursively: true)!
+        let doorNode = scene.rootNode.childNode(withName: doorName, recursively: true)!
+        
+        let door = Door(doorNode: doorNode)
+        
+        let buttonTrigger = ButtonReferenceInteractable(displayText: "Press Button", priority: .mediumPriority, triggerVolume: 5, target: door, node: buttonNode)
+        
+        buttonTrigger.position = buttonNode.position
+        
+        self.interactableEntities.append(buttonTrigger)
     }
     
     func addSceneChangeCube() -> SCNNode {
@@ -202,4 +217,18 @@ extension s01_TutorialScene {
             }
         }
     }
+}
+
+class Door{
+    
+    var node:SCNNode
+    
+    init(doorNode: SCNNode){
+        node = doorNode
+    }
+    func openDoor(){
+        //open door
+        print("Open Door")
+    }
+    
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */; };
 		B53193042B97EBAE0036E05D /* scenes.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B53193032B97EBAE0036E05D /* scenes.scnassets */; };
+		B53193062B982EB40036E05D /* ButtonReferenceInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53193052B982EB40036E05D /* ButtonReferenceInteractable.swift */; };
 		B5722A042B743E0D0088CB64 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5722A032B743E0D0088CB64 /* GameView.swift */; };
 		B5D395E02B7D5CEC008C2CB2 /* WifeAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */; };
 		B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s01_Tutorial.swift; sourceTree = "<group>"; };
 		B53193032B97EBAE0036E05D /* scenes.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = scenes.scnassets; sourceTree = "<group>"; };
+		B53193052B982EB40036E05D /* ButtonReferenceInteractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonReferenceInteractable.swift; sourceTree = "<group>"; };
 		B5722A032B743E0D0088CB64 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WifeAnimations.json; sourceTree = "<group>"; };
 		B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DummyAnimations.json; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			children = (
 				E2DC40872B9709CD003DFE95 /* SceneChangeInteractable.swift */,
 				E2DC40892B970DBE003DFE95 /* PedestalInteractable.swift */,
+				B53193052B982EB40036E05D /* ButtonReferenceInteractable.swift */,
 			);
 			path = Interactables;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				E2E00A632B72EA5000B35D6C /* GameViewController.swift in Sources */,
 				E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */,
 				B5722A042B743E0D0088CB64 /* GameView.swift in Sources */,
+				B53193062B982EB40036E05D /* ButtonReferenceInteractable.swift in Sources */,
 				E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */,
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,
 				2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */,
