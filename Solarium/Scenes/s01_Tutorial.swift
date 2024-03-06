@@ -158,15 +158,17 @@ extension s01_TutorialScene {
         let modelNode = scene.rootNode.childNode(withName: doorName, recursively: true)!
        
         //let collisionBox  = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+        for i in 0 ... 1{
+            modelNode.childNodes[i].physicsBody = SCNPhysicsBody(type: .kinematic, shape: nil
+    //                                                SCNPhysicsShape(geometry: collisionBox, options: nil)
+            )
+            
+            //modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+            modelNode.childNodes[i].physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+            modelNode.childNodes[i].physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
+            SolariumCollisionBitMask.ground.rawValue | 1
+        }
         
-        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil
-//                                                SCNPhysicsShape(geometry: collisionBox, options: nil)
-        )
-        
-        //modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
-        SolariumCollisionBitMask.ground.rawValue | 1
     }
     
     func setUpButtonInteract(buttonName: String, doorName: String){
@@ -246,6 +248,8 @@ class Door{
         //open door
         print("Open Door")
         animationController.playAnimation(animations: animations, key: "open")
+        modelNode.childNodes[0].physicsBody = nil
+        modelNode.childNodes[1].physicsBody = nil
     }
     
 }
