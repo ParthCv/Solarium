@@ -22,7 +22,7 @@ class OtherScene: SceneTemplate{
         deletableNodes = []
    }
     
-    func load() {
+    func load(gameViewController: GameViewController) {
         
     }
     

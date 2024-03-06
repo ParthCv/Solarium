@@ -15,11 +15,14 @@ class SceneChangeInteractable: SCNNode, Interactable {
     
     var triggerVolume: Float = 3.0
     
-    init(displayText: String, priority: TriggerPriority, triggerVolume: Float) {
+    var gameViewController: GameViewController!
+    
+    init(displayText: String, priority: TriggerPriority, triggerVolume: Float, gameViewController: GameViewController ) {
         super.init()
         self.displayText = displayText
         self.priority = priority
         self.triggerVolume = triggerVolume
+        self.gameViewController = gameViewController
     }
     
     required init?(coder: NSCoder) {
@@ -28,6 +31,7 @@ class SceneChangeInteractable: SCNNode, Interactable {
     
     func doInteract(_ sender: JKButtonNode) {
         print("change Scene")
+        SceneController.singleton.switchScene(self.gameViewController, currScn: gameViewController.currScn, nextScn: .SCN2)
     }
     
 }

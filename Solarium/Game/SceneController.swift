@@ -32,14 +32,14 @@ class SceneController {
     
     // Function to switch scenes
     @MainActor
-    func switchScene(_ gameView: GameView, currScn: SceneTemplate?, nextScn: SceneEnum) -> SceneTemplate?{
+    func switchScene(_ gameViewController: GameViewController, currScn: SceneTemplate?, nextScn: SceneEnum) -> SceneTemplate?{
         // Find the scene to load
         if let sceneTemplate = sceneDictionary[nextScn]{
             // Load the next scene fisrt
-            sceneTemplate.load()
+            sceneTemplate.load(gameViewController: gameViewController)
             
             // Switch and transition the scene
-            gameView.present(sceneTemplate.scene, with: .fade(withDuration: 0.5), incomingPointOfView: nil, completionHandler: nil)
+            gameViewController.gameView.present(sceneTemplate.scene, with: .fade(withDuration: 0.5), incomingPointOfView: nil, completionHandler: nil)
             
             // Unload the old scene
             if (currScn != nil) { currScn?.unload()}

@@ -17,14 +17,14 @@ class s01_TutorialScene: SceneTemplate{
     var isUnloadable: Bool = true
     
      init() {
-        scene = SCNScene(named: "scenes.scnassets/s01_Tutorial.scn")
+         scene = SCNScene(named: "scenes.scnassets/s01_Tutorial.scn")
          interactableEntities = []
          deletableNodes = []
     }
     
-    func load() {
+    func load(gameViewController: GameViewController) {
         scene.rootNode.addChildNode(addAmbientLighting())
-        scene.rootNode.addChildNode(addSceneChangeCube())
+        scene.rootNode.addChildNode(addSceneChangeCube(gameViewController: gameViewController))
         // Setup collision of scene objects
         //scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
@@ -54,7 +54,7 @@ class s01_TutorialScene: SceneTemplate{
             
         case SolariumCollisionBitMask.interactable.rawValue:
             print("Hit a cube")
-            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
+            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController, currScn: gameViewController.currScn, nextScn: .SCN2)
             //Set player pos to scene entrance
             break
             
@@ -184,12 +184,13 @@ extension s01_TutorialScene {
         self.interactableEntities.append(buttonTrigger)
     }
     
-    func addSceneChangeCube() -> SCNNode {
-        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0)
+    func addSceneChangeCube(gameViewController: GameViewController) -> SCNNode {
+        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0,
+                                               gameViewController: gameViewController)
         cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
         cubeNode.name = "cube_sceneChange"
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        cubeNode.position = SCNVector3(x: 5, y: 1, z: 1)
+        cubeNode.position = SCNVector3(x: -50, y: 1, z: 1)
         
         cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
         cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue

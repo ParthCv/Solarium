@@ -47,7 +47,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         sceneView.isPlaying = true
         
         // Initialize and load the current scene
-        currScn = SceneController.singleton.switchScene(sceneView, currScn: nil, nextScn: SceneEnum.SCN1)
+        currScn = SceneController.singleton.switchScene(self, currScn: nil, nextScn: SceneEnum.SCN1)
         
         //sceneView.showsStatistics = true
         //sceneView.allowsCameraControl = true
@@ -168,7 +168,7 @@ extension GameViewController {
 extension GameViewController {
     func interactButtonClick(_ sender: JKButtonNode) {
         print("pressed")
-        currScn = SceneController.singleton.switchScene(gameView, currScn: currScn, nextScn: .SCN2)
+        currScn = SceneController.singleton.switchScene(self, currScn: currScn, nextScn: .SCN2)
     }
 }
 

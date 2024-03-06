@@ -46,8 +46,8 @@ class BaseScene: SceneTemplate{
         
     }
     
-    func load() {
-        scene.rootNode.addChildNode(addCube())
+    func load(gameViewController: GameViewController) {
+        scene.rootNode.addChildNode(addCube(gameViewController: gameViewController))
         scene.rootNode.addChildNode(addAmbientLighting())
         scene.rootNode.addChildNode(createFloor())
         //scene.rootNode.addChildNode(addConsumeableCube())
@@ -130,8 +130,8 @@ extension BaseScene {
         return ambientLight
     }
     
-    func addCube() -> SCNNode {
-        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0)
+    func addCube(gameViewController: GameViewController) -> SCNNode {
+        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0, gameViewController: gameViewController)
         cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
         cubeNode.name = "cube_sceneChange"
         cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)

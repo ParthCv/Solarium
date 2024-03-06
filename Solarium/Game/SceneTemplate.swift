@@ -23,7 +23,7 @@ protocol SceneTemplate {
     var deletableNodes: [SCNNode] {get set}
     
     // preload for the scene
-    func load()
+    func load(gameViewController: GameViewController)
     
     // delete the nodes from memeory
     func unload()
