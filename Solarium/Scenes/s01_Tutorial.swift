@@ -44,10 +44,7 @@ class s01_TutorialScene: SceneTemplate{
         //scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
         setUpButtonCollision(buttonName: "i0_SM_Button")
-<<<<<<< HEAD
-=======
         setUpDoorCollision(doorName: "i0_SK_Door")
->>>>>>> 196530a (Add door model and animation file)
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
         // Assign associated classes to nodes
