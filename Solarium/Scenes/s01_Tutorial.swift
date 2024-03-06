@@ -42,7 +42,7 @@ class s01_TutorialScene: SceneTemplate{
         scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
         scene.rootNode.addChildNode(createFloor())
-        //setUpWallCollision()
+        setUpWallCollision()
         setUpButtonCollisionTest()
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
@@ -110,13 +110,13 @@ extension s01_TutorialScene {
     }
     
     func setUpWallCollision(){
+        
         let modelNode = scene.rootNode.childNode(withName: "RoomBase", recursively: true)!
         
-        let collisionBox  = SCNBox(width: 10, height: 10, length: 10, chamferRadius: 0)
-        
-        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil
-//                                                SCNPhysicsShape(geometry: collisionBox, options: nil)
-        )
+        let body = SCNPhysicsBodyType.static
+        let shape = SCNPhysicsShape(node: modelNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
+        modelNode.physicsBody = SCNPhysicsBody(type: body, shape: shape)
+
         // Player own bitmask
         modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
         
