@@ -221,14 +221,31 @@ extension s01_TutorialScene {
 
 class Door{
     
-    var node:SCNNode
+    // Door Node
+    var modelNode:SCNNode
+    
+    // key -> animationa name, value -> anmiation file
+    var animations: Dictionary<String, SCNAnimationPlayer> = Dictionary<String, SCNAnimationPlayer>()
+    
+    // Animation controller for the player
+    let animationController: AnimationController = AnimationController()
+    
+    // File with animation files and their names [hard coded fiole name rn]
+    let animationFile = "DoorAnimations"
     
     init(doorNode: SCNNode){
-        node = doorNode
+        modelNode = doorNode
+        // Read the anmations file and add it to the player
+        self.animations = animationController.loadAnimations(animationFile: animationFile)
+        for (key, anim) in animations{
+            self.modelNode.addAnimationPlayer(anim, forKey: key)
+        }
     }
+    
     func openDoor(){
         //open door
         print("Open Door")
+        animationController.playAnimation(animations: animations, key: "open")
     }
     
 }
