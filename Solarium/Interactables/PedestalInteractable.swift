@@ -7,25 +7,25 @@
 
 import SceneKit
 
-class ConsumableInteractable: SCNNode, Interactable {
+class PedestalInteractable: SCNNode, Interactable {
 
-    var mesh: SCNGeometry = SCNGeometry()    
+    var node: SCNNode = SCNNode()
     
     var sceneTemplate : SceneTemplate?
     
-    var displayText: String = "Consume"
+    var displayText: String = "Pick up"
     
     var priority: TriggerPriority = .mediumPriority
     
     var triggerVolume: Float = 5.0
     
-    init(displayText: String, priority: TriggerPriority, triggerVolume: Float, sceneTemp : SceneTemplate, mesh: SCNGeometry) {
+    init(displayText: String, priority: TriggerPriority, triggerVolume: Float, sceneTemp : SceneTemplate, node: SCNNode) {
         super.init()
         self.displayText = displayText
         self.priority = priority
         self.triggerVolume = triggerVolume
         self.sceneTemplate = sceneTemp
-        self.mesh = mesh
+        self.node = node
     }
     
     required init?(coder: NSCoder) {
