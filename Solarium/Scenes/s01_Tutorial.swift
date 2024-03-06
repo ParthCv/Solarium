@@ -44,6 +44,10 @@ class s01_TutorialScene: SceneTemplate{
         //scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
         setUpButtonCollision(buttonName: "i0_SM_Button")
+<<<<<<< HEAD
+=======
+        setUpDoorCollision(doorName: "i0_SK_Door")
+>>>>>>> 196530a (Add door model and animation file)
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
         // Assign associated classes to nodes
@@ -129,6 +133,21 @@ extension s01_TutorialScene {
     func setUpButtonCollision(buttonName: String){
         let modelNode = scene.rootNode.childNode(withName: buttonName, recursively: true)!
         
+        //let collisionBox  = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+        
+        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil
+//                                                SCNPhysicsShape(geometry: collisionBox, options: nil)
+        )
+        
+        //modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
+        SolariumCollisionBitMask.ground.rawValue | 1
+    }
+    
+    func setUpDoorCollision(doorName: String){
+        let modelNode = scene.rootNode.childNode(withName: doorName, recursively: true)!
+       
         //let collisionBox  = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
         
         modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil
