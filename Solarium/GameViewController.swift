@@ -27,7 +27,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var degree: Float = 0
     
     // Player character object with all its properties
-    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/RASStatic.scn", nodeName: "PlayerNode_Wife")
+    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
     
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()

@@ -60,7 +60,8 @@ class PlayerCharacter {
                                                     //SCNPhysicsShape(geometry: collisionBox, options: nil)
         )
         
-        self.modelNode.physicsBody?.friction = 0.75
+        self.modelNode.physicsBody?.friction 
+        = 0.99
         
         //set the collision params
         setCollisionBitMask()

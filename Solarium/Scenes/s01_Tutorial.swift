@@ -20,7 +20,7 @@ class s01_TutorialScene: SceneTemplate{
         scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
         scene.rootNode.addChildNode(createFloor())
-        setUpWallCollision()
+        //setUpWallCollision()
         setUpButtonCollisionTest()
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
@@ -82,7 +82,7 @@ extension s01_TutorialScene {
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
-        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.cube.rawValue | 1
+        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
         
         return floorNode
     }
