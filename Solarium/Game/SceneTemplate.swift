@@ -16,21 +16,30 @@ protocol SceneTemplate {
     // flag to make the scene unloaded after the switch
     var isUnloadable: Bool { get }
     
+    // list of all interactable
+    var interactableEntities: [Interactable] {set get}
+    
+    // list of all deletable nodes
+    var deletableNodes: [SCNNode] {get set}
+    
     // preload for the scene
     func load()
     
     // delete the nodes from memeory
     func unload()
     
+    // trihher any interactable in the scene based on conditions and priority
+    @MainActor func triggerInteractables(gameViewController: GameViewController)
+    
     // the rendering update for the scene
-    func update()
+    @MainActor func update(gameViewController: GameViewController)
     
     // physics updates for the scene
-    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact , gameViewController: GameViewController)
+    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)
 
     // physics updates for the scene
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
+    @MainActor func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact,  gameViewController: GameViewController)
 
     // physics updates for the scene
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact)
+    @MainActor func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)
 }

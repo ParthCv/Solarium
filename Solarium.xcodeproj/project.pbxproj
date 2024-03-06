@@ -17,6 +17,9 @@
 		E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF72B918CE90024EC74 /* SceneTemplate.swift */; };
 		E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF92B9194F50024EC74 /* BaseScene.swift */; };
 		E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AFB2B919B380024EC74 /* OtherScene.swift */; };
+		E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40802B96C362003DFE95 /* JKButtonNode.swift */; };
+		E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40842B96FF79003DFE95 /* Interactable.swift */; };
+		E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */; };
 		E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */; };
 		E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13D72B7C1370002B6CBD /* PlayerController.swift */; };
 		E2DE13E12B7C57CD002B6CBD /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE13E02B7C57CD002B6CBD /* SharedConstants.swift */; };
@@ -26,6 +29,8 @@
 		E2E00A662B72EA5000B35D6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A642B72EA5000B35D6C /* Main.storyboard */; };
 		E2E00A682B72EA5100B35D6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A672B72EA5100B35D6C /* Assets.xcassets */; };
 		E2E00A6B2B72EA5100B35D6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A692B72EA5100B35D6C /* LaunchScreen.storyboard */; };
+		E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40872B9709CD003DFE95 /* SceneChangeInteractable.swift */; };
+		E2EE3EE62B97F2F600A43652 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40822B96F1D6003DFE95 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +44,11 @@
 		E2120AF72B918CE90024EC74 /* SceneTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTemplate.swift; sourceTree = "<group>"; };
 		E2120AF92B9194F50024EC74 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		E2120AFB2B919B380024EC74 /* OtherScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScene.swift; sourceTree = "<group>"; };
+		E2DC40802B96C362003DFE95 /* JKButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKButtonNode.swift; sourceTree = "<group>"; };
+		E2DC40822B96F1D6003DFE95 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		E2DC40842B96FF79003DFE95 /* Interactable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactable.swift; sourceTree = "<group>"; };
+		E2DC40872B9709CD003DFE95 /* SceneChangeInteractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneChangeInteractable.swift; sourceTree = "<group>"; };
+		E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumableInteractable.swift; sourceTree = "<group>"; };
 		E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCharacter.swift; sourceTree = "<group>"; };
 		E2DE13D72B7C1370002B6CBD /* PlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerController.swift; sourceTree = "<group>"; };
 		E2DE13E02B7C57CD002B6CBD /* SharedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConstants.swift; sourceTree = "<group>"; };
@@ -72,6 +82,15 @@
 			path = Scenes;
 			sourceTree = "<group>";
 		};
+		E2DC40862B97099D003DFE95 /* Interactables */ = {
+			isa = PBXGroup;
+			children = (
+				E2DC40872B9709CD003DFE95 /* SceneChangeInteractable.swift */,
+				E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */,
+			);
+			path = Interactables;
+			sourceTree = "<group>";
+		};
 		E2DE13D52B7C1370002B6CBD /* Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +99,7 @@
 				B5E4701E2B7C26D80078612C /* AnimationController.swift */,
 				E2120AF42B918BA70024EC74 /* SceneController.swift */,
 				E2120AF72B918CE90024EC74 /* SceneTemplate.swift */,
+				E2DC40842B96FF79003DFE95 /* Interactable.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -88,6 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				E2DE13E02B7C57CD002B6CBD /* SharedConstants.swift */,
+				E2DC40802B96C362003DFE95 /* JKButtonNode.swift */,
+				E2DC40822B96F1D6003DFE95 /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -111,6 +133,7 @@
 		E2E00A5D2B72EA5000B35D6C /* Solarium */ = {
 			isa = PBXGroup;
 			children = (
+				E2DC40862B97099D003DFE95 /* Interactables */,
 				E2120AF62B918BE60024EC74 /* Scenes */,
 				E2DE13DF2B7C57C4002B6CBD /* Utils */,
 				E2DE13D52B7C1370002B6CBD /* Game */,
@@ -203,16 +226,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2EE3EE62B97F2F600A43652 /* Extensions.swift in Sources */,
+				E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */,
 				E2DE13E12B7C57CD002B6CBD /* SharedConstants.swift in Sources */,
 				B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */,
+				E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */,
 				E2120AF52B918BA70024EC74 /* SceneController.swift in Sources */,
 				E2E00A632B72EA5000B35D6C /* GameViewController.swift in Sources */,
+				E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */,
 				B5722A042B743E0D0088CB64 /* GameView.swift in Sources */,
 				E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */,
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,
 				2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */,
 				E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */,
 				E2E00A5F2B72EA5000B35D6C /* AppDelegate.swift in Sources */,
+				E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */,
 				E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */,
 				E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */,
 			);

@@ -8,12 +8,34 @@
 import SceneKit
 
 class s01_TutorialScene: SceneTemplate{
+    var interactableEntities: [Interactable]
+    
+    var deletableNodes: [SCNNode]
+    
+    func triggerInteractables(gameViewController: GameViewController) {
+        
+    }
+    
+    func update(gameViewController: GameViewController) {
+        
+    }
+    
+    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
+        
+    }
+    
+    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
+        
+    }
+    
     var scene: SCNScene!
     
     var isUnloadable: Bool = true
     
      init() {
-        scene = SCNScene(named: "art.scnassets/SolariumAlphaRooms.scn")
+        scene = SCNScene(named: "scenes.scnassets/SolariumAlphaRooms.scn")
+         interactableEntities = []
+         deletableNodes = []
     }
     
     func load() {

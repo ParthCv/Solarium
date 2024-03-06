@@ -16,6 +16,9 @@ final class GameView: SCNView {
     let deadZoneRadius: CGFloat = 25
     var joystickOrigin = CGPoint.zero
     
+    //TODO: figure if the touch need to be in the gvc or gv
+    let interactButton = JKButtonNode(title: "Interact", state: .normal)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setup2DOverlay()
@@ -43,6 +46,17 @@ final class GameView: SCNView {
         joystickShape.position.y = dpadShape.position.y
         joystickOrigin = joystickShape.position
         
+        
+        interactButton.action = interactButtonClick
+        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        //interactButton.canChangeState = false
+        interactButton.canPlaySounds = false
+        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
+        interactButton.position.x = 750
+        interactButton.position.y = 100
+        interactButton.isHidden = true
+        //skScene.addChild(interactButton)
+        
         let joyStick = SKNode()
         joyStick.addChild(dpadShape)
         joyStick.addChild(joystickShape)
@@ -52,6 +66,10 @@ final class GameView: SCNView {
         skScene.addChild(joyStick)
         skScene.isUserInteractionEnabled = false
         overlaySKScene = skScene
+    }
+    
+    func interactButtonClick(_ sender: JKButtonNode) {
+        print("pressed")
     }
     
     func virtualDPad() -> CGRect {
