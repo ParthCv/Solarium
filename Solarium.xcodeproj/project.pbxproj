@@ -31,6 +31,7 @@
 		E2E00A6B2B72EA5100B35D6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A692B72EA5100B35D6C /* LaunchScreen.storyboard */; };
 		E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40872B9709CD003DFE95 /* SceneChangeInteractable.swift */; };
 		E2EE3EE62B97F2F600A43652 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40822B96F1D6003DFE95 /* Extensions.swift */; };
+		EEF095EE2B9BD0C800E420A1 /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF095ED2B9BD0C800E420A1 /* Puzzle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		E2E00A652B72EA5000B35D6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2E00A672B72EA5100B35D6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2E00A6A2B72EA5100B35D6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EEF095ED2B9BD0C800E420A1 /* Puzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		E2DE13D52B7C1370002B6CBD /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				EEF095ED2B9BD0C800E420A1 /* Puzzle.swift */,
 				E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */,
 				E2DE13D72B7C1370002B6CBD /* PlayerController.swift */,
 				B5E4701E2B7C26D80078612C /* AnimationController.swift */,
@@ -133,6 +136,7 @@
 		E2E00A5D2B72EA5000B35D6C /* Solarium */ = {
 			isa = PBXGroup;
 			children = (
+				EEF095EC2B9BBEBB00E420A1 /* Animations */,
 				E2DC40862B97099D003DFE95 /* Interactables */,
 				E2120AF62B918BE60024EC74 /* Scenes */,
 				E2DE13DF2B7C57C4002B6CBD /* Utils */,
@@ -142,13 +146,20 @@
 				E2E00A602B72EA5000B35D6C /* art.scnassets */,
 				E2E00A622B72EA5000B35D6C /* GameViewController.swift */,
 				E2E00A642B72EA5000B35D6C /* Main.storyboard */,
-				B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */,
-				B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */,
 				E2E00A672B72EA5100B35D6C /* Assets.xcassets */,
 				E2E00A692B72EA5100B35D6C /* LaunchScreen.storyboard */,
 				B53193032B97EBAE0036E05D /* scenes.scnassets */,
 			);
 			path = Solarium;
+			sourceTree = "<group>";
+		};
+		EEF095EC2B9BBEBB00E420A1 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */,
+				B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +252,7 @@
 				E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */,
 				E2E00A5F2B72EA5000B35D6C /* AppDelegate.swift in Sources */,
 				E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */,
+				EEF095EE2B9BD0C800E420A1 /* Puzzle.swift in Sources */,
 				E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */,
 				E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */,
 			);
