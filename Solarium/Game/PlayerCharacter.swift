@@ -50,14 +50,8 @@ class PlayerCharacter {
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
         
-        // collider shape
-        let collisionBox =
-                            //SCNCapsule(capRadius: 1, height: 1)
-                            SCNBox(width: 1, height: 1, length: 1, chamferRadius: 1)
-        
         // Add a physics body to the player
         self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil
-                                                    //SCNPhysicsShape(geometry: collisionBox, options: nil)
         )
         
         self.modelNode.physicsBody?.friction 
@@ -72,7 +66,6 @@ class PlayerCharacter {
             self.modelNode.addAnimationPlayer(anim, forKey: key)
         }
         
-        //self.animationController.loadAnimation(sceneName: "art.scnassets/wifeIdleAnim.dae", extensionName: "", targetNode: modelNode_Player)
         playIdleAnimation()
         return modelNode
     }

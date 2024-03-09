@@ -8,6 +8,10 @@
 import SceneKit
 
 class BaseScene: SceneTemplate{
+    var puzzles: [Puzzle]
+    
+
+    
     var deletableNodes: [SCNNode]
     
     var interactableEntities: [Interactable]
@@ -20,6 +24,7 @@ class BaseScene: SceneTemplate{
         scene = SCNScene(named: "scenes.scnassets/ParthModelSpawn.scn")
         interactableEntities = []
         deletableNodes = []
+        puzzles = []
     }
     
     func triggerInteractables(gameViewController: GameViewController) {
@@ -59,6 +64,10 @@ class BaseScene: SceneTemplate{
                     node.removeFromParentNode()
                 }
         }
+    }
+    
+    func gameInit() {
+        
     }
     
     func update(gameViewController: GameViewController) {
