@@ -21,7 +21,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var touch: UITouch?
     
     // Direction 2-D vector to save the input from the d-pad
-    var direction = SIMD2<Float>(0, 0)
+    var dPadDirectionInPixels = SIMD2<Float>(0, 0)
+    var normalizedInputDirection = SIMD2<Float>(0, 0);
     
     // Rotation for player from the d-pad
     var degree: Float = 0
@@ -32,34 +33,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()
 
-    // The current scence o
-    var currScn: SceneTemplate?
+    // The current scene as SceneTemplate
+    var currentScene: SceneTemplate?
     
     let interactButton = JKButtonNode(title: "Interact", state: .normal)
+    
+    var lastTickTime: TimeInterval = 0.0
     
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Setup the view
-        let sceneView = gameView
-        sceneView.delegate = self
-        sceneView.isPlaying = true
-        
         // Initialize and load the current scene
-        currScn = SceneController.singleton.switchScene(sceneView, currScn: nil, nextScn: SceneEnum.SCN1)
+        currentScene = SceneController.singleton.switchScene(gameView, currScn: nil, nextScn: SceneEnum.SCN1)
         
-        //sceneView.showsStatistics = true
-        //sceneView.allowsCameraControl = true
+        gameView.isPlaying = true
+        // Need to directly cast as GameView for Render Delegate
+        gameView.delegate = self
         
         //Degub Options
-        sceneView.debugOptions = [
+        gameView.debugOptions = [
             SCNDebugOptions.showPhysicsShapes
-            //,SCNDebugOptions.renderAsWireframe
         ]
         
         interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
-        //interactButton.canChangeState = false
         interactButton.canPlaySounds = false
         interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
         interactButton.position.x = 750
@@ -69,22 +66,23 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         gameView.overlaySKScene?.addChild(interactButton)
         
-        // Setup the collision physics
-        gameView.scene!.physicsWorld.contactDelegate = self
+        // Physics Delegate
+        currentScene?.scene!.physicsWorld.contactDelegate = self
         
         // Add the player to the scene
-        gameView.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        //gameView.scene!.background.contents = UIImage(named: "art.scnassets/skybox.jpeg")
+        currentScene?.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
         
         // Add a camera to the scene
-        mainCamera = gameView.scene!.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
+        mainCamera = currentScene?.scene!.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
+        
+        // Perform Solarium Game Init Logic
+        currentScene?.gameInit()
     }
     
     // Physics Loops
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        currScn?.physicsWorldDidBegin(world, contact: contact, gameViewController: self)
+        currentScene?.physicsWorldDidBegin(world, contact: contact, gameViewController: self)
         
     }
 
@@ -93,22 +91,27 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
 
     func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
-        currScn?.physicsWorldDidEnd(world, contact: contact, gameViewController: self)
+        currentScene?.physicsWorldDidEnd(world, contact: contact, gameViewController: self)
     }
     
     // Rendering Loop
-    
     @objc
     func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {
+        
         // Move and rotate the player from the inputs of the d-pad
-        playerCharacter.playerController.movePlayerInXAndYDirection(changeInX: direction.x, changeInZ: direction.y, rotAngle: degree)
+        playerCharacter.playerController.movePlayerInXAndYDirection(
+            changeInX: normalizedInputDirection.x,
+            changeInZ: normalizedInputDirection.y,
+            rotAngle: degree,
+            deltaTime: time - lastTickTime
+        )
         
         // Make the camera follow the player
         playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
-        currScn?.update(gameViewController: self)
+        currentScene?.update(gameViewController: self)
+        
+        lastTickTime = time;
     }
-    
-
 }
 
 // Touch gesture recognitions
@@ -120,7 +123,7 @@ extension GameViewController {
         if let touch = touch {
             readDpadInput(touch)
         }
-        gameView.updateJoystick(direction)
+        gameView.updateJoystick(dPadDirectionInPixels)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -128,13 +131,14 @@ extension GameViewController {
         if let touch = touch {
             readDpadInput(touch)
         }
-        gameView.updateJoystick(direction)
+        gameView.updateJoystick(dPadDirectionInPixels)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //Reset the movement axis
-        direction = SIMD2<Float>.zero
-        gameView.updateJoystick(direction)
+        dPadDirectionInPixels = SIMD2<Float>.zero
+        normalizedInputDirection = SIMD2<Float>.zero
+        gameView.updateJoystick(dPadDirectionInPixels)
     }
     
     // Read d-pad input
@@ -149,17 +153,18 @@ extension GameViewController {
             let lengthOfX = Float(touchLocation.x - middleOfCircleX)
             let lengthOfY = Float(touchLocation.y - middleOfCircleY)
             
-            direction = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
+            dPadDirectionInPixels = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
+            normalizedInputDirection = normalize(dPadDirectionInPixels)
             degree = calculateTilt()
         }
     }
     
     // roation for the d-pad
     private func calculateTilt() -> Float{
-        if(pow(direction.x ,2) + pow(direction.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
+        if(pow(dPadDirectionInPixels.x ,2) + pow(dPadDirectionInPixels.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
             return 0
         }
-        let normalized = normalize(direction)
+        let normalized = normalize(dPadDirectionInPixels)
         let degree = atan2(normalized.x, normalized.y)
         return degree
     }
@@ -167,8 +172,7 @@ extension GameViewController {
 
 extension GameViewController {
     func interactButtonClick(_ sender: JKButtonNode) {
-        print("pressed")
-        currScn = SceneController.singleton.switchScene(gameView, currScn: currScn, nextScn: .SCN2)
+        currentScene = SceneController.singleton.switchScene(gameView, currScn: currentScene, nextScn: .SCN2)
     }
 }
 

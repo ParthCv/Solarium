@@ -8,6 +8,8 @@
 import SceneKit
 
 class s01_TutorialScene: SceneTemplate{
+    var puzzles: [Puzzle]
+    
     var interactableEntities: [Interactable]
     
     var deletableNodes: [SCNNode]
@@ -36,6 +38,7 @@ class s01_TutorialScene: SceneTemplate{
         scene = SCNScene(named: "scenes.scnassets/SolariumAlphaRooms.scn")
          interactableEntities = []
          deletableNodes = []
+         puzzles = []
     }
     
     func load() {
@@ -61,12 +64,16 @@ class s01_TutorialScene: SceneTemplate{
         
     }
     
+    func gameInit() {
+        
+    }
+    
     @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
         switch contact.nodeA.physicsBody!.categoryBitMask {
             
         case SolariumCollisionBitMask.interactable.rawValue:
             print("Hit a cube")
-            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
+            gameViewController.currentScene = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currentScene, nextScn: .SCN2)
             //Set player pos to scene entrance
             break
             

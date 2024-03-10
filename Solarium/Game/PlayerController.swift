@@ -11,14 +11,14 @@ class PlayerController {
     // node that includes the player mesh
     var playerCharacterNode: SCNNode
     
-    // time in ter
-    let movementUpdateSpeed: TimeInterval = 1.5
+    let defaultPlayerSpeed: Float = 10.0
     
     let forceDampingFactor: Float = 90
     
     let cameraOffset: Float = 15
     
     var playerCharacter: PlayerCharacter!
+    
     var playerState:PlayerState = PlayerState.IDLE
     
     init(playerCharacterNode: SCNNode, playerCharacter: PlayerCharacter) {
@@ -26,7 +26,8 @@ class PlayerController {
         self.playerCharacter = playerCharacter
     }
     
-    func movePlayerInXAndYDirection(changeInX: Float, changeInZ: Float, rotAngle: Float) {
+    func movePlayerInXAndYDirection(changeInX: Float, changeInZ: Float, rotAngle: Float, deltaTime: TimeInterval) {
+        
         // animate player based on the change in the movemtn in x and z
         handleMovementAnimation(changeInX: changeInX, changeInZ: changeInZ)
 
@@ -34,14 +35,20 @@ class PlayerController {
         let rotationAction = SCNAction.rotateTo(x: 0, y: CGFloat(rotAngle), z: 0, duration: 0.0)
         playerCharacterNode.runAction(rotationAction)
 
-        // move the player by applying force on the physics body
-        playerCharacterNode.physicsBody?.applyForce(SCNVector3(changeInX/forceDampingFactor, 0, changeInZ/forceDampingFactor), asImpulse: false)
-        
+//        // move the player by applying force on the physics body
+//        playerCharacterNode.physicsBody?.applyForce(SCNVector3(changeInX/forceDampingFactor, 0, changeInZ/forceDampingFactor), asImpulse: false)
+//        
         //reset the node position to the physcis body
         playerCharacterNode.position = playerCharacterNode.presentation.worldPosition
         
-        //rest the transformations
-        playerCharacterNode.physicsBody?.resetTransform()
+//        //rest the transformations
+//        playerCharacterNode.physicsBody?.resetTransform()
+//        
+        playerCharacterNode.position = SCNVector3(
+            playerCharacterNode.position.x + (changeInX * defaultPlayerSpeed * Float(deltaTime)),
+            0,
+            playerCharacterNode.position.z + (changeInZ * defaultPlayerSpeed * Float(deltaTime))
+        );
 
     }
     
