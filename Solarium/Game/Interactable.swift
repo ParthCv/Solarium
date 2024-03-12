@@ -14,19 +14,30 @@ enum TriggerPriority: Int, Comparable {
     }
 }
 
-protocol Interactable: SCNNode {
-    var mesh : SCNGeometry { get }
+class Interactable {
+    var node: SCNNode
     
     // Priority of the Interactable
-    var priority: TriggerPriority { get }
+    var priority: TriggerPriority
     
     // Area in which the event gets triggerd
-    var triggerVolume: Float { get }
+    var triggerVolume: Float?
     
     // Text on the button that get displayed on the button
-    var displayText: String { get }
+    var displayText: String?
     
-    // Innteract function that is happens on the click
-    func doInteract(_ sender: JKButtonNode)
+    var doInteractDelegate: (() -> Void)?
     
+    init(node: SCNNode, priority: TriggerPriority) {
+        self.node = node
+        self.priority = priority
+        triggerVolume = 5
+        displayText = nil
+        doInteractDelegate = nil
+    }
+        
+    // Innteract function that is happens on the click, override this.
+    func doInteract(_ sender: JKButtonNode) {
+        doInteractDelegate!()
+    }
 }

@@ -8,6 +8,11 @@
 import SceneKit
 
 class BaseScene: SceneTemplate{
+    func getPuzzleTrackedEntities(puzzleObj: Puzzle) {
+        
+    }
+    
+    
     var puzzles: [Puzzle]
     
 
@@ -32,7 +37,7 @@ class BaseScene: SceneTemplate{
         var interactableObject: Interactable? = nil
         
         for interactableEntity in interactableEntities {
-            if interactableEntity.distanceToNode(to: gameViewController.playerCharacter.modelNode) < interactableEntity.triggerVolume && highestPriority ?? TriggerPriority.noPriority < interactableEntity.priority {
+            if interactableEntity.node.distanceToNode(to: gameViewController.playerCharacter.modelNode) < interactableEntity.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.priority {
                 highestPriority = interactableEntity.priority
                 interactableObject = interactableEntity
             }
@@ -79,10 +84,6 @@ class BaseScene: SceneTemplate{
         switch contact.nodeA.physicsBody!.categoryBitMask {
             
         case SolariumCollisionBitMask.interactable.rawValue:
-//            print("Hit a cube")
-//            gameViewController.currScn = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currScn, nextScn: .SCN2)
-//            gameViewController.gameView.interactButton.isHidden = false
-            
             break
             
         default:
@@ -139,32 +140,34 @@ extension BaseScene {
     }
     
     func addCube() -> SCNNode {
-        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0, mesh: SCNGeometry())
-        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
-        cubeNode.name = "cube_sceneChange"
-        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        cubeNode.position = SCNVector3(x: 2.5, y: 1, z: 1)
-        
-        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
-        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
-        self.interactableEntities.append(cubeNode)
-        return cubeNode
+//        let cubeNode = SceneChangeInteractable(displayText: "Go to next Scene", priority: .highPriority, triggerVolume: 5.0, mesh: SCNGeometry())
+//        cubeNode.geometry = SCNBox(width: 1, height: 1, length: 10, chamferRadius: 0)
+//        cubeNode.name = "cube_sceneChange"
+//        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        cubeNode.position = SCNVector3(x: 2.5, y: 1, z: 1)
+//        
+//        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+//        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
+//        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
+//        self.interactableEntities.append(cubeNode)
+//        return cubeNode
+        return SCNNode()
     }
     
     func addConsumeableCube() -> SCNNode {
-        let cubeNode = ConsumableInteractable(displayText: "Consume", priority: .mediumPriority, triggerVolume: 15.0, sceneTemp: self, mesh: SCNGeometry())
-        cubeNode.geometry = SCNBox(width: 2, height: 2, length: 2, chamferRadius: 0)
-        cubeNode.name = "cube_consumable"
-        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        cubeNode.position = SCNVector3(x: -2.5, y: 1, z: 1)
-        
-        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
-        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
-        self.interactableEntities.append(cubeNode)
-        //self.deletableNodes.append(cubeNode)
-        return cubeNode
+//        let cubeNode = ConsumableInteractable(displayText: "Consume", priority: .mediumPriority, triggerVolume: 15.0, sceneTemp: self, mesh: SCNGeometry())
+//        cubeNode.geometry = SCNBox(width: 2, height: 2, length: 2, chamferRadius: 0)
+//        cubeNode.name = "cube_consumable"
+//        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//        cubeNode.position = SCNVector3(x: -2.5, y: 1, z: 1)
+//        
+//        cubeNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+//        cubeNode.physicsBody!.contactTestBitMask = SolariumCollisionBitMask.player.rawValue
+//        cubeNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.ground.rawValue
+//        self.interactableEntities.append(cubeNode)
+//        //self.deletableNodes.append(cubeNode)
+//        return cubeNode
+        return SCNNode()
     }
     
     func deleteNodes() {

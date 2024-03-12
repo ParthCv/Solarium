@@ -19,9 +19,6 @@ protocol SceneTemplate {
     // the list of puzzles for this scene
     var puzzles: [Puzzle] {set get}
     
-    // list of all interactable
-    var interactableEntities: [Interactable] {set get}
-    
     // list of all deletable nodes
     var deletableNodes: [SCNNode] {get set}
     
@@ -48,4 +45,7 @@ protocol SceneTemplate {
 
     // physics updates for the scene
     @MainActor func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)
+    
+    // Searches the node tree for nodes prefixed by the PuzzleID inside puzzleObj
+    @MainActor func getPuzzleTrackedEntities(puzzleObj: Puzzle)
 }
