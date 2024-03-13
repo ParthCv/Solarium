@@ -8,6 +8,11 @@
 import SceneKit
 
 class OtherScene: SceneTemplate{
+    func getPuzzleTrackedEntities(puzzleObj: Puzzle) {
+        
+    }
+    
+    
     var puzzles: [Puzzle]
     
     func gameInit() {
@@ -38,12 +43,12 @@ class OtherScene: SceneTemplate{
     }
     
     func triggerInteractables(gameViewController: GameViewController) {
-        print("scn2 ",interactableEntities.count)
-        for interactableEntity in interactableEntities {
-            if interactableEntity.distanceToNode(to: gameViewController.playerCharacter.modelNode) > interactableEntity.triggerVolume {
-                print("triggerable ", interactableEntity.displayText)
-            }
-        }
+//        print("scn2 ",interactableEntities.count)
+//        for interactableEntity in interactableEntities {
+//            if interactableEntity.distanceToNode(to: gameViewController.playerCharacter.modelNode) > interactableEntity.triggerVolume {
+//                print("triggerable ", interactableEntity.displayText)
+//            }
+//        }
     }
 
     

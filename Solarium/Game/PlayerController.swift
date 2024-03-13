@@ -73,7 +73,7 @@ class PlayerController {
     // make the camera follow the player
     func repositionCameraToFollowPlayer(mainCamera: SCNNode) {
         // damping facto for the lerp of the camera
-        let cameraDamping: Float = 0.3
+        let cameraDamping: Float = 0.9
         let playerPosition = playerCharacterNode.position
         
         // Calculate the position of the target position of the camera
@@ -89,7 +89,7 @@ class PlayerController {
         // set the position of the camera
         cameraPosition = SCNVector3(cameraXPos, cameraYPos, cameraZPos)
         mainCamera.position = cameraPosition
-        
+        mainCamera.look(at: playerCharacterNode.position)
     }
     
     // Setter and getter for the player state

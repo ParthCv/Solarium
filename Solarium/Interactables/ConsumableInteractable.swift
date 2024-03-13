@@ -7,7 +7,9 @@
 
 import SceneKit
 
-class ConsumableInteractable: SCNNode, Interactable {
+class ConsumableInteractable: SCNNode {
+    var doInteractDelegate: (() -> Void)?
+    
 
     var mesh: SCNGeometry = SCNGeometry()    
     

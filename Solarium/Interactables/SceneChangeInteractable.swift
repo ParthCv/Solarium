@@ -7,7 +7,9 @@
 
 import SceneKit
 
-class SceneChangeInteractable: SCNNode, Interactable {
+class SceneChangeInteractable: SCNNode {
+    var doInteractDelegate: (() -> Void)?
+    
     var mesh: SCNGeometry = SCNGeometry()
     
     var displayText: String = "Interact"
