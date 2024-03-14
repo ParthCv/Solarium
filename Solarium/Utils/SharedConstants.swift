@@ -1,4 +1,4 @@
 //Bit Mask values
 enum SolariumCollisionBitMask: Int {
-    case player = 2, interactable, ground 
+    case ground = 1, player = 2, interactable = 4
 }
