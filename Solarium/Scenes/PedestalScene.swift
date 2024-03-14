@@ -27,6 +27,7 @@ class PedestalScene: SceneTemplate {
     
     func load() {
         scene.rootNode.addChildNode(createFloor())
+        setUpPedestal()
     }
     
     func unload() {
@@ -103,10 +104,12 @@ extension PedestalScene {
     }
     
     func setUpPedestal() {
-        var baseNode = scene.rootNode.childNode(withName: "P0_0_PowerPedestal", recursively: true)!
-        var ballNode = scene.rootNode.childNode(withName: "P0_1_PowerSphere", recursively: true)!
+        let baseNode: SCNNode = scene.rootNode.childNode(withName: "P0_0_PowerPedestal", recursively: true)!
+        let ballNode: SCNNode = scene.rootNode.childNode(withName: "P0_1_PowerSphere", recursively: true)!
+
+        let batteryNodePos = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
         
-        baseNode.childNode[0]
+        ballNode.position = batteryNodePos.worldPosition
     }
     
 }

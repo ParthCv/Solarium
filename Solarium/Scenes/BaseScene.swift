@@ -72,7 +72,7 @@ class BaseScene: SceneTemplate{
     }
     
     func gameInit() {
-        
+        print("jas wuz here")
     }
     
     func update(gameViewController: GameViewController) {
