@@ -17,6 +17,7 @@
 		E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF72B918CE90024EC74 /* SceneTemplate.swift */; };
 		E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF92B9194F50024EC74 /* BaseScene.swift */; };
 		E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AFB2B919B380024EC74 /* OtherScene.swift */; };
+		E22E054C2BA398C000B9955D /* PedestalScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054B2BA398C000B9955D /* PedestalScene.swift */; };
 		E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40802B96C362003DFE95 /* JKButtonNode.swift */; };
 		E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40842B96FF79003DFE95 /* Interactable.swift */; };
 		E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */; };
@@ -47,6 +48,7 @@
 		E2120AF72B918CE90024EC74 /* SceneTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTemplate.swift; sourceTree = "<group>"; };
 		E2120AF92B9194F50024EC74 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		E2120AFB2B919B380024EC74 /* OtherScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScene.swift; sourceTree = "<group>"; };
+		E22E054B2BA398C000B9955D /* PedestalScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PedestalScene.swift; sourceTree = "<group>"; };
 		E2DC40802B96C362003DFE95 /* JKButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKButtonNode.swift; sourceTree = "<group>"; };
 		E2DC40822B96F1D6003DFE95 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E2DC40842B96FF79003DFE95 /* Interactable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactable.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				E2120AF92B9194F50024EC74 /* BaseScene.swift */,
 				E2120AFB2B919B380024EC74 /* OtherScene.swift */,
 				2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */,
+				E22E054B2BA398C000B9955D /* PedestalScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2EE3EE62B97F2F600A43652 /* Extensions.swift in Sources */,
+				E22E054C2BA398C000B9955D /* PedestalScene.swift in Sources */,
 				EE0B3C592BA1006F008FAD06 /* Puzzle0.swift in Sources */,
 				E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */,
 				E2DE13E12B7C57CD002B6CBD /* SharedConstants.swift in Sources */,

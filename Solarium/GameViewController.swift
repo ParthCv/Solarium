@@ -45,7 +45,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         super.viewDidLoad()
 
         // Initialize and load the current scene
-        currentScene = SceneController.singleton.switchScene(gameView, currScn: nil, nextScn: SceneEnum.SCN1)
+        currentScene = SceneController.singleton.switchScene(gameView, currScn: nil, nextScn: SceneEnum.SCN0)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
