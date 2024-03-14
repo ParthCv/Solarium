@@ -39,5 +39,6 @@ class Interactable {
     // Innteract function that is happens on the click, override this.
     func doInteract(_ sender: JKButtonNode) {
         doInteractDelegate!()
+        print("Interact called")
     }
 }
