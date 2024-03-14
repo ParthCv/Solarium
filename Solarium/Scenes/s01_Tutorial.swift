@@ -161,8 +161,8 @@ extension s01_TutorialScene {
 
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         
-        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
-        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
+//        floorNode.physicsBody?.categoryBitMask = Int(SCNPhysicsCollisionCategory.static.rawValue)
+//        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
         
         return floorNode
     }
@@ -174,13 +174,12 @@ extension s01_TutorialScene {
         let body = SCNPhysicsBodyType.static
         let shape = SCNPhysicsShape(node: modelNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
         modelNode.physicsBody = SCNPhysicsBody(type: body, shape: shape)
-
-        // Player own bitmask
-        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
+//
+//        // Player own bitmask
+//        modelNode.physicsBody!.categoryBitMask = Int(SCNPhysicsCollisionCategory.static.rawValue)
         
         // Bitmask of things the player will collide with
-        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
-        SolariumCollisionBitMask.interactable.rawValue | 1
+//        modelNode.physicsBody!.collisionBitMask
     
     }
     

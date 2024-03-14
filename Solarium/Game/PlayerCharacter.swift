@@ -51,11 +51,11 @@ class PlayerCharacter {
         self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
         
         // Add a physics body to the player
-        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil
-        )
-        
-        self.modelNode.physicsBody?.friction 
-        = 0.99
+//        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil
+//        )
+//        
+//        self.modelNode.physicsBody?.friction 
+//        = 0.99
         
         //set the collision params
         setCollisionBitMask()
@@ -83,10 +83,10 @@ class PlayerCharacter {
     // Set the bit mask for player
     private func setCollisionBitMask() {
         // Player own bitmask
-        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.player.rawValue
+        //modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.player.rawValue
         
         // Bitmask of things the player will collide with
-        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.ground.rawValue | 1
+//        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.ground.rawValue | SolariumCollisionBitMask.interactable.rawValue
     }
     
 }
