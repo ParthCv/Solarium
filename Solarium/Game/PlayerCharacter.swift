@@ -19,7 +19,7 @@ class PlayerCharacter {
     var modelFilePath: String
     
     // Node for the model
-    var modelNode: SCNNode = SCNNode()
+    var modelNode: SCNNode!
     
     // Name of the player node
     var nodeName: String
@@ -33,7 +33,7 @@ class PlayerCharacter {
     init(modelFilePath: String, nodeName: String) {
         self.modelFilePath = modelFilePath
         self.nodeName = nodeName
-        self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
+        //self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
     }
     
     // load the player from file and setup the properties
@@ -43,18 +43,20 @@ class PlayerCharacter {
 
         //Update the properties again
         
+        
         //get the root node from the scene with all the child nodes
         self.modelNode = modelNode_Player.rootNode.childNodes[0]
         self.modelNode.position = spawnPosition
+        self.modelNode.presentation.position = spawnPosition
         self.modelNode.name = nodeName
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
         
         // Add a physics body to the player
         self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil
+                                                    //SCNPhysicsShape(geometry: SCNCapsule(capRadius: 1.5, height: 1), options: nil)
         )
-        
-        self.modelNode.physicsBody?.friction 
+        self.modelNode.physicsBody?.friction
         = 0.99
         
         //set the collision params
