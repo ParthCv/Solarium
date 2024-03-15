@@ -1,4 +1,4 @@
 {
-    "idle": "art.scnassets/RASWave.scn",
-    "walk": "art.scnassets/RASWaggle.scn"
+    "idle": "art.scnassets/ModelTesterIdleAnim.scn",
+    "walk": "art.scnassets/ModelTesterButtonPressAnim.scn"
 }

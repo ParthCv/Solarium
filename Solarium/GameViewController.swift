@@ -131,9 +131,9 @@ extension GameViewController {
     
     // roation for the d-pad
     private func calculateTilt() -> Float{
-        if(pow(dPadDirectionInPixels.x ,2) + pow(dPadDirectionInPixels.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
-            return 0
-        }
+//        if(pow(dPadDirectionInPixels.x ,2) + pow(dPadDirectionInPixels.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
+//            return 0
+//        }
         let normalized = normalize(dPadDirectionInPixels)
         let degree = atan2(normalized.x, normalized.y)
         return degree
