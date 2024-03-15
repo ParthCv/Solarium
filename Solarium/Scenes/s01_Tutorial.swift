@@ -8,6 +8,8 @@
 import SceneKit
 
 class s01_TutorialScene: SceneTemplate{
+    var playerCharacter: PlayerCharacter
+    var mainCamera: SCNNode
     var puzzles: [Puzzle]
     var currentPuzzle: Puzzle?
     
@@ -18,7 +20,7 @@ class s01_TutorialScene: SceneTemplate{
         var interactableObject: Interactable? = nil
         
         for interactableEntity in currentPuzzle!.trackedEntities{
-            if interactableEntity.value.node.distanceToNode(to: gameViewController.playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
+            if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
                 highestPriority = interactableEntity.value.priority
                 interactableObject = interactableEntity.value
             }
@@ -37,8 +39,18 @@ class s01_TutorialScene: SceneTemplate{
         
     }
     
-    func update(gameViewController: GameViewController) {
+    @MainActor func update(gameViewController: GameViewController, updateAtTime time: TimeInterval) {
         triggerInteractables(gameViewController: gameViewController)
+        // Move and rotate the player from the inputs of the d-pad
+        playerCharacter.playerController.movePlayerInXAndYDirection(
+            changeInX: gameViewController.normalizedInputDirection.x,
+            changeInZ: gameViewController.normalizedInputDirection.y,
+            rotAngle: gameViewController.degree,
+            deltaTime: time - gameViewController.lastTickTime
+        )
+        
+        // Make the camera follow the player
+        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
     }
     
     func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
@@ -58,6 +70,8 @@ class s01_TutorialScene: SceneTemplate{
          deletableNodes = []
          puzzles = []
          currentPuzzle = nil
+         playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
+         mainCamera = SCNNode()
     }
     
     func load() {
@@ -66,6 +80,11 @@ class s01_TutorialScene: SceneTemplate{
         scene.rootNode.addChildNode(createFloor())
         setUpWallCollision()
         setUpButtonCollisionTest()
+        // Add the player to the scene
+        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
+        
+        // Add a camera to the scene
+        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
         // Init puzzles belonging to Scene
         // Get all child nodes per puzzle
         // Assign associated classes to nodes
@@ -77,10 +96,6 @@ class s01_TutorialScene: SceneTemplate{
                     node.removeFromParentNode()
                 }
         }
-    }
-    
-    func update() {
-        
     }
     
     // TODO: Consider making this part of the Puzzle Class and making it static, remove it from SceneTemplate Class

@@ -9,6 +9,11 @@ import SceneKit
 
 // Abstract class to hold the basic info for a scene
 protocol SceneTemplate {
+    // Main camera in the scene
+    var mainCamera: SCNNode { get }
+    
+    // player charecter object
+    var playerCharacter: PlayerCharacter { get }
     
     // the scene itself in the scnasset folder
     var scene: SCNScene! { get }
@@ -35,7 +40,7 @@ protocol SceneTemplate {
     @MainActor func triggerInteractables(gameViewController: GameViewController)
     
     // the rendering update for the scene
-    @MainActor func update(gameViewController: GameViewController)
+    @MainActor func update(gameViewController: GameViewController, updateAtTime time: TimeInterval)
     
     // physics updates for the scene
     @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)

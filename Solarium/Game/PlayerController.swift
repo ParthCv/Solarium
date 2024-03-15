@@ -43,10 +43,10 @@ class PlayerController {
         
 //        //rest the transformations
 //        playerCharacterNode.physicsBody?.resetTransform()
-//        
+//
         playerCharacterNode.position = SCNVector3(
             playerCharacterNode.position.x + (changeInX * defaultPlayerSpeed * Float(deltaTime)),
-            0,
+            playerCharacterNode.position.y,
             playerCharacterNode.position.z + (changeInZ * defaultPlayerSpeed * Float(deltaTime))
         );
 

@@ -8,6 +8,24 @@
 import SceneKit
 
 class OtherScene: SceneTemplate{
+    var mainCamera: SCNNode
+    
+    @MainActor func update(gameViewController: GameViewController, updateAtTime time: TimeInterval) {
+        triggerInteractables(gameViewController: gameViewController)
+        // Move and rotate the player from the inputs of the d-pad
+        playerCharacter.playerController.movePlayerInXAndYDirection(
+            changeInX: gameViewController.normalizedInputDirection.x,
+            changeInZ: gameViewController.normalizedInputDirection.y,
+            rotAngle: gameViewController.degree,
+            deltaTime: time - gameViewController.lastTickTime
+        )
+        
+        // Make the camera follow the player
+        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
+    }
+    
+    var playerCharacter: PlayerCharacter
+    
     func getPuzzleTrackedEntities(puzzleObj: Puzzle) {
         
     }
@@ -32,10 +50,15 @@ class OtherScene: SceneTemplate{
         interactableEntities = []
         deletableNodes = []
         puzzles = []
-   }
+        playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
+        mainCamera = SCNNode()   }
     
     func load() {
+        // Add the player to the scene
+        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
         
+        // Add a camera to the scene
+        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
     }
     
     func unload() {
@@ -49,11 +72,6 @@ class OtherScene: SceneTemplate{
 //                print("triggerable ", interactableEntity.displayText)
 //            }
 //        }
-    }
-
-    
-    func update(gameViewController: GameViewController) {
-        triggerInteractables(gameViewController: gameViewController)
     }
     
     func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController:  GameViewController) {
