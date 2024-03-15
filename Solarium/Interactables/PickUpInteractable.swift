@@ -7,9 +7,6 @@
 
 import SceneKit
 
-enum PickUpType {
-    case RedPickable, BluePickable
-}
 
 //class PickUpInteractable: Interactable {
 //    var doInteractDelegate: (() -> Void)?

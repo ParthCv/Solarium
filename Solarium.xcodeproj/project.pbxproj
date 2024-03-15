@@ -19,6 +19,7 @@
 		E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AFB2B919B380024EC74 /* OtherScene.swift */; };
 		E22E054C2BA398C000B9955D /* PedestalScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054B2BA398C000B9955D /* PedestalScene.swift */; };
 		E22E054E2BA3B25F00B9955D /* PickUpInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054D2BA3B25F00B9955D /* PickUpInteractable.swift */; };
+		E22E05502BA3EE9A00B9955D /* PuzzlePedestalTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */; };
 		E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40802B96C362003DFE95 /* JKButtonNode.swift */; };
 		E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40842B96FF79003DFE95 /* Interactable.swift */; };
 		E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */; };
@@ -51,6 +52,7 @@
 		E2120AFB2B919B380024EC74 /* OtherScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScene.swift; sourceTree = "<group>"; };
 		E22E054B2BA398C000B9955D /* PedestalScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PedestalScene.swift; sourceTree = "<group>"; };
 		E22E054D2BA3B25F00B9955D /* PickUpInteractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpInteractable.swift; sourceTree = "<group>"; };
+		E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzlePedestalTest.swift; sourceTree = "<group>"; };
 		E2DC40802B96C362003DFE95 /* JKButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKButtonNode.swift; sourceTree = "<group>"; };
 		E2DC40822B96F1D6003DFE95 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E2DC40842B96FF79003DFE95 /* Interactable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactable.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			children = (
 				EE0B3C582BA1006F008FAD06 /* Puzzle0.swift */,
 				EE0B3C5A2BA10077008FAD06 /* Puzzle1.swift */,
+				E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */,
 			);
 			path = ScriptedPuzzles;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				EEF095EE2B9BD0C800E420A1 /* Puzzle.swift in Sources */,
 				E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */,
 				E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */,
+				E22E05502BA3EE9A00B9955D /* PuzzlePedestalTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

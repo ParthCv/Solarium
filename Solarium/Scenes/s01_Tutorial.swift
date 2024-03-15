@@ -121,10 +121,10 @@ class s01_TutorialScene: SceneTemplate{
     }
     
     func gameInit() {
-        var puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable]())
+        var puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
-        var puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable]())
+        var puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle1)
         
         for puzzle in puzzles {
