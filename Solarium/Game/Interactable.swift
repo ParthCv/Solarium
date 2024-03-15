@@ -26,19 +26,19 @@ class Interactable {
     // Text on the button that get displayed on the button
     var displayText: String?
     
-    var doInteractDelegate: (() -> Void)?
+    var doInteractDelegate: (() -> Void) = {}
     
     init(node: SCNNode, priority: TriggerPriority) {
         self.node = node
         self.priority = priority
         triggerVolume = 5
         displayText = nil
-        doInteractDelegate = nil
+        //doInteractDelegate = () -> Void
+        
     }
         
     // Innteract function that is happens on the click, override this.
     func doInteract(_ sender: JKButtonNode) {
-        doInteractDelegate!()
-        print("Interact called")
+        doInteractDelegate()
     }
 }

@@ -26,10 +26,10 @@ class Puzzle0 : Puzzle {
         if trackedEntities[0] != nil {
             doorButton = trackedEntities[0]!
             
-            doorButton!.node.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-            doorButton!.node.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-            doorButton!.node.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
-            SolariumCollisionBitMask.ground.rawValue | 1
+//            doorButton!.node.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+//            doorButton!.node.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
+//            doorButton!.node.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
+//            SolariumCollisionBitMask.ground.rawValue | 1
         }
         
         if trackedEntities[1] != nil {

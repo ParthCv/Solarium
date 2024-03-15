@@ -26,12 +26,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     // Rotation for player from the d-pad
     var degree: Float = 0
-    
-    // Player character object with all its properties
-    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
-    
-    // Main camera in the scene
-    var mainCamera: SCNNode = SCNNode()
 
     // The current scene as SceneTemplate
     var currentScene: SceneTemplate?
@@ -56,24 +50,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             SCNDebugOptions.showPhysicsShapes
         ]
         
-        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
-        interactButton.canPlaySounds = false
-        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
-        interactButton.position.x = 750
-        interactButton.position.y = 100
-        interactButton.isHidden = true
-        interactButton.action = interactButtonClick(_:)
+        setUpInteractButton()
         
         gameView.overlaySKScene?.addChild(interactButton)
         
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
-        
-        // Add the player to the scene
-        currentScene?.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = currentScene?.scene!.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
         
         // Perform Solarium Game Init Logic
         currentScene?.gameInit()
@@ -97,19 +79,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     // Rendering Loop
     @objc
     func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {
-        
-        // Move and rotate the player from the inputs of the d-pad
-        playerCharacter.playerController.movePlayerInXAndYDirection(
-            changeInX: normalizedInputDirection.x,
-            changeInZ: normalizedInputDirection.y,
-            rotAngle: degree,
-            deltaTime: time - lastTickTime
-        )
-        
-        // Make the camera follow the player
-        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
-        currentScene?.update(gameViewController: self)
-        
+        currentScene?.update(gameViewController: self, updateAtTime: time)
         lastTickTime = time;
     }
 }
@@ -173,6 +143,16 @@ extension GameViewController {
 extension GameViewController {
     func interactButtonClick(_ sender: JKButtonNode) {
         currentScene = SceneController.singleton.switchScene(gameView, currScn: currentScene, nextScn: .SCN2)
+    }
+    
+    func setUpInteractButton() {
+        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.canPlaySounds = false
+        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
+        interactButton.position.x = 750
+        interactButton.position.y = 100
+        interactButton.isHidden = true
+        interactButton.action = interactButtonClick(_:)
     }
 }
 
