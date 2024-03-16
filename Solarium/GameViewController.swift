@@ -98,7 +98,7 @@ extension GameViewController {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Read touch input
-        if let touch = touch {
+        if let touch = touch { 
             readDpadInput(touch)
         }
         gameView.updateJoystick(dPadDirectionInPixels)

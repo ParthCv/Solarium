@@ -51,7 +51,7 @@ class PedestalScene: SceneTemplate {
         scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
         
         // Add a camera to the scene
-        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
+        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true)!
         setUpPedestal()
     }
     
@@ -64,7 +64,7 @@ class PedestalScene: SceneTemplate {
     }
     
     func gameInit() {
-        var pedPuzzle :Puzzle = PuzzlePedestalTest(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
+        let pedPuzzle :Puzzle = PuzzlePedestalTest(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(pedPuzzle)
         
         for puzzle in puzzles {
@@ -114,9 +114,10 @@ class PedestalScene: SceneTemplate {
         scene.rootNode.childNodes(passingTest:  { (node, stop) -> Bool in
             if let name = node.name, name.range(of: "P\(puzzleObj.puzzleID)_", options: .regularExpression) != nil {
                 let nameParts = name.components(separatedBy: "_")
-                
+                print(nameParts)
                 if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
-                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.mediumPriority)
+                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
+                    print(foundKeyValuePairs[intCast]?.priority)
                 }
                 
                 return true
@@ -139,22 +140,27 @@ extension PedestalScene {
         let floorNode = SCNNode()
         floorNode.geometry = SCNFloor()
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         
+        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+
+        
+
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
+
         floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
         
         return floorNode
     }
     
     func setUpPedestal() {
-        let baseNode: SCNNode = scene.rootNode.childNode(withName: "P0_0_PowerPedestal", recursively: true)!
-        let ballNode: SCNNode = scene.rootNode.childNode(withName: "P0_1_PowerSphere", recursively: true)!
+        let baseNode: SCNNode = scene.rootNode.childNode(withName: "P0_0_2_PowerPedestal", recursively: true)!
+        let ballNode: SCNNode = scene.rootNode.childNode(withName: "P0_1_0_PowerSphere", recursively: true)!
 
         let batteryNodePos = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
         
-        ballNode.position = batteryNodePos.worldPosition
+        baseNode.addChildNode(ballNode)
+        ballNode.worldPosition = batteryNodePos.worldPosition
+        print("ball - ", ballNode.position, " battery - ", batteryNodePos.worldPosition)
     }
     
 }

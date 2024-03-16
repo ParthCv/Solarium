@@ -30,6 +30,8 @@ class PlayerCharacter {
     // controller for the player
     var playerController: PlayerController!
     
+    var isHoldingSmthg: Bool = false
+    
     init(modelFilePath: String, nodeName: String) {
         self.modelFilePath = modelFilePath
         self.nodeName = nodeName

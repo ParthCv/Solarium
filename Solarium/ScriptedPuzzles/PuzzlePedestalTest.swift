@@ -32,7 +32,9 @@ class PuzzlePedestalTest: Puzzle {
             ballNode = trackedEntities[1]
         }
         
-        ballNode!.doInteractDelegate = pedestalInteractDelegate
+        baseNode!.doInteractDelegate = self.pedestalInteractDelegate
+        
+        //ballNode!.setInteractDelegate(function: pedestalInteractDelegate)
     }
     
     // Per Puzzle Check for Win condition
@@ -45,17 +47,66 @@ class PuzzlePedestalTest: Puzzle {
     
     func pedestalInteractDelegate() {
         let sphereNode =  sceneTemplate.playerCharacter.modelNode.childNode(withName: "Power_Sphere", recursively: true)
-        if (!ballNode!.node.isHidden && sphereNode!.isHidden) {
-            print("Interacting")
-            ballNode!.node.isHidden = true
+
+        
+        // if ball noed parent is the pedestal and if the player isnt holding anything at the moment
+        // nvm the sphere node ncan be a child
+        // actually i cn
+        if (!sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == baseNode!.node.name) {
+            //Phy on shpere need to nil
+            //ballNode!.node.physicsBody = nil
             
-            sphereNode?.isHidden = false
-        } else if (ballNode!.node.isHidden && !sphereNode!.isHidden){
-            print("Interacting")
-            ballNode!.node.isHidden = false
+            //ballNode!.node.worldPosition = sceneTemplate.playerCharacter.modelNode.position
             
-            sphereNode?.isHidden = true
+            var movepos = sceneTemplate.scene.rootNode.childNode(withName: "Power_Sphere", recursively: true)!.worldPosition
+            
+            //movepos = sceneTemplate.playerCharacter.modelNode.position
+            
+            movepos = SCNVector3(x: 0, y: 6, z: 0)
+            
+            //TODO: Fix the action and find where to  put ball on the player
+            
+            let moveActio = SCNAction.move(to: movepos, duration: 1)
+            
+            ballNode!.node.runAction(moveActio) {
+                self.sceneTemplate.playerCharacter.modelNode.addChildNode(self.ballNode!.node)
+            }
+            
+            sceneTemplate.playerCharacter.isHoldingSmthg = true
+            
+            
+        } else if (sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == sceneTemplate.playerCharacter.nodeName) {
+            var movepos = sceneTemplate.scene.rootNode.childNode(withName: "Power_Sphere", recursively: true)!.worldPosition
+            
+            //movepos = sceneTemplate.playerCharacter.modelNode.position
+            
+            movepos = SCNVector3(x: 0, y: -1, z: 0)
+            
+            //TODO: Fix the action and find where to  put ball on the player
+            
+            let moveActio = SCNAction.move(to: movepos, duration: 1)
+            
+            ballNode!.node.runAction(moveActio) {
+                //self.sceneTemplate.playerCharacter.modelNode.addChildNode(self.ballNode!.node)
+                self.baseNode?.node.addChildNode(self.ballNode!.node)
+            }
+            
+            sceneTemplate.playerCharacter.isHoldingSmthg = false
         }
+        
+        
+//        if (!ballNode!.node.isHidden && sphereNode!.isHidden) {
+//
+//            ballNode!.node.isHidden = true
+//            
+//            sphereNode?.isHidden = false
+//        } 
+//        else if (ballNode!.node.isHidden && !sphereNode!.isHidden){
+//
+//            ballNode!.node.isHidden = false
+//            
+//            sphereNode?.isHidden = true
+//        }
         
     }
     
