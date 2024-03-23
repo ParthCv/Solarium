@@ -46,41 +46,43 @@ class PuzzlePedestalTest: Puzzle {
     }
     
     func pedestalInteractDelegate() {
-        let sphereNode =  sceneTemplate.playerCharacter.modelNode.childNode(withName: "Power_Sphere", recursively: true)
-
+        let objectPosOnPlayerNode = sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        
+        let objectPosOnPedNode = sceneTemplate.scene.rootNode.childNode(withName: "BatteryRoot", recursively: true)!
         
         // if ball noed parent is the pedestal and if the player isnt holding anything at the moment
         // nvm the sphere node ncan be a child
         // actually i cn
         if (!sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == baseNode!.node.name) {
-            //Phy on shpere need to nil
-            //ballNode!.node.physicsBody = nil
+            let currPor = self.ballNode!.node.worldPosition
             
-            //ballNode!.node.worldPosition = sceneTemplate.playerCharacter.modelNode.position
+            sceneTemplate.scene.rootNode.addChildNode(ballNode!.node)
             
-            var movepos = sceneTemplate.scene.rootNode.childNode(withName: "Power_Sphere", recursively: true)!.worldPosition
+            //ballNode
             
-            //movepos = sceneTemplate.playerCharacter.modelNode.position
-            
-            movepos = SCNVector3(x: 0, y: 6, z: 0)
+            let movepos = objectPosOnPlayerNode.worldPosition - objectPosOnPedNode.worldPosition
+            //objectPosOnPlayerNode.worldPosition - objectPosOnPedNode.worldPosition
             
             //TODO: Fix the action and find where to  put ball on the player
             
-            let moveActio = SCNAction.move(to: movepos, duration: 1)
+            let moveActio = SCNAction.move(by: movepos, duration: 4)
+            //self.sceneTemplate.scene.rootNode.addChildNode(self.ballNode!.node)
+            
+            
             
             ballNode!.node.runAction(moveActio) {
-                self.sceneTemplate.playerCharacter.modelNode.addChildNode(self.ballNode!.node)
+                objectPosOnPlayerNode.addChildNode(self.ballNode!.node)
             }
             
             sceneTemplate.playerCharacter.isHoldingSmthg = true
             
             
         } else if (sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == sceneTemplate.playerCharacter.nodeName) {
-            var movepos = sceneTemplate.scene.rootNode.childNode(withName: "Power_Sphere", recursively: true)!.worldPosition
+            //var movepos = sceneTemplate.scene.rootNode.childNode(withName: "Power_Sphere", recursively: true)!.worldPosition
             
             //movepos = sceneTemplate.playerCharacter.modelNode.position
             
-            movepos = SCNVector3(x: 0, y: -1, z: 0)
+            var movepos = objectPosOnPedNode.worldPosition
             
             //TODO: Fix the action and find where to  put ball on the player
             
@@ -88,7 +90,7 @@ class PuzzlePedestalTest: Puzzle {
             
             ballNode!.node.runAction(moveActio) {
                 //self.sceneTemplate.playerCharacter.modelNode.addChildNode(self.ballNode!.node)
-                self.baseNode?.node.addChildNode(self.ballNode!.node)
+                objectPosOnPedNode.addChildNode(self.ballNode!.node)
             }
             
             sceneTemplate.playerCharacter.isHoldingSmthg = false
