@@ -56,22 +56,23 @@ class PuzzlePedestalTest: Puzzle {
         if (!sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == baseNode!.node.name) {
             let currPor = self.ballNode!.node.worldPosition
             
-            sceneTemplate.scene.rootNode.addChildNode(ballNode!.node)
+            //sceneTemplate.scene.rootNode.addChildNode(ballNode!.node)
             
             //ballNode
-            
             let movepos = objectPosOnPlayerNode.worldPosition - objectPosOnPedNode.worldPosition
+            print(objectPosOnPlayerNode.worldPosition, " ", objectPosOnPedNode.worldPosition, " ", movepos)
             //objectPosOnPlayerNode.worldPosition - objectPosOnPedNode.worldPosition
             
             //TODO: Fix the action and find where to  put ball on the player
             
-            let moveActio = SCNAction.move(by: movepos, duration: 4)
+            let moveActio = SCNAction.move(by: SCNVector3Make(movepos.x/2, movepos.y/2, movepos.z/2), duration: 1)
             //self.sceneTemplate.scene.rootNode.addChildNode(self.ballNode!.node)
             
-            
+            print(ballNode?.node.worldPosition)
             
             ballNode!.node.runAction(moveActio) {
                 objectPosOnPlayerNode.addChildNode(self.ballNode!.node)
+                print(self.ballNode?.node.worldPosition)
             }
             
             sceneTemplate.playerCharacter.isHoldingSmthg = true
