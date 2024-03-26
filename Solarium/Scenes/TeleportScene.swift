@@ -150,23 +150,14 @@ extension TeleportScene {
 }
 
 class TeleportPuzzleTest: Puzzle{
-    var tele1: Interactable?
-    var tele2: Interactable?
     var hasTaken = false
     
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
-        // Get trackedEntity Start
-        // Get trackedEntity End
-        // Init
-        if trackedEntities[0] != nil {
-            tele1 = trackedEntities[0]
-        }
-        if trackedEntities[1] != nil {
-            tele2 = trackedEntities[1]
-        }
-        tele1!.doInteractDelegate = teleportDelegateMaker(target: tele2)
-        tele2!.doInteractDelegate = teleportDelegateMaker(target: tele1)
+        trackedEntities[0]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[1])
+        trackedEntities[1]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[0])
+        trackedEntities[2]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[3])
+        trackedEntities[3]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[2])
     }
     
     // Per Puzzle Check for Win condition
@@ -177,20 +168,12 @@ class TeleportPuzzleTest: Puzzle{
         }
     }
     
-    func teleportDelegateMaker(target: Interactable?) -> () -> (){
+    func teleportDelegateMaker(target: Interactable?) -> () -> () {
         return {//Do teleport
             let player = self.sceneTemplate.playerCharacter.modelNode
-            let moveAction = SCNAction.move(to: target!.node.position, duration: 0)
+            let moveAction = SCNAction.move(to: target!.node.position + SCNVector3(0,1,0), duration: 0)
             player?.runAction(moveAction)
         }
         
     }
 }
-
-//class TeleportInteractable: Interactable{
-//    var sceneTemplate: SceneTemplate
-//    override init(sceneTemplate: SceneTemplate) {
-//        super.init(node: <#T##SCNNode#>, priority: <#T##TriggerPriority#>, displayText: <#T##String?#>)
-//        self.sceneTemplate = sceneTemplate
-//    }
-//}
