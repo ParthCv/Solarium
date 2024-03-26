@@ -10,7 +10,7 @@ import SpriteKit
 
 // Enum to hold all th escens in the game
 enum SceneEnum : String{
-    case SCN1, SCN2
+    case SCN0, SCN1, SCN2
 }
 
 class SceneController {
@@ -21,6 +21,7 @@ class SceneController {
     // Create a scene file in the "Scenes" folder and extend it from SceneTemplate
     // Add .scn file of the same name to the scnassest.art/ forlder
     var sceneDictionary: [SceneEnum : SceneTemplate] = [
+        .SCN0: TeleportScene(),
         .SCN1: s01_TutorialScene(),
         .SCN2: BaseScene(),
         
