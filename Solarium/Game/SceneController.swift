@@ -21,7 +21,7 @@ class SceneController {
     // Create a scene file in the "Scenes" folder and extend it from SceneTemplate
     // Add .scn file of the same name to the scnassest.art/ forlder
     var sceneDictionary: [SceneEnum : SceneTemplate] = [
-        .SCN0: PedestalScene(),
+        .SCN0: TeleportScene(),
         .SCN1: s01_TutorialScene(),
         .SCN2: BaseScene(),
         
