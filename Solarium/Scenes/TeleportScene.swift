@@ -158,6 +158,10 @@ class TeleportPuzzleTest: Puzzle{
         trackedEntities[1]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[0])
         trackedEntities[2]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[3])
         trackedEntities[3]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[2])
+        
+        trackedEntities[4]!.doInteractDelegate = {
+            self.trackedEntities[5]!.node.isHidden =  !self.trackedEntities[5]!.node.isHidden
+        }
     }
     
     // Per Puzzle Check for Win condition
