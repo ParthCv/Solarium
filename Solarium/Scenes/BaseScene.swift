@@ -83,7 +83,7 @@ class BaseScene: SceneTemplate{
     }
     
     func gameInit() {
-        
+        print("jas wuz here")
     }
     
     @MainActor func update(gameViewController: GameViewController, updateAtTime time: TimeInterval) {

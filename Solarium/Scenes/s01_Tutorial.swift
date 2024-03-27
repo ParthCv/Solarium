@@ -107,7 +107,7 @@ class s01_TutorialScene: SceneTemplate{
                 let nameParts = name.components(separatedBy: "_")
                 
                 if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
-                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.mediumPriority)
+                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.mediumPriority, displayText: nameParts[3])
                 }
                 
                 return true
@@ -121,10 +121,10 @@ class s01_TutorialScene: SceneTemplate{
     }
     
     func gameInit() {
-        var puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable]())
+        var puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
-        var puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable]())
+        var puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle1)
         
         for puzzle in puzzles {

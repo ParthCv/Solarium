@@ -8,10 +8,12 @@ class Puzzle {
     var puzzleID: Int
     var solved: Bool = false
     var trackedEntities: [Int: Interactable]
+    var sceneTemplate: SceneTemplate
     
-    init (puzzleID: Int, trackedEntities: [Int: Interactable]) {
+    init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate: SceneTemplate) {
         self.puzzleID = puzzleID
         self.trackedEntities = trackedEntities
+        self.sceneTemplate = sceneTemplate
     }
     
     // Function called when entities assigned

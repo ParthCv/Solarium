@@ -13,8 +13,8 @@ class Puzzle0 : Puzzle {
     var doorButton : Interactable?
     var door : Interactable?
     
-    override init (puzzleID: Int, trackedEntities: [Int: Interactable]) {
-        super.init(puzzleID: puzzleID, trackedEntities: trackedEntities)
+    override init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate : SceneTemplate) {
+        super.init(puzzleID: puzzleID, trackedEntities: trackedEntities, sceneTemplate: sceneTemplate)
         
         doorButton = nil
         door = nil

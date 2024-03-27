@@ -6,7 +6,7 @@
 //
 import SceneKit
 
-enum TriggerPriority: Int, Comparable {
+enum TriggerPriority: Int, Comparable, CaseIterable {
     case noPriority, lowPriority, mediumPriority, highPriority
     
     static func < (lhs: TriggerPriority, rhs: TriggerPriority) -> Bool {
@@ -26,19 +26,22 @@ class Interactable {
     // Text on the button that get displayed on the button
     var displayText: String?
     
-    var doInteractDelegate: (() -> Void) = {}
+    @Published var doInteractDelegate: (() -> Void)?
     
-    init(node: SCNNode, priority: TriggerPriority) {
+    init(node: SCNNode, priority: TriggerPriority, displayText: String?) {
         self.node = node
         self.priority = priority
         triggerVolume = 5
-        displayText = nil
-        //doInteractDelegate = () -> Void
-        
+        self.displayText = displayText
+        doInteractDelegate = {print("You didnt set a delegate bozo!")}
+    }
+    
+    func setInteractDelegate(function: (()->Void)?) {
+        self.doInteractDelegate = function
     }
         
     // Innteract function that is happens on the click, override this.
     func doInteract(_ sender: JKButtonNode) {
-        doInteractDelegate()
+        doInteractDelegate!()
     }
 }

@@ -39,7 +39,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         super.viewDidLoad()
 
         // Initialize and load the current scene
-        currentScene = SceneController.singleton.switchScene(gameView, currScn: nil, nextScn: SceneEnum.SCN1)
+        currentScene = SceneController.singleton.switchScene(gameView, currScn: nil, nextScn: SceneEnum.SCN0)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -98,7 +98,7 @@ extension GameViewController {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Read touch input
-        if let touch = touch {
+        if let touch = touch { 
             readDpadInput(touch)
         }
         gameView.updateJoystick(dPadDirectionInPixels)
