@@ -52,7 +52,14 @@ class TeleportScene: SceneTemplate{
     }
     
     func gameInit() {
+        let pedPuzzle :Puzzle = TeleportPuzzleTest(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
+        puzzles.append(pedPuzzle)
         
+        for puzzle in puzzles {
+            getPuzzleTrackedEntities(puzzleObj: puzzle)
+        }
+        
+        currentPuzzle = puzzles[0]
     }
     
     @MainActor
@@ -86,13 +93,12 @@ class TeleportScene: SceneTemplate{
         var highestPriority: TriggerPriority? = nil
         var interactableObject: Interactable? = nil
         
-        
-        //        for interactableEntity in currentPuzzle!.trackedEntities{
-        //            if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
-        //                highestPriority = interactableEntity.value.priority
-        //                interactableObject = interactableEntity.value
-        //            }
-        //        }
+        for interactableEntity in currentPuzzle!.trackedEntities{
+            if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
+                highestPriority = interactableEntity.value.priority
+                interactableObject = interactableEntity.value
+            }
+        }
         
         if (interactableObject == nil) {
             gameViewController.interactButton.action = nil
@@ -106,7 +112,25 @@ class TeleportScene: SceneTemplate{
     }
     
     func getPuzzleTrackedEntities(puzzleObj: Puzzle) {
+        var foundKeyValuePairs : [Int: Interactable] = [Int: Interactable]()
         
+        scene.rootNode.childNodes(passingTest:  { (node, stop) -> Bool in
+            if let name = node.name, name.range(of: "P\(puzzleObj.puzzleID)_", options: .regularExpression) != nil {
+                let nameParts = name.components(separatedBy: "_")
+                print(nameParts)
+                if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
+                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
+                    print(foundKeyValuePairs[intCast]?.priority)
+                }
+                
+                return true
+            }
+            
+            return false;
+        })
+        
+        puzzleObj.trackedEntities = foundKeyValuePairs
+        puzzleObj.linkEntitiesToPuzzleLogic()
     }
 }
 
@@ -125,18 +149,19 @@ extension TeleportScene {
     }
 }
 
-class TeleportPuzzle: Puzzle{
-    var tele1: TeleportInteractable?
-    var tele2: TeleportInteractable?
+class TeleportPuzzleTest: Puzzle{
     var hasTaken = false
     
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
-        // Get trackedEntity Start
-        // Get trackedEntity End
-        // Init
-    
-        tele1!.doInteractDelegate = teleportDelegate
+        trackedEntities[0]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[1])
+        trackedEntities[1]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[0])
+        trackedEntities[2]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[3])
+        trackedEntities[3]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[2])
+        
+        trackedEntities[4]!.doInteractDelegate = {
+            self.trackedEntities[5]!.node.isHidden =  !self.trackedEntities[5]!.node.isHidden
+        }
     }
     
     // Per Puzzle Check for Win condition
@@ -147,11 +172,12 @@ class TeleportPuzzle: Puzzle{
         }
     }
     
-    func teleportDelegate(){
-        //Do teleport
+    func teleportDelegateMaker(target: Interactable?) -> () -> () {
+        return {//Do teleport
+            let player = self.sceneTemplate.playerCharacter.modelNode
+            let moveAction = SCNAction.move(to: target!.node.position + SCNVector3(0,1,0), duration: 0)
+            player?.runAction(moveAction)
+        }
+        
     }
-}
-
-class TeleportInteractable: Interactable{
-    
 }

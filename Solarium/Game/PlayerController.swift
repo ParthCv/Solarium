@@ -77,7 +77,7 @@ class PlayerController {
         let playerPosition = playerCharacterNode.position
         
         // Calculate the position of the target position of the camera
-        let targetPosition = SCNVector3(x: playerPosition.x, y: cameraOffset, z: playerPosition.z + cameraOffset)
+        let targetPosition = SCNVector3(x: playerPosition.x, y: playerPosition.y + cameraOffset, z: playerPosition.z + cameraOffset)
         
         var cameraPosition: SCNVector3 = mainCamera.position
         
@@ -89,7 +89,8 @@ class PlayerController {
         // set the position of the camera
         cameraPosition = SCNVector3(cameraXPos, cameraYPos, cameraZPos)
         mainCamera.position = cameraPosition
-        mainCamera.look(at: playerCharacterNode.position)
+        mainCamera.look(at: playerCharacterNode.position) //Camera has rotation
+//        print(mainCamera.eulerAngles)
     }
     
     // Setter and getter for the player state
