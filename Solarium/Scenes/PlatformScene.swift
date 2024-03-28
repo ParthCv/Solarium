@@ -148,6 +148,29 @@ extension PlatformScene {
     }
     
     func setUpPlatform() {
+        // Make the button child of the platform so it moves with it
+        let buttonNode = self.scene.rootNode.childNode(withName: "P0_1_2_PlatformButton", recursively: true)
+        
+        let platformNode = self.scene.rootNode.childNode(withName: "P0_0_0_Platform", recursively: true)
+        
+        let buttonNodePos = buttonNode!.worldPosition
+        let buttonNodeScale = buttonNode!.scale
+        let buttonPhysicsBody = buttonNode!.physicsBody
+        let buttonPresentationPos = buttonNode!.presentation.position
+        
+        platformNode!.addChildNode(buttonNode!)
+        
+        buttonNode!.scale = buttonNodeScale
+        
+        //TODO: figure how how to reparent object with the physics body (issue with moving node not it physics body => presenttion
+        
+        buttonNode!.position = buttonPresentationPos
+        buttonNode!.worldPosition = buttonNodePos
+        //buttonNode!.physicsBody = buttonPhysicsBody
+        // nil for some reason
+        print(buttonNode!.physicsBody)
+        
+        
         
     }
     
