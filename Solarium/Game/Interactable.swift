@@ -33,7 +33,7 @@ class Interactable {
         self.priority = priority
         triggerVolume = 5
         self.displayText = displayText
-        doInteractDelegate = {print("You didnt set a delegate bozo!")}
+        doInteractDelegate = Interactable.defaultInteract
     }
     
     func setInteractDelegate(function: (()->Void)?) {
@@ -43,5 +43,9 @@ class Interactable {
     // Innteract function that is happens on the click, override this.
     func doInteract(_ sender: JKButtonNode) {
         doInteractDelegate!()
+    }
+    
+    static func defaultInteract(){
+        print("this dont do shit - Jas")
     }
 }

@@ -50,65 +50,54 @@ class PuzzlePedestalTest: Puzzle {
         
         let objectPosOnPedNode = sceneTemplate.scene.rootNode.childNode(withName: "BatteryRoot", recursively: true)!
         
-        // if ball noed parent is the pedestal and if the player isnt holding anything at the moment
-        // nvm the sphere node ncan be a child
-        // actually i cn
-        if (!sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == baseNode!.node.name) {
-            let currPor = self.ballNode!.node.worldPosition
+        let currentBallPos = self.ballNode!.node.worldPosition
+
+        // if the player isnt holdin smthg and the base node is the parent of the ball
+        if (!sceneTemplate.playerCharacter.isHoldingSmthg && (ballNode!.node.parent!.name == baseNode!.node.name || ballNode!.node.parent!.name == objectPosOnPedNode.name)) {
+            print("pick up")
             
-            sceneTemplate.scene.rootNode.addChildNode(ballNode!.node)
+            //Reparent to the root node
+            sceneTemplate.scene.rootNode.addChildNode(self.ballNode!.node)
             
-            //ballNode
+            //Reset the position and scale back
+            ballNode!.node.worldPosition = currentBallPos
+            ballNode!.node.scale = SCNVector3(1, 1, 1)
             
-            let movepos = objectPosOnPlayerNode.worldPosition - objectPosOnPedNode.worldPosition
-            //objectPosOnPlayerNode.worldPosition - objectPosOnPedNode.worldPosition
+            let toPos = objectPosOnPlayerNode.worldPosition
             
-            //TODO: Fix the action and find where to  put ball on the player
+            let moveAction = SCNAction.move(to: toPos, duration: 1)
             
-            let moveActio = SCNAction.move(by: movepos, duration: 4)
-            //self.sceneTemplate.scene.rootNode.addChildNode(self.ballNode!.node)
-            
-            
-            
-            ballNode!.node.runAction(moveActio) {
+            ballNode!.node.runAction(moveAction) {
+                let newPos = self.ballNode!.node.worldPosition
                 objectPosOnPlayerNode.addChildNode(self.ballNode!.node)
+                self.ballNode!.node.scale = SCNVector3(1, 1, 1)
+                self.ballNode!.node.worldPosition = newPos
+                self.sceneTemplate.playerCharacter.isHoldingSmthg = true
             }
             
-            sceneTemplate.playerCharacter.isHoldingSmthg = true
+        } else if (sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == objectPosOnPlayerNode.name) {
+            //Reparent to the root node
             
+            print("drop")
             
-        } else if (sceneTemplate.playerCharacter.isHoldingSmthg && ballNode!.node.parent!.name == sceneTemplate.playerCharacter.nodeName) {
-            //var movepos = sceneTemplate.scene.rootNode.childNode(withName: "Power_Sphere", recursively: true)!.worldPosition
+            sceneTemplate.scene.rootNode.addChildNode(self.ballNode!.node)
             
-            //movepos = sceneTemplate.playerCharacter.modelNode.position
+            //Reset the position and scale back
+            ballNode!.node.worldPosition = currentBallPos
+            ballNode!.node.scale = SCNVector3(1, 1, 1)
             
-            var movepos = objectPosOnPedNode.worldPosition
+            let toPos = objectPosOnPedNode.worldPosition
             
-            //TODO: Fix the action and find where to  put ball on the player
+            let moveAction = SCNAction.move(to: toPos, duration: 1)
             
-            let moveActio = SCNAction.move(to: movepos, duration: 1)
-            
-            ballNode!.node.runAction(moveActio) {
-                //self.sceneTemplate.playerCharacter.modelNode.addChildNode(self.ballNode!.node)
+            ballNode!.node.runAction(moveAction) {
+                let newPos = self.ballNode!.node.worldPosition
                 objectPosOnPedNode.addChildNode(self.ballNode!.node)
+                self.ballNode!.node.scale = SCNVector3(0.5, 0.5, 0.5)
+                self.ballNode!.node.worldPosition = newPos
+                self.sceneTemplate.playerCharacter.isHoldingSmthg = false
             }
-            
-            sceneTemplate.playerCharacter.isHoldingSmthg = false
         }
-        
-        
-//        if (!ballNode!.node.isHidden && sphereNode!.isHidden) {
-//
-//            ballNode!.node.isHidden = true
-//            
-//            sphereNode?.isHidden = false
-//        } 
-//        else if (ballNode!.node.isHidden && !sphereNode!.isHidden){
-//
-//            ballNode!.node.isHidden = false
-//            
-//            sphereNode?.isHidden = true
-//        }
         
     }
     

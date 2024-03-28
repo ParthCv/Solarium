@@ -118,9 +118,11 @@ class TeleportScene: SceneTemplate{
             if let name = node.name, name.range(of: "P\(puzzleObj.puzzleID)_", options: .regularExpression) != nil {
                 let nameParts = name.components(separatedBy: "_")
                 print(nameParts)
-                if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
+                if nameParts.count >= 2 {
+                    let interactableIndex = nameParts[1]
+                    let intCast = Int(String(interactableIndex))!
                     foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
-                    print(foundKeyValuePairs[intCast]?.priority)
+                    print(foundKeyValuePairs[intCast]?.priority as Any)
                 }
                 
                 return true
@@ -150,7 +152,7 @@ extension TeleportScene {
 }
 
 class TeleportPuzzleTest: Puzzle{
-    var hasTaken = false
+    var statePuzzle = Array(repeating:false, count:3)
     
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
@@ -159,15 +161,30 @@ class TeleportPuzzleTest: Puzzle{
         trackedEntities[2]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[3])
         trackedEntities[3]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[2])
         
-        trackedEntities[4]!.doInteractDelegate = {
-            self.trackedEntities[5]!.node.isHidden =  !self.trackedEntities[5]!.node.isHidden
-        }
+        trackedEntities[4]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
+            0: trackedEntities[7],
+            1: trackedEntities[8]
+        ])
+        trackedEntities[5]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
+            0: trackedEntities[7],
+            1: trackedEntities[8],
+            2: trackedEntities[9]
+        ])
+        trackedEntities[6]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
+            1: trackedEntities[8],
+            2: trackedEntities[9]
+        ])
+        trackedEntities[11]!.doInteractDelegate = Door(node: trackedEntities[12]!.node, openState: nil).toggleDoor
     }
     
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
-        if (hasTaken) {
+        if (statePuzzle[0] && statePuzzle[1] && statePuzzle[2]) {
             print("Puzzle Complete")
+            trackedEntities[10]!.node.eulerAngles.x = -90
+            trackedEntities[4]!.doInteractDelegate = Interactable.defaultInteract
+            trackedEntities[5]!.doInteractDelegate = Interactable.defaultInteract
+            trackedEntities[6]!.doInteractDelegate = Interactable.defaultInteract
             self.solved = true
         }
     }
@@ -179,5 +196,48 @@ class TeleportPuzzleTest: Puzzle{
             player?.runAction(moveAction)
         }
         
+    }
+    
+    func stateButtonDelegateMaker(sets:[Int: Interactable?]) -> () -> (){
+        return {
+            for set in sets {
+                self.statePuzzle[set.key] = !self.statePuzzle[set.key]
+                set.value?.node.eulerAngles.x = self.statePuzzle[set.key] ? -90 : 0
+            }
+            self.checkPuzzleWinCon()
+        }
+    }
+}
+
+class Door {
+    // Node for the model
+    var modelNode: SCNNode!
+    
+    
+    var animationController = AnimationController()
+    var animations: Dictionary<String, SCNAnimationPlayer> = Dictionary<String, SCNAnimationPlayer>()
+    
+    var isOpen = false
+    
+    init(node: SCNNode, openState: Bool?){
+        //get the root node from the scene with all the child nodes
+        self.modelNode = node;
+        self.animations = animationController.loadAnimations(animationFile: "DoorAnimations")
+        for (key, anim) in animations{
+            anim.animation.isRemovedOnCompletion = false
+            self.modelNode.addAnimationPlayer(anim, forKey: key)
+        }
+    }
+    
+    func toggleDoor(){
+        isOpen = !isOpen
+        isOpen ? openDoor() : closeDoor()
+    }
+    
+    func openDoor(){
+        animationController.playAnimation(animations: self.animations, key: "open")
+    }
+    func closeDoor(){
+        animationController.playAnimation(animations: self.animations, key: "close")
     }
 }
