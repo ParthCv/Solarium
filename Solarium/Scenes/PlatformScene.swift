@@ -160,19 +160,20 @@ extension PlatformScene {
         //let buttonPhysicsBody = buttonNode!.physicsBody
        
         print(btnRoot.presentation.worldPosition)
-        platformNode!.addChildNode(btnRoot)
+//        platformNode!.addChildNode(btnRoot)
         platformNode!.addChildNode(buttonNode!)
         
         btnRoot.scale = buttonNodeScale
         
         //TODO: figure how how to reparent object with the physics body (issue with moving node not it physics body => presenttion
         //or maybe its because im moving the c
-        //btnRoot.physicsBody!.resetTransform()
         //btnRoot.presentation.worldPosition = buttonPresentationPos
-        btnRoot.worldPosition = buttonNodePos
+//        buttonNode!.presentation.worldPosition = buttonNodePos
+//        btnRoot.worldPosition = buttonNodePos
         buttonNode?.worldPosition = buttonNodePos
         //buttonNode!.physicsBody = buttonPhysicsBody
         // nil for some reason
+        btnRoot.physicsBody!.resetTransform()
         print(btnRoot.presentation.worldPosition)
         
         //Move the platform to the start point
