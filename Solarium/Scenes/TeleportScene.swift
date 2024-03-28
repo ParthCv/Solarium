@@ -174,9 +174,7 @@ class TeleportPuzzleTest: Puzzle{
             1: trackedEntities[8],
             2: trackedEntities[9]
         ])
-        
-        let door = Door(node: trackedEntities[12]!.node)
-        trackedEntities[11]!.doInteractDelegate = door.openDoor
+        trackedEntities[11]!.doInteractDelegate = Door(node: trackedEntities[12]!.node, openState: nil).toggleDoor
     }
     
     // Per Puzzle Check for Win condition
@@ -219,19 +217,27 @@ class Door {
     var animationController = AnimationController()
     var animations: Dictionary<String, SCNAnimationPlayer> = Dictionary<String, SCNAnimationPlayer>()
     
+    var isOpen = false
     
-    init(node: SCNNode){
+    init(node: SCNNode, openState: Bool?){
         //get the root node from the scene with all the child nodes
         self.modelNode = node;
         self.animations = animationController.loadAnimations(animationFile: "DoorAnimations")
         for (key, anim) in animations{
-            print(key)
+            anim.animation.isRemovedOnCompletion = false
             self.modelNode.addAnimationPlayer(anim, forKey: key)
         }
     }
     
+    func toggleDoor(){
+        isOpen = !isOpen
+        isOpen ? openDoor() : closeDoor()
+    }
+    
     func openDoor(){
-        print("fuck")
         animationController.playAnimation(animations: self.animations, key: "open")
+    }
+    func closeDoor(){
+        animationController.playAnimation(animations: self.animations, key: "close")
     }
 }

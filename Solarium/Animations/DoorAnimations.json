@@ -1,4 +1,4 @@
 {
-    "dummy" : ""
-    "open" : "art.scnassets/SK_DoorOpenAnim.scn"
+    "open" : "art.scnassets/SK_DoorOpenAnim.scn",
+    "close" : "art.scnassets/SK_DoorCloseAnim.scn"
 }
