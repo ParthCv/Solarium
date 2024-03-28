@@ -161,21 +161,10 @@ class TeleportPuzzleTest: Puzzle{
         trackedEntities[2]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[3])
         trackedEntities[3]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[2])
         
-        trackedEntities[4]!.doInteractDelegate = { [self] in
-            statePuzzle[0] = !statePuzzle[0]
-            trackedEntities[7]!.node.eulerAngles.x = statePuzzle[0] ? -90 : 0
-            self.checkPuzzleWinCon()
-        }
-        trackedEntities[5]!.doInteractDelegate = { [self] in
-            statePuzzle[1] = !statePuzzle[1]
-            trackedEntities[8]!.node.eulerAngles.x = statePuzzle[1] ? -90 : 0
-            self.checkPuzzleWinCon()
-        }
-        trackedEntities[6]!.doInteractDelegate = { [self] in
-            statePuzzle[2] = !statePuzzle[2]
-            trackedEntities[9]!.node.eulerAngles.x = statePuzzle[2] ? -90 : 0
-            self.checkPuzzleWinCon()
-        }
+        trackedEntities[4]!.doInteractDelegate = stateButtonDelegateMaker(flag: 0, target: trackedEntities[7])
+        trackedEntities[5]!.doInteractDelegate = stateButtonDelegateMaker(flag: 1, target: trackedEntities[8])
+        trackedEntities[6]!.doInteractDelegate = stateButtonDelegateMaker(flag: 2, target: trackedEntities[9])
+        
     }
     
     // Per Puzzle Check for Win condition
@@ -197,5 +186,13 @@ class TeleportPuzzleTest: Puzzle{
             player?.runAction(moveAction)
         }
         
+    }
+    
+    func stateButtonDelegateMaker(flag: Int, target: Interactable?) -> () -> (){
+        return {
+            self.statePuzzle[flag] = !self.statePuzzle[flag]
+            target?.node.eulerAngles.x = self.statePuzzle[flag] ? -90 : 0
+            self.checkPuzzleWinCon()
+        }
     }
 }
