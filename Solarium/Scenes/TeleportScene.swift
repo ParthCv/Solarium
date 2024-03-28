@@ -161,9 +161,19 @@ class TeleportPuzzleTest: Puzzle{
         trackedEntities[2]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[3])
         trackedEntities[3]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[2])
         
-        trackedEntities[4]!.doInteractDelegate = stateButtonDelegateMaker(flag: 0, target: trackedEntities[7])
-        trackedEntities[5]!.doInteractDelegate = stateButtonDelegateMaker(flag: 1, target: trackedEntities[8])
-        trackedEntities[6]!.doInteractDelegate = stateButtonDelegateMaker(flag: 2, target: trackedEntities[9])
+        trackedEntities[4]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
+            0: trackedEntities[7],
+            1: trackedEntities[8]
+        ])
+        trackedEntities[5]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
+            0: trackedEntities[7],
+            1: trackedEntities[8],
+            2: trackedEntities[9]
+        ])
+        trackedEntities[6]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
+            1: trackedEntities[8],
+            2: trackedEntities[9]
+        ])
         
     }
     
@@ -188,10 +198,12 @@ class TeleportPuzzleTest: Puzzle{
         
     }
     
-    func stateButtonDelegateMaker(flag: Int, target: Interactable?) -> () -> (){
+    func stateButtonDelegateMaker(sets:[Int: Interactable?]) -> () -> (){
         return {
-            self.statePuzzle[flag] = !self.statePuzzle[flag]
-            target?.node.eulerAngles.x = self.statePuzzle[flag] ? -90 : 0
+            for set in sets {
+                self.statePuzzle[set.key] = !self.statePuzzle[set.key]
+                set.value?.node.eulerAngles.x = self.statePuzzle[set.key] ? -90 : 0
+            }
             self.checkPuzzleWinCon()
         }
     }
