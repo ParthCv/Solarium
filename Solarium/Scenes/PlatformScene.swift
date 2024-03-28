@@ -153,24 +153,34 @@ extension PlatformScene {
         
         let platformNode = self.scene.rootNode.childNode(withName: "P0_0_0_Platform", recursively: true)
         
-        let buttonNodePos = buttonNode!.worldPosition
-        let buttonNodeScale = buttonNode!.scale
-        let buttonPhysicsBody = buttonNode!.physicsBody
-        let buttonPresentationPos = buttonNode!.presentation.position
+        let btnRoot = platformNode!.childNodes[0]
         
+        let buttonNodePos = btnRoot.worldPosition
+        let buttonNodeScale = btnRoot.scale
+        //let buttonPhysicsBody = buttonNode!.physicsBody
+       
+        print(btnRoot.presentation.worldPosition)
+        platformNode!.addChildNode(btnRoot)
         platformNode!.addChildNode(buttonNode!)
         
-        buttonNode!.scale = buttonNodeScale
+        btnRoot.scale = buttonNodeScale
         
         //TODO: figure how how to reparent object with the physics body (issue with moving node not it physics body => presenttion
-        
-        buttonNode!.position = buttonPresentationPos
-        buttonNode!.worldPosition = buttonNodePos
+        //or maybe its because im moving the c
+        //btnRoot.physicsBody!.resetTransform()
+        //btnRoot.presentation.worldPosition = buttonPresentationPos
+        btnRoot.worldPosition = buttonNodePos
+        buttonNode?.worldPosition = buttonNodePos
         //buttonNode!.physicsBody = buttonPhysicsBody
         // nil for some reason
-        print(buttonNode!.physicsBody)
+        print(btnRoot.presentation.worldPosition)
         
+        //Move the platform to the start point
+        let startPlatformEdge = self.scene.rootNode.childNode(withName: "P0_3_0_PlatformStart", recursively: true)
         
+        let startPos = startPlatformEdge!.childNodes[1].worldPosition
+        //platformNode!.position = startPos
+        //platformNode!.physicsBody!.resetTransform()
         
     }
     

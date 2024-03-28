@@ -47,6 +47,18 @@ class PuzzleMovingPlatformTest: Puzzle {
     func pedestalInteractDelegate() {
         print("BTN pressed")
         
+        let startPos = platformStart!.node.childNodes[1].worldPosition
+        let endPos = platformEnd!.node.childNodes[1].worldPosition
+        
+        print("start ",startPos," end ",endPos)
+        
+        let moveAction = SCNAction.move(to: startPos, duration: 4)
+        
+        platformNode!.node.runAction(moveAction) {
+            print("Moved to end ", self.platformNode?.node.worldPosition)
+            
+        }
+        
     }
     
 }
