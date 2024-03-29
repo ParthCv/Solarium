@@ -11,7 +11,7 @@ class s01_TutorialScene: SceneTemplate{
     var playerCharacter: PlayerCharacter
     var mainCamera: SCNNode
     var puzzles: [Puzzle]
-    var currentPuzzle: Puzzle?
+    var currentPuzzle: Int
     
     var deletableNodes: [SCNNode]
     
@@ -19,10 +19,12 @@ class s01_TutorialScene: SceneTemplate{
         var highestPriority: TriggerPriority? = nil
         var interactableObject: Interactable? = nil
         
-        for interactableEntity in currentPuzzle!.trackedEntities{
-            if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
-                highestPriority = interactableEntity.value.priority
-                interactableObject = interactableEntity.value
+        for puzzle in puzzles {
+            for interactableEntity in puzzle.trackedEntities{
+                if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
+                    highestPriority = interactableEntity.value.priority
+                    interactableObject = interactableEntity.value
+                }
             }
         }
         
@@ -35,8 +37,6 @@ class s01_TutorialScene: SceneTemplate{
             gameViewController.interactButton.title.text = interactableObject!.displayText
             gameViewController.interactButton.isHidden = false
         }
-        
-        
     }
     
     @MainActor func update(gameViewController: GameViewController, updateAtTime time: TimeInterval) {
@@ -69,7 +69,7 @@ class s01_TutorialScene: SceneTemplate{
         scene = SCNScene(named: "scenes.scnassets/s01_Tutorial.scn")
          deletableNodes = []
          puzzles = []
-         currentPuzzle = nil
+         currentPuzzle = 0
          playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
          mainCamera = SCNNode()
     }
@@ -106,7 +106,7 @@ class s01_TutorialScene: SceneTemplate{
                 let nameParts = name.components(separatedBy: "_")
                 
                 if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
-                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.mediumPriority, displayText: nameParts[3])
+                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
                 }
                 
                 return true
@@ -129,23 +129,9 @@ class s01_TutorialScene: SceneTemplate{
         for puzzle in puzzles {
             getPuzzleTrackedEntities(puzzleObj: puzzle)
         }
-        
-        currentPuzzle = puzzles[0]
     }
     
     @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
-        switch contact.nodeA.physicsBody!.categoryBitMask {
-            
-        case SolariumCollisionBitMask.interactable.rawValue:
-            print("Hit a cube")
-            gameViewController.currentScene = SceneController.singleton.switchScene(gameViewController.gameView, currScn: gameViewController.currentScene, nextScn: .SCN2)
-            //Set player pos to scene entrance
-            break
-            
-        default:
-            break
-        }
-        
     }
     
     func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact) {
