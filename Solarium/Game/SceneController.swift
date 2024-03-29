@@ -21,8 +21,9 @@ class SceneController {
     // Create a scene file in the "Scenes" folder and extend it from SceneTemplate
     // Add .scn file of the same name to the scnassest.art/ forlder
     var sceneDictionary: [SceneEnum : SceneTemplate] = [
+        .SCN0: s04_Tree(),
         .SCN1: s01_TutorialScene(),
-        //.SCN2: s02_Agriculture(),
+        .SCN2: s02_Agriculture(),
         .SCN3: s03_Lights(),
         .SCN4: s04_Tree(),
         
