@@ -18,9 +18,10 @@ class Puzzle0 : Puzzle {
     }
     
     override func checkPuzzleWinCon() {
-        if self.door.isOpen {
+        if (!solved && self.door.isOpen) {
             print("Puzzle 0 Complete")
             solved = true
+            (sceneTemplate as! s01_TutorialScene).nextPuzzle() //TODO: EW GROSS change SceneTemplate from protocol to class
         }
     }
 }

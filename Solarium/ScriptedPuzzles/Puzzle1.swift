@@ -8,6 +8,7 @@
 import SceneKit
 
 class Puzzle1 : Puzzle {
+    var isFinalDoorOpen = false
     
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
@@ -27,32 +28,17 @@ class Puzzle1 : Puzzle {
         button.doInteractDelegate = {
             if !ped2.node.childNode(withName: "BatteryRoot", recursively: true)!.childNodes.isEmpty {
                 door.toggleDoor()
+                self.isFinalDoorOpen = door.isOpen
                 self.checkPuzzleWinCon()
             }
         }
-        //        trackedEntities[0]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[1])
-        //        trackedEntities[1]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[0])
-        //        trackedEntities[2]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[3])
-        //        trackedEntities[3]!.doInteractDelegate = teleportDelegateMaker(target: trackedEntities[2])
-        //
-        //        trackedEntities[4]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
-        //            0: trackedEntities[7],
-        //            1: trackedEntities[8]
-        //        ])
-        //        trackedEntities[5]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
-        //            0: trackedEntities[7],
-        //            1: trackedEntities[8],
-        //            2: trackedEntities[9]
-        //        ])
-        //        trackedEntities[6]!.doInteractDelegate = stateButtonDelegateMaker(sets: [
-        //            1: trackedEntities[8],
-        //            2: trackedEntities[9]
-        //        ])
-        //        trackedEntities[11]!.doInteractDelegate = Door(node: trackedEntities[12]!.node, openState: nil).toggleDoor
     }
     
     override func checkPuzzleWinCon(){
-        
+        if (!solved && isFinalDoorOpen) {
+            self.solved = true
+            (sceneTemplate as! s01_TutorialScene).allPuzzlesDone() //TODO: EW GROSS change SceneTemplate from protocol to class
+        }
     }
     
     func setUpPedestal(baseNode: SCNNode, ballNode: SCNNode) {

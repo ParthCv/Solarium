@@ -131,6 +131,15 @@ class s01_TutorialScene: SceneTemplate{
         }
     }
     
+    func nextPuzzle() {
+        currentPuzzle += 1
+        print("current puzzle: ", currentPuzzle)
+    }
+    
+    func allPuzzlesDone(){
+        print("All puzzles done")
+    }
+    
     @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
     }
     
