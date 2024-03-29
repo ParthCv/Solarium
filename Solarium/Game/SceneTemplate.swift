@@ -7,50 +7,138 @@
 
 import SceneKit
 
-// Abstract class to hold the basic info for a scene
-protocol SceneTemplate {
+/// Abstract class to hold the basic info for a scene
+///
+///var mainCamera: SCNNode, Main camera in the scene
+///
+///var playerCharacter: PlayerCharacter, Player charecter object
+///
+///var scene: SCNScene!, The scene itself in the scnasset folder
+///
+///var isUnloadable: Bool, Flag to make the scene unloaded after the switch
+///
+///var puzzles: [Puzzle], The list of puzzles for this scene
+///
+///var currentPuzzle: Int, Index of currentPuzzle
+///
+///var deletableNodes: [SCNNode],  list of all deletable nodes
+///
+class SceneTemplate {
     // Main camera in the scene
-    var mainCamera: SCNNode { get }
+    var mainCamera: SCNNode = SCNNode()
     
     // player charecter object
-    var playerCharacter: PlayerCharacter { get }
+    var playerCharacter: PlayerCharacter
     
     // the scene itself in the scnasset folder
-    var scene: SCNScene! { get }
+    var scene: SCNScene! = nil
     
     // flag to make the scene unloaded after the switch
-    var isUnloadable: Bool { get }
+    var isUnloadable: Bool
     
     // the list of puzzles for this scene
-    var puzzles: [Puzzle] {set get}
+    var puzzles: [Puzzle]
+    var currentPuzzle: Int
     
     // list of all deletable nodes
-    var deletableNodes: [SCNNode] {get set}
+    var deletableNodes: [SCNNode]
+    
+    init(){
+        isUnloadable = false
+        deletableNodes = []
+        puzzles = []
+        currentPuzzle = 0
+        playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
+        mainCamera = SCNNode()
+    }
     
     // preload for the scene
-    func load()
+    func load(){}
     
     // delete the nodes from memeory
-    func unload()
+    func unload(){}
     
-    // The function called on the scene to perform Solarium game setup logic
-    @MainActor func gameInit()
+    /// The function called on the scene to perform Solarium game setup logic
+    @MainActor func gameInit(){}
     
-    // trihher any interactable in the scene based on conditions and priority
-    @MainActor func triggerInteractables(gameViewController: GameViewController)
+    /// Searches the node tree for nodes prefixed by the PuzzleID inside puzzleObj
+    @MainActor func getPuzzleTrackedEntities(puzzleObj: Puzzle){
+        var foundKeyValuePairs : [Int: Interactable] = [Int: Interactable]()
+        scene.rootNode.childNodes(passingTest:  { (node, stop) -> Bool in
+            if let name = node.name, name.range(of: "P\(puzzleObj.puzzleID)_", options: .regularExpression) != nil {
+                let nameParts = name.components(separatedBy: "_")
+                
+                if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
+                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
+                }
+                return true
+            }
+            return false
+        })
+        
+        puzzleObj.trackedEntities = foundKeyValuePairs
+        puzzleObj.linkEntitiesToPuzzleLogic()
+    }
     
-    // the rendering update for the scene
-    @MainActor func update(gameViewController: GameViewController, updateAtTime time: TimeInterval)
+    ///Go to next Puzzle
+    ///
+    ///Increment currentPuzzle
+    func nextPuzzle() {
+        currentPuzzle += 1
+        print("current puzzle: ", currentPuzzle)
+    }
     
-    // physics updates for the scene
-    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)
+    ///Called when all puzzles are done
+    func allPuzzlesDone(){
+        print("All puzzles done")
+    }
+    
+    /// the rendering update for the scene
+    @MainActor func update(gameViewController: GameViewController, updateAtTime time: TimeInterval){
+        triggerInteractables(gameViewController: gameViewController)
+        // Move and rotate the player from the inputs of the d-pad
+        playerCharacter.playerController.movePlayerInXAndYDirection(
+            changeInX: gameViewController.normalizedInputDirection.x,
+            changeInZ: gameViewController.normalizedInputDirection.y,
+            rotAngle: gameViewController.degree,
+            deltaTime: time - gameViewController.lastTickTime
+        )
+        
+        // Make the camera follow the player
+        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
+    }
+    
+    /// physics updates for the scene
+    @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController){}
 
-    // physics updates for the scene
-    @MainActor func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact,  gameViewController: GameViewController)
+    /// physics updates for the scene
+    @MainActor func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact,  gameViewController: GameViewController){}
 
-    // physics updates for the scene
-    @MainActor func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController)
+    /// physics updates for the scene
+    @MainActor func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController){}
     
-    // Searches the node tree for nodes prefixed by the PuzzleID inside puzzleObj
-    @MainActor func getPuzzleTrackedEntities(puzzleObj: Puzzle)
+    /// Trigger any interactable in the scene based on conditions and priority
+    @MainActor func triggerInteractables(gameViewController: GameViewController){
+        var highestPriority: TriggerPriority? = nil
+        var interactableObject: Interactable? = nil
+        
+        for puzzle in puzzles {
+            for interactableEntity in puzzle.trackedEntities{
+                if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
+                    highestPriority = interactableEntity.value.priority
+                    interactableObject = interactableEntity.value
+                }
+            }
+        }
+        
+        if (interactableObject == nil) {
+            gameViewController.interactButton.action = nil
+            gameViewController.interactButton.title.text = ""
+            gameViewController.interactButton.isHidden = true
+        } else {
+            gameViewController.interactButton.action = interactableObject!.doInteract
+            gameViewController.interactButton.title.text = interactableObject!.displayText
+            gameViewController.interactButton.isHidden = false
+        }
+    }
 }

@@ -8,44 +8,19 @@
 import SceneKit
 
 class PlatformScene: SceneTemplate {
-    var mainCamera: SCNNode
+
     
-    var playerCharacter: PlayerCharacter
-    
-    func update(gameViewController: GameViewController, updateAtTime time: TimeInterval) {
-        triggerInteractables(gameViewController: gameViewController)
-        // Move and rotate the player from the inputs of the d-pad
-        playerCharacter.playerController.movePlayerInXAndYDirection(
-            changeInX: gameViewController.normalizedInputDirection.x,
-            changeInZ: gameViewController.normalizedInputDirection.y,
-            rotAngle: gameViewController.degree,
-            deltaTime: time - gameViewController.lastTickTime
-        )
-        
-        // Make the camera follow the player
-        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
-    }
-    
-    var scene: SCNScene!
-    
-    var isUnloadable: Bool = false
-    
-    var puzzles: [Puzzle]
-    
-    var deletableNodes: [SCNNode]
-    
-    var currentPuzzle: Puzzle?
-    
-    init() {
+    override init() {
+        super.init()
         scene = SCNScene(named: "scenes.scnassets/parthPlatformScene.scn")
         deletableNodes = []
         puzzles = []
-        currentPuzzle = nil
+        currentPuzzle = 0
         playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
         mainCamera = SCNNode()
     }
     
-    func load() {
+    override func load() {
         scene.rootNode.addChildNode(createFloor())
         // Add the player to the scene
         scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
@@ -55,7 +30,7 @@ class PlatformScene: SceneTemplate {
         setUpPlatform()
     }
     
-    func unload() {
+    override func unload() {
         if isUnloadable {
             scene.rootNode.enumerateChildNodes { (node, stop) in
                     node.removeFromParentNode()
@@ -63,7 +38,7 @@ class PlatformScene: SceneTemplate {
         }
     }
     
-    func gameInit() {
+    override func gameInit() {
         let pedPuzzle :Puzzle = PuzzleMovingPlatformTest(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(pedPuzzle)
         
@@ -71,66 +46,8 @@ class PlatformScene: SceneTemplate {
             getPuzzleTrackedEntities(puzzleObj: puzzle)
         }
         
-        currentPuzzle = puzzles[0]
+        currentPuzzle = 0
     }
-    
-    func triggerInteractables(gameViewController: GameViewController) {
-        var highestPriority: TriggerPriority? = nil
-        var interactableObject: Interactable? = nil
-        
-        for interactableEntity in currentPuzzle!.trackedEntities{
-            if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
-                highestPriority = interactableEntity.value.priority
-                interactableObject = interactableEntity.value
-            }
-        }
-        
-        if (interactableObject == nil) {
-            gameViewController.interactButton.action = nil
-            gameViewController.interactButton.title.text = ""
-            gameViewController.interactButton.isHidden = true
-        } else {
-            gameViewController.interactButton.action = interactableObject!.doInteract
-            gameViewController.interactButton.title.text = interactableObject!.displayText
-            gameViewController.interactButton.isHidden = false
-        }
-    }
-    
-    func physicsWorldDidBegin(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
-        
-    }
-    
-    func physicsWorldDidEnd(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
-        
-    }
-    
-    func physicsWorldDidUpdate(_ world: SCNPhysicsWorld, contact: SCNPhysicsContact, gameViewController: GameViewController) {
-        
-    }
-    
-    func getPuzzleTrackedEntities(puzzleObj: Puzzle) {
-        var foundKeyValuePairs : [Int: Interactable] = [Int: Interactable]()
-
-        scene.rootNode.childNodes(passingTest:  { (node, stop) -> Bool in
-            if let name = node.name, name.range(of: "P\(puzzleObj.puzzleID)_", options: .regularExpression) != nil {
-                let nameParts = name.components(separatedBy: "_")
-                print(nameParts)
-                if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
-                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
-                    print(foundKeyValuePairs[intCast]?.priority)
-                }
-                
-                return true
-            }
-            
-            return false;
-        })
-        
-        puzzleObj.trackedEntities = foundKeyValuePairs
-        puzzleObj.linkEntitiesToPuzzleLogic()
-    }
-    
-    
 }
 
 

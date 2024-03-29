@@ -1,21 +1,17 @@
 //
-//  PedestalScene.swift
+//  s04_PlatformPuzzle.swift
 //  Solarium
 //
-//  Created by Parth Chaturvedi on 2024-03-14.
+//  Created by Parth Chaturvedi on 2024-03-28.
 //
 
 import SceneKit
 
-class PedestalScene: SceneTemplate {
+class s04_Tree: SceneTemplate {
+    
     override init() {
         super.init()
-        scene = SCNScene(named: "scenes.scnassets/parthPedestalScene.scn")
-        deletableNodes = []
-        puzzles = []
-        currentPuzzle = 0
-        playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
-        mainCamera = SCNNode()
+        scene = SCNScene(named: "scenes.scnassets/Puzzle4.scn")
     }
     
     override func load() {
@@ -25,7 +21,7 @@ class PedestalScene: SceneTemplate {
         
         // Add a camera to the scene
         mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true)!
-        setUpPedestal()
+        //setUpPedestal()
     }
     
     override func unload() {
@@ -38,18 +34,18 @@ class PedestalScene: SceneTemplate {
     
     override func gameInit() {
         let pedPuzzle :Puzzle = PuzzlePedestalTest(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
-        puzzles.append(pedPuzzle)
+        //puzzles.append(pedPuzzle)
         
         for puzzle in puzzles {
             getPuzzleTrackedEntities(puzzleObj: puzzle)
         }
         
-        currentPuzzle = 0
+        //currentPuzzle = puzzles[0]
     }
 }
 
 
-extension PedestalScene {
+extension s04_Tree{
     
     func createFloor() -> SCNNode {
         let floorNode = SCNNode()
@@ -57,8 +53,6 @@ extension PedestalScene {
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
         
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-
-        
 
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
 

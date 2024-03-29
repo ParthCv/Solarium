@@ -1,56 +1,45 @@
 //
-//  01_TutorialScene.swift
+//  s03_Lights.swift
 //  Solarium
 //
-//  Created by Kyle Ng on 2024-03-04.
+//  Created by Kyle Ng on 2024-03-29.
 //
 
 import SceneKit
 
-class s01_TutorialScene: SceneTemplate{
+class s03_Lights: SceneTemplate{
     
     override init() {
         super.init()
-        scene = SCNScene(named: "scenes.scnassets/s01_Tutorial.scn")
+        scene = SCNScene(named: "scenes.scnassets/s03_Lights.scn")
     }
     
     override func load() {
         scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
         scene.rootNode.addChildNode(createFloor())
-
+        
         // Add the player to the scene
         scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
         // Add a camera to the scene
         mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
-        // Init puzzles belonging to Scene
-        // Get all child nodes per puzzle
-        // Assign associated classes to nodes
     }
     
     override func unload() {
         if isUnloadable {
             scene.rootNode.enumerateChildNodes { (node, stop) in
-                    node.removeFromParentNode()
-                }
+                node.removeFromParentNode()
+            }
         }
     }
     
     override func gameInit() {
-        let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
-        puzzles.append(puzzle0)
-        
-        let puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
-        puzzles.append(puzzle1)
-        
-        for puzzle in puzzles {
-            getPuzzleTrackedEntities(puzzleObj: puzzle)
-        }
+        //TODO: Add puzzles
     }
+    
 }
 
-extension s01_TutorialScene {
+extension s03_Lights {
     
     func addAmbientLighting() -> SCNNode {
         let ambientLight = SCNNode()
@@ -64,7 +53,7 @@ extension s01_TutorialScene {
         let floorNode = SCNNode()
         floorNode.geometry = SCNFloor()
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-
+        
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         return floorNode
     }
