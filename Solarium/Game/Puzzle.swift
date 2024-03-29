@@ -3,7 +3,7 @@ import SceneKit
 class Puzzle {
     
     /*
-        Naming Convention for each puzzleID trackedEntities
+     Naming Convention for each puzzleID trackedEntities
      */
     var puzzleID: Int
     var solved: Bool = false
@@ -21,4 +21,5 @@ class Puzzle {
     
     // Per Puzzle Check for Win condition
     func checkPuzzleWinCon(){}
+    
 }
