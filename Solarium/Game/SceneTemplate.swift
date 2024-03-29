@@ -68,7 +68,9 @@ class SceneTemplate {
             if let name = node.name, name.range(of: "P\(puzzleObj.puzzleID)_", options: .regularExpression) != nil {
                 let nameParts = name.components(separatedBy: "_")
                 
-                if nameParts.count >= 2, let interactableIndex = (nameParts[1].first), let intCast = Int(String(interactableIndex)) {
+                if nameParts.count >= 2 {
+                    let interactableIndex = nameParts[1]
+                    let intCast = Int(String(interactableIndex))!
                     foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
                 }
                 return true
