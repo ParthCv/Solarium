@@ -66,11 +66,11 @@ class s01_TutorialScene: SceneTemplate{
     var isUnloadable: Bool = true
     
      init() {
-        scene = SCNScene(named: "scenes.scnassets/SolariumAlphaRooms.scn")
+        scene = SCNScene(named: "scenes.scnassets/s01_Tutorial.scn")
          deletableNodes = []
          puzzles = []
          currentPuzzle = nil
-         playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
+         playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
          mainCamera = SCNNode()
     }
     
@@ -78,8 +78,7 @@ class s01_TutorialScene: SceneTemplate{
         scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
         scene.rootNode.addChildNode(createFloor())
-        setUpWallCollision()
-        setUpButtonCollisionTest()
+
         // Add the player to the scene
         scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
         
@@ -121,10 +120,10 @@ class s01_TutorialScene: SceneTemplate{
     }
     
     func gameInit() {
-        var puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
+        let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
-        var puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
+        let puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle1)
         
         for puzzle in puzzles {
@@ -175,42 +174,7 @@ extension s01_TutorialScene {
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
 
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        
-//        floorNode.physicsBody?.categoryBitMask = Int(SCNPhysicsCollisionCategory.static.rawValue)
-//        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
-        
         return floorNode
-    }
-    
-    func setUpWallCollision(){
-        
-        let modelNode = scene.rootNode.childNode(withName: "RoomBase", recursively: true)!
-        
-        let body = SCNPhysicsBodyType.static
-        let shape = SCNPhysicsShape(node: modelNode, options: [SCNPhysicsShape.Option.type: SCNPhysicsShape.ShapeType.concavePolyhedron])
-        modelNode.physicsBody = SCNPhysicsBody(type: body, shape: shape)
-//
-//        // Player own bitmask
-//        modelNode.physicsBody!.categoryBitMask = Int(SCNPhysicsCollisionCategory.static.rawValue)
-        
-        // Bitmask of things the player will collide with
-//        modelNode.physicsBody!.collisionBitMask
-    
-    }
-    
-    func setUpButtonCollisionTest(){
-//        let modelNode = scene.rootNode.childNode(withName: "P0_0_Button", recursively: true)!
-//        
-//        //let collisionBox  = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
-//        
-//        modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil
-////                                                SCNPhysicsShape(geometry: collisionBox, options: nil)
-//        )
-//        
-//        //modelNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-//        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-//        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
-//        SolariumCollisionBitMask.ground.rawValue | 1
     }
     
 }

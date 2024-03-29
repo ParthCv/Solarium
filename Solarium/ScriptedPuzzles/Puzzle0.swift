@@ -8,48 +8,19 @@
 import SceneKit
 
 class Puzzle0 : Puzzle {
-    
-    
-    var doorButton : Interactable?
-    var door : Interactable?
-    
-    override init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate : SceneTemplate) {
-        super.init(puzzleID: puzzleID, trackedEntities: trackedEntities, sceneTemplate: sceneTemplate)
-        
-        doorButton = nil
-        door = nil
-    }
-    
-    
+    var door: Door!
     override func linkEntitiesToPuzzleLogic() {
-        // Single button
-        if trackedEntities[0] != nil {
-            doorButton = trackedEntities[0]!
-            
-//            doorButton!.node.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-//            doorButton!.node.physicsBody!.categoryBitMask = SolariumCollisionBitMask.interactable.rawValue
-//            doorButton!.node.physicsBody!.collisionBitMask = SolariumCollisionBitMask.player.rawValue |
-//            SolariumCollisionBitMask.ground.rawValue | 1
+        door = Door(node: self.trackedEntities[1]!.node, openState: nil)
+        trackedEntities[0]!.doInteractDelegate = {
+            self.door.toggleDoor()
+            self.checkPuzzleWinCon()
         }
-        
-        if trackedEntities[1] != nil {
-            door = trackedEntities[1]!
-        }
-        
-        doorButton!.doInteractDelegate = doorButtonDelegate
     }
     
     override func checkPuzzleWinCon() {
-        if door!.node.isHidden {
+        if self.door.isOpen {
             print("Puzzle 0 Complete")
+            solved = true
         }
     }
-    
-    // To be called on doorButton DoInteract
-    func doorButtonDelegate() {
-        door!.node.isHidden = true
-        self.checkPuzzleWinCon()
-    }
-    
-
 }
