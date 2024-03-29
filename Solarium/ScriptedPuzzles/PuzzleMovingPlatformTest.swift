@@ -52,13 +52,22 @@ class PuzzleMovingPlatformTest: Puzzle {
         
         print("start ",startPos," end ",endPos)
         
+        let emptyNode = SCNReferenceNode()
+        
         let moveAction = SCNAction.move(to: startPos, duration: 4)
         
+        
+        
+        
+        
         platformNode!.node.runAction(moveAction) {
-            print("Moved to end ", self.platformNode?.node.worldPosition)
+
             
         }
         
+
+        
     }
+
     
 }
