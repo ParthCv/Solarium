@@ -84,9 +84,6 @@ class s01_TutorialScene: SceneTemplate{
         
         // Add a camera to the scene
         mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
-        // Init puzzles belonging to Scene
-        // Get all child nodes per puzzle
-        // Assign associated classes to nodes
     }
     
     func unload() {
@@ -165,9 +162,11 @@ extension s01_TutorialScene {
     
     func createFloor() -> SCNNode {
         let floorNode = SCNNode()
-        floorNode.geometry = SCNFloor()
+        let floor = SCNFloor()
+        floor.reflectivity = 0.0001
+        floorNode.geometry = floor
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-
+        
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         return floorNode
     }
