@@ -18,6 +18,8 @@
 		E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF72B918CE90024EC74 /* SceneTemplate.swift */; };
 		E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF92B9194F50024EC74 /* BaseScene.swift */; };
 		E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AFB2B919B380024EC74 /* OtherScene.swift */; };
+		E2291B2F2BB6869500A7D4FC /* Puzzle4.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */; };
+		E2291B312BB68A4E00A7D4FC /* s04_PlatformPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2291B302BB68A4E00A7D4FC /* s04_PlatformPuzzle.swift */; };
 		E22E054C2BA398C000B9955D /* PedestalScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054B2BA398C000B9955D /* PedestalScene.swift */; };
 		E22E054E2BA3B25F00B9955D /* PickUpInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054D2BA3B25F00B9955D /* PickUpInteractable.swift */; };
 		E22E05502BA3EE9A00B9955D /* PuzzlePedestalTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */; };
@@ -54,6 +56,8 @@
 		E2120AF72B918CE90024EC74 /* SceneTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTemplate.swift; sourceTree = "<group>"; };
 		E2120AF92B9194F50024EC74 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		E2120AFB2B919B380024EC74 /* OtherScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScene.swift; sourceTree = "<group>"; };
+		E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle4.swift; sourceTree = "<group>"; };
+		E2291B302BB68A4E00A7D4FC /* s04_PlatformPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s04_PlatformPuzzle.swift; sourceTree = "<group>"; };
 		E22E054B2BA398C000B9955D /* PedestalScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PedestalScene.swift; sourceTree = "<group>"; };
 		E22E054D2BA3B25F00B9955D /* PickUpInteractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpInteractable.swift; sourceTree = "<group>"; };
 		E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzlePedestalTest.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 				2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */,
 				E22E054B2BA398C000B9955D /* PedestalScene.swift */,
 				E268A2A32BB4F80F0023E281 /* PlatformScene.swift */,
+				E2291B302BB68A4E00A7D4FC /* s04_PlatformPuzzle.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -181,6 +186,7 @@
 				EE0B3C5A2BA10077008FAD06 /* Puzzle1.swift */,
 				E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */,
 				E268A2A12BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift */,
+				E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */,
 			);
 			path = ScriptedPuzzles;
 			sourceTree = "<group>";
@@ -269,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2291B312BB68A4E00A7D4FC /* s04_PlatformPuzzle.swift in Sources */,
 				E2EE3EE62B97F2F600A43652 /* Extensions.swift in Sources */,
 				E22E054C2BA398C000B9955D /* PedestalScene.swift in Sources */,
 				EE0B3C592BA1006F008FAD06 /* Puzzle0.swift in Sources */,
@@ -290,6 +297,7 @@
 				E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */,
 				E2E00A5F2B72EA5000B35D6C /* AppDelegate.swift in Sources */,
 				E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */,
+				E2291B2F2BB6869500A7D4FC /* Puzzle4.swift in Sources */,
 				B5EE1CBF2BB3616C00012F5F /* TeleportScene.swift in Sources */,
 				EEF095EE2B9BD0C800E420A1 /* Puzzle.swift in Sources */,
 				E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */,
