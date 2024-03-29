@@ -168,10 +168,9 @@ extension PlatformScene {
         //Move the platform to the start point
         let startPlatformEdge = self.scene.rootNode.childNode(withName: "P0_3_0_PlatformStart", recursively: true)
         
-        //let startPos = startPlatformEdge!.childNodes[1].worldPosition
-        //platformNode!.position = startPos
-        //platformNode!.physicsBody!.resetTransform()
+        let startPos = startPlatformEdge!.childNodes[1].worldPosition
         
+        platformNode!.position = startPos
     }
     
 }

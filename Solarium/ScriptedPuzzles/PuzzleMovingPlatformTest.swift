@@ -13,12 +13,16 @@ class PuzzleMovingPlatformTest: Puzzle {
     var platformStart: Interactable?
     var platformEnd: Interactable?
     
+    var platformPositions: [SCNVector3]?
+    var currPlatformPosIndex: Int?
+    
     override init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate: SceneTemplate) {
         super.init(puzzleID: puzzleID, trackedEntities: trackedEntities, sceneTemplate: sceneTemplate)
         platformNode = nil
         triggerButtonNode = nil
         platformStart = nil
         platformEnd = nil
+        platformPositions = []
     }
     
     // Function called when entities assigned
@@ -29,13 +33,16 @@ class PuzzleMovingPlatformTest: Puzzle {
         if trackedEntities[1] != nil {
             triggerButtonNode = trackedEntities[1]
         }
-        if trackedEntities[2] != nil {
-            platformStart = trackedEntities[2]
-        }
         if trackedEntities[3] != nil {
-            platformEnd = trackedEntities[3]
+            platformStart = trackedEntities[3]
+            platformPositions?.append(platformStart!.node.childNodes[1].worldPosition)
         }
-        
+        if trackedEntities[2] != nil {
+            platformEnd = trackedEntities[2]
+            platformPositions?.append(platformEnd!.node.childNodes[1].worldPosition)
+        }
+       
+        currPlatformPosIndex = 0
         triggerButtonNode!.setInteractDelegate(function: pedestalInteractDelegate)
     }
     
@@ -47,22 +54,19 @@ class PuzzleMovingPlatformTest: Puzzle {
     func pedestalInteractDelegate() {
         print("BTN pressed")
         
+        currPlatformPosIndex = (currPlatformPosIndex!+1) % platformPositions!.count
+        
         let startPos = platformStart!.node.childNodes[1].worldPosition
-        let endPos = platformEnd!.node.childNodes[1].worldPosition
-        
-        print("start ",startPos," end ",endPos)
-        
-        let emptyNode = SCNReferenceNode()
-        
-        let moveAction = SCNAction.move(to: startPos, duration: 4)
-        
-        
-        
-        
-        
-        platformNode!.node.runAction(moveAction) {
+        let endPos = platformPositions![currPlatformPosIndex!]
 
-            
+        print("curr pos ", currPlatformPosIndex!)
+        
+        let moveAction = SCNAction.move(to: endPos, duration: 4)
+        
+        triggerButtonNode?.priority = .noPriority
+
+        platformNode!.node.runAction(moveAction) {
+            self.triggerButtonNode?.priority = .mediumPriority
         }
         
 
