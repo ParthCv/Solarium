@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */; };
 		B53193042B97EBAE0036E05D /* scenes.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B53193032B97EBAE0036E05D /* scenes.scnassets */; };
+		B55F153C2BB62A0900909D6C /* DoorAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B583159C2BB6048600F9C602 /* DoorAnimations.json */; };
 		B5722A042B743E0D0088CB64 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5722A032B743E0D0088CB64 /* GameView.swift */; };
 		B5D395E02B7D5CEC008C2CB2 /* WifeAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */; };
 		B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */; };
@@ -48,6 +49,7 @@
 		2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s01_Tutorial.swift; sourceTree = "<group>"; };
 		B53193032B97EBAE0036E05D /* scenes.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = scenes.scnassets; sourceTree = "<group>"; };
 		B5722A032B743E0D0088CB64 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		B583159C2BB6048600F9C602 /* DoorAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DoorAnimations.json; sourceTree = "<group>"; };
 		B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WifeAnimations.json; sourceTree = "<group>"; };
 		B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DummyAnimations.json; sourceTree = "<group>"; };
 		B5E4701E2B7C26D80078612C /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */,
 				B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */,
+				B583159C2BB6048600F9C602 /* DoorAnimations.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			files = (
 				B53193042B97EBAE0036E05D /* scenes.scnassets in Resources */,
 				B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */,
+				B55F153C2BB62A0900909D6C /* DoorAnimations.json in Resources */,
 				E2E00A612B72EA5000B35D6C /* art.scnassets in Resources */,
 				E2E00A6B2B72EA5100B35D6C /* LaunchScreen.storyboard in Resources */,
 				E2E00A682B72EA5100B35D6C /* Assets.xcassets in Resources */,
