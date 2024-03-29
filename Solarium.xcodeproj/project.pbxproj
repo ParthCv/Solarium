@@ -112,9 +112,9 @@
 				E2120AF92B9194F50024EC74 /* BaseScene.swift */,
 				E2120AFB2B919B380024EC74 /* OtherScene.swift */,
 				B5EE1CBE2BB3616C00012F5F /* TeleportScene.swift */,
-				2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */,
 				E22E054B2BA398C000B9955D /* PedestalScene.swift */,
 				E268A2A32BB4F80F0023E281 /* PlatformScene.swift */,
+				2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */,
 				E2291B302BB68A4E00A7D4FC /* s04_PlatformPuzzle.swift */,
 			);
 			path = Scenes;
@@ -195,10 +195,10 @@
 		EE0B3C572BA1005D008FAD06 /* ScriptedPuzzles */ = {
 			isa = PBXGroup;
 			children = (
+				E268A2A12BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift */,
+				E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */,
 				EE0B3C582BA1006F008FAD06 /* Puzzle0.swift */,
 				EE0B3C5A2BA10077008FAD06 /* Puzzle1.swift */,
-				E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */,
-				E268A2A12BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift */,
 				E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */,
 			);
 			path = ScriptedPuzzles;
