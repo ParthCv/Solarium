@@ -1,5 +1,11 @@
 import SceneKit
 
+/// Puzzle base class
+///
+/// var puzzleID: Int
+/// var solved: Bool = false
+/// var trackedEntities: [Int: Interactable]
+/// var sceneTemplate: SceneTemplate
 class Puzzle {
     
     /*
