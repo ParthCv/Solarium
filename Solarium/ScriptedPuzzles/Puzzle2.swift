@@ -12,23 +12,19 @@ class Puzzle2 : Puzzle {
     var isDoorOpen = false
     var tank = SCNNode()
     override func linkEntitiesToPuzzleLogic() {
-        let button1 = trackedEntities[0]!, button2 = trackedEntities[1]!, button3 = trackedEntities[2]!
-        let waterTube1 = trackedEntities[3]!, waterTube2 = trackedEntities[4]!, waterTube3 = trackedEntities[5]!
+        let buttons = [ trackedEntities[0]!, trackedEntities[1]!, trackedEntities[2]! ]
+        let waterTubes = [trackedEntities[3]!,  trackedEntities[4]!,  trackedEntities[5]! ]
         tank = trackedEntities[6]!.node
         let ball = trackedEntities[7]!
         let ped = trackedEntities[8]!
         let door = Door(node: trackedEntities[9]!.node, openState: false)
         let sprinkler = trackedEntities[10]!.node
         
-        button1.doInteractDelegate = tubePuzzleButtonDelegateMaker(sets:[
-            0: waterTube1
-        ])
-        button2.doInteractDelegate = tubePuzzleButtonDelegateMaker(sets:[
-            1: waterTube2
-        ])
-        button3.doInteractDelegate = tubePuzzleButtonDelegateMaker(sets:[
-            2: waterTube3
-        ])
+        for i in 0 ..< buttons.count {
+            buttons[i].doInteractDelegate = tubePuzzleButtonDelegateMaker(sets: [
+                i: waterTubes[i]
+            ])
+        }
         
         let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
         ball.doInteractDelegate = ballPickUpDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, ball: ball)
@@ -48,20 +44,24 @@ class Puzzle2 : Puzzle {
     }
     
     func unfillTank(){
-            if(tubePuzzleState[0] && tubePuzzleState[1] && tubePuzzleState[2]){
-                let toPos = tank.worldPosition - SCNVector3(0, tank.scale.y,0)
-                let moveAction = SCNAction.move(to: toPos, duration: 1)
-                tank.runAction(moveAction)
-            }
+        if(tubePuzzleState[0] && tubePuzzleState[1] && tubePuzzleState[2]){
+            let toPos = tank.worldPosition - SCNVector3(0, tank.scale.y,0)
+            let moveAction = SCNAction.move(to: toPos, duration: 1)
+            tank.runAction(moveAction)
+        }
     }
     
     func tubePuzzleButtonDelegateMaker(sets: [Int: Interactable?]) -> () -> () {
         return {
             for set in sets {
                 self.tubePuzzleState[set.key] = !self.tubePuzzleState[set.key]
-                set.value?.node.position.y = self.tubePuzzleState[set.key] ? 20 : -20
+                let tubePos = set.value!.node.worldPosition
+                let toPos = self.tubePuzzleState[set.key] ? SCNVector3(x: tubePos.x, y: 20, z: tubePos.z): SCNVector3(x: tubePos.x, y: -20, z: tubePos.z)
+                let moveAction = SCNAction.move(to: toPos, duration: 2)
+                set.value?.node.runAction(moveAction){
+                    self.unfillTank()
+                }
             }
-            self.unfillTank()
         }
     }
     
