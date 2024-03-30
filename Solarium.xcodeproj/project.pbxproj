@@ -10,6 +10,7 @@
 		2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */; };
 		B50159DE2BB7601B00D44221 /* s02_Agriculture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */; };
 		B50159E02BB7602700D44221 /* s03_Lights.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DF2BB7602700D44221 /* s03_Lights.swift */; };
+		B50159E22BB7742E00D44221 /* Puzzle2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159E12BB7742E00D44221 /* Puzzle2.swift */; };
 		B53193042B97EBAE0036E05D /* scenes.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B53193032B97EBAE0036E05D /* scenes.scnassets */; };
 		B55F153C2BB62A0900909D6C /* DoorAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B583159C2BB6048600F9C602 /* DoorAnimations.json */; };
 		B55F153F2BB65EA600909D6C /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55F153E2BB65EA600909D6C /* Door.swift */; };
@@ -52,6 +53,7 @@
 		2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s01_Tutorial.swift; sourceTree = "<group>"; };
 		B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s02_Agriculture.swift; sourceTree = "<group>"; };
 		B50159DF2BB7602700D44221 /* s03_Lights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s03_Lights.swift; sourceTree = "<group>"; };
+		B50159E12BB7742E00D44221 /* Puzzle2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle2.swift; sourceTree = "<group>"; };
 		B53193032B97EBAE0036E05D /* scenes.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = scenes.scnassets; sourceTree = "<group>"; };
 		B55F153E2BB65EA600909D6C /* Door.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Door.swift; sourceTree = "<group>"; };
 		B5722A032B743E0D0088CB64 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */,
 				EE0B3C582BA1006F008FAD06 /* Puzzle0.swift */,
 				EE0B3C5A2BA10077008FAD06 /* Puzzle1.swift */,
+				B50159E12BB7742E00D44221 /* Puzzle2.swift */,
 				E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */,
 			);
 			path = ScriptedPuzzles;
@@ -300,6 +303,7 @@
 				E2EE3EE62B97F2F600A43652 /* Extensions.swift in Sources */,
 				E22E054C2BA398C000B9955D /* PedestalScene.swift in Sources */,
 				EE0B3C592BA1006F008FAD06 /* Puzzle0.swift in Sources */,
+				B50159E22BB7742E00D44221 /* Puzzle2.swift in Sources */,
 				E268A2A42BB4F80F0023E281 /* PlatformScene.swift in Sources */,
 				E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */,
 				E2DE13E12B7C57CD002B6CBD /* SharedConstants.swift in Sources */,

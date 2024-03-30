@@ -70,8 +70,8 @@ class SceneTemplate {
                 
                 if nameParts.count >= 2 {
                     let interactableIndex = nameParts[1]
-                    let intCast = Int(String(interactableIndex))
-                    foundKeyValuePairs[intCast!] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
+                    let intCast = Int(String(interactableIndex))!
+                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
                 }
                 return true
             }
