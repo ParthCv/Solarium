@@ -11,6 +11,7 @@ import SceneKit
 import GameplayKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+    var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
     
     // Get the overlay view for the game
     var gameView: GameView {
@@ -34,12 +35,34 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     var lastTickTime: TimeInterval = 0.0
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.sceneDictionary = [
+            .SCN0: s04_Tree(gvc: self),
+            .SCN1: s01_TutorialScene(gvc: self),
+            .SCN2: s02_Agriculture(gvc: self),
+            .SCN3: s03_Lights(gvc: self),
+            .SCN4: s04_Tree(gvc: self)
+        ]
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.sceneDictionary = [
+            .SCN0: s04_Tree(gvc: self),
+            .SCN1: s01_TutorialScene(gvc: self),
+            .SCN2: s02_Agriculture(gvc: self),
+            .SCN3: s03_Lights(gvc: self),
+            .SCN4: s04_Tree(gvc: self)
+        ]
+    }
+    
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Initialize and load the current scene
-        currentScene = SceneController.singleton.switchScene(gameView, currScn: nil, nextScn: SceneEnum.SCN2)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN1)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -142,7 +165,7 @@ extension GameViewController {
 
 extension GameViewController {
     func interactButtonClick(_ sender: JKButtonNode) {
-        currentScene = SceneController.singleton.switchScene(gameView, currScn: currentScene, nextScn: .SCN2)
+        switchScene(currScn: currentScene, nextScn: .SCN2)
     }
     
     func setUpInteractButton() {
@@ -156,4 +179,30 @@ extension GameViewController {
     }
 }
 
+extension GameViewController{
+//    func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum){
+//        SceneController.singleton.switchScene(self.gameView, currScn: currScn, nextScn: nextScn)
+//    }
+    
+    // Function to switch scenes
+    @MainActor
+    func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum) {
+        // Find the scene to load
+        if let sceneTemplate = sceneDictionary[nextScn]{
+            // Load the next scene fisrt
+            sceneTemplate.load()
+            
+            // Switch and transition the scene
+            gameView.present(sceneTemplate.scene, with: .fade(withDuration: 0.5), incomingPointOfView: nil, completionHandler: nil)
+            
+            // Unload the old scene
+            if (currScn != nil) { currScn?.unload()}
+            currentScene =  sceneTemplate
+        }
+    }
+}
 
+class SharedData {
+    static let sharedData = SharedData()
+    var playerSpawnIndex = 0
+}

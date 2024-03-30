@@ -9,8 +9,8 @@ import SceneKit
 
 class TeleportScene: SceneTemplate{
  
-    override init() {
-        super.init()
+    required init(gvc: GameViewController) {
+        super.init(gvc: gvc)
         scene = SCNScene(named: "scenes.scnassets/TeleportScene.scn")
         deletableNodes = []
         puzzles = []
@@ -21,20 +21,7 @@ class TeleportScene: SceneTemplate{
     
     override func load() {
         scene.rootNode.addChildNode(createFloor())
-        // Add the player to the scene
-        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true)!
-        //              setUpPedestal()
-    }
-    
-    override func unload() {
-        if isUnloadable {
-            scene.rootNode.enumerateChildNodes { (node, stop) in
-                node.removeFromParentNode()
-            }
-        }
+        super.load()
     }
     
     override func gameInit() {
@@ -61,7 +48,7 @@ extension TeleportScene {
         
         //        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
         //        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue
-        
+        deletableNodes.append(floorNode)
         return floorNode
     }
 }

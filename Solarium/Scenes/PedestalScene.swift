@@ -8,8 +8,8 @@
 import SceneKit
 
 class PedestalScene: SceneTemplate {
-    override init() {
-        super.init()
+    required init(gvc: GameViewController) {
+        super.init(gvc: gvc)
         scene = SCNScene(named: "scenes.scnassets/parthPedestalScene.scn")
         deletableNodes = []
         puzzles = []
@@ -20,20 +20,8 @@ class PedestalScene: SceneTemplate {
     
     override func load() {
         scene.rootNode.addChildNode(createFloor())
-        // Add the player to the scene
-        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true)!
+        super.load()
         setUpPedestal()
-    }
-    
-    override func unload() {
-        if isUnloadable {
-            scene.rootNode.enumerateChildNodes { (node, stop) in
-                    node.removeFromParentNode()
-                }
-        }
     }
     
     override func gameInit() {
@@ -63,7 +51,7 @@ extension PedestalScene {
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
 
         floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
-        
+        deletableNodes.append(floorNode)
         return floorNode
     }
     

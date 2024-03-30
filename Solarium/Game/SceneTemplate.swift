@@ -23,7 +23,8 @@ import SceneKit
 ///
 ///var deletableNodes: [SCNNode],  list of all deletable nodes
 ///
-class SceneTemplate {
+class SceneTemplate {    
+    var gvc: GameViewController
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()
     
@@ -32,6 +33,8 @@ class SceneTemplate {
     
     // the scene itself in the scnasset folder
     var scene: SCNScene! = nil
+    var spawnPoints: [Int: SCNNode]
+    var sceneChangeInteractables: [SceneChangeInteractable]
     
     // flag to make the scene unloaded after the switch
     var isUnloadable: Bool
@@ -43,23 +46,79 @@ class SceneTemplate {
     // list of all deletable nodes
     var deletableNodes: [SCNNode]
     
-    init(){
+    required init(gvc: GameViewController){
+        self.gvc = gvc
         isUnloadable = false
+        spawnPoints = [:]
+        sceneChangeInteractables = []
         deletableNodes = []
         puzzles = []
         currentPuzzle = 0
         playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
         mainCamera = SCNNode()
+        
     }
     
     // preload for the scene
-    func load(){}
+    func load(){
+        //get spawn points
+        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
+            if let name = node.name, name.range(of: "SP_", options: .regularExpression) != nil {
+                let nameParts = name.components(separatedBy: "_")
+                if nameParts.count >= 1 {
+                    let interactableIndex = nameParts[1]
+                    let intCast = Int(String(interactableIndex))!
+                    spawnPoints[intCast] = node
+                }
+                return true
+            }
+            return false
+            
+        })
+        
+        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
+            if let name = node.name, name.range(of: "ST_", options: .regularExpression) != nil {
+                let nameParts = name.components(separatedBy: "_")
+                if nameParts.count >= 2 {
+                    let targetScene = SceneEnum(rawValue: nameParts[1])!
+                    print(targetScene)
+                    let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
+                    scnInteract.doInteractDelegate = {
+                        DispatchQueue.main.async(execute: {
+                            SharedData.sharedData.playerSpawnIndex = Int(nameParts[2])!
+                            self.gvc.switchScene(currScn: self, nextScn: targetScene)
+                        })
+                    }
+                    sceneChangeInteractables.append(scnInteract)
+                }
+                return true
+            }
+            return false
+            
+        })
+        
+        // Add the player to the scene
+        let playerNode = playerCharacter.loadPlayerCharacter(spawnPosition: spawnPoints[SharedData.sharedData.playerSpawnIndex]!.worldPosition)
+        scene.rootNode.addChildNode(playerNode)
+        deletableNodes.append(playerNode)
+        // Add a camera to the scene
+        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
+    }
     
     // delete the nodes from memeory
-    func unload(){}
+    func unload(){
+        for node in deletableNodes {
+            node.removeFromParentNode()
+        }
+        spawnPoints.removeAll()
+        sceneChangeInteractables.removeAll()
+        puzzles.removeAll()
+    }
     
     /// The function called on the scene to perform Solarium game setup logic
-    @MainActor func gameInit(){}
+    @MainActor func gameInit(){
+        
+    }
     
     /// Searches the node tree for nodes prefixed by the PuzzleID inside puzzleObj
     @MainActor func getPuzzleTrackedEntities(puzzleObj: Puzzle){
@@ -130,6 +189,13 @@ class SceneTemplate {
                     highestPriority = interactableEntity.value.priority
                     interactableObject = interactableEntity.value
                 }
+            }
+        }
+        
+        for interactableEntity in sceneChangeInteractables {
+            if interactableEntity.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.priority {
+                highestPriority = interactableEntity.priority
+                interactableObject = interactableEntity
             }
         }
         
