@@ -11,6 +11,7 @@ class Puzzle2 : Puzzle {
     var tubePuzzleState = Array(repeating:false, count:3)
     var isDoorOpen = false
     var tank = SCNNode()
+    var sprinkler = SCNNode()
     override func linkEntitiesToPuzzleLogic() {
         let buttons = [ trackedEntities[0]!, trackedEntities[1]!, trackedEntities[2]! ]
         let waterTubes = [trackedEntities[3]!,  trackedEntities[4]!,  trackedEntities[5]! ]
@@ -18,7 +19,7 @@ class Puzzle2 : Puzzle {
         let ball = trackedEntities[7]!
         let ped = trackedEntities[8]!
         let door = Door(node: trackedEntities[9]!.node, openState: false)
-        let sprinkler = trackedEntities[10]!.node
+        sprinkler = trackedEntities[10]!.node
         
         for i in 0 ..< buttons.count {
             buttons[i].doInteractDelegate = tubePuzzleButtonDelegateMaker(sets: [
@@ -43,11 +44,19 @@ class Puzzle2 : Puzzle {
         }
     }
     
+    func toggleSprinkler(){
+        let toPos = sprinkler.worldPosition + SCNVector3(0, sprinkler.scale.y,0)
+        let moveAction = SCNAction.move(to: toPos, duration: 1)
+        sprinkler.runAction(moveAction)
+    }
+    
     func unfillTank(){
         if(tubePuzzleState[0] && tubePuzzleState[1] && tubePuzzleState[2]){
             let toPos = tank.worldPosition - SCNVector3(0, tank.scale.y,0)
             let moveAction = SCNAction.move(to: toPos, duration: 1)
-            tank.runAction(moveAction)
+            tank.runAction(moveAction){
+                self.toggleSprinkler()
+            }
         }
     }
     
