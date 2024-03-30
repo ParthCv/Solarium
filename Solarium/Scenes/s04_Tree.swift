@@ -9,18 +9,14 @@ import SceneKit
 
 class s04_Tree: SceneTemplate {
     
-    override init() {
-        super.init()
+    required init(gvc: GameViewController) {
+        super.init(gvc: gvc)
         scene = SCNScene(named: "scenes.scnassets/Puzzle4.scn")
     }
     
     override func load() {
         scene.rootNode.addChildNode(createFloor())
-        // Add the player to the scene
-        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true)!
+        super.load()
         
         setUpButtonsOnPlatform()
         
@@ -88,7 +84,7 @@ extension s04_Tree{
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
 
         floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
-        
+        deletableNodes.append(floorNode)
         return floorNode
     }
     

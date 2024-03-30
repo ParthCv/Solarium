@@ -10,8 +10,8 @@ import SceneKit
 class PlatformScene: SceneTemplate {
 
     
-    override init() {
-        super.init()
+    required init(gvc: GameViewController) {
+        super.init(gvc: gvc)
         scene = SCNScene(named: "scenes.scnassets/parthPlatformScene.scn")
         deletableNodes = []
         puzzles = []
@@ -22,20 +22,8 @@ class PlatformScene: SceneTemplate {
     
     override func load() {
         scene.rootNode.addChildNode(createFloor())
-        // Add the player to the scene
-        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true)!
+        super.load()
         setUpPlatform()
-    }
-    
-    override func unload() {
-        if isUnloadable {
-            scene.rootNode.enumerateChildNodes { (node, stop) in
-                    node.removeFromParentNode()
-                }
-        }
     }
     
     override func gameInit() {
@@ -60,7 +48,7 @@ extension PlatformScene {
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
         floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
-        
+        deletableNodes.append(floorNode)
         return floorNode
     }
     

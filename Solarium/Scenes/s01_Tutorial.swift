@@ -9,8 +9,8 @@ import SceneKit
 
 class s01_TutorialScene: SceneTemplate{
     
-    override init() {
-        super.init()
+    required init(gvc: GameViewController) {
+        super.init(gvc: gvc)
         scene = SCNScene(named: "scenes.scnassets/s01_Tutorial.scn")
     }
     
@@ -18,26 +18,11 @@ class s01_TutorialScene: SceneTemplate{
         scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
         scene.rootNode.addChildNode(createFloor())
-
-        // Add the player to the scene
-        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
-        // Init puzzles belonging to Scene
-        // Get all child nodes per puzzle
-        // Assign associated classes to nodes
-    }
-    
-    override func unload() {
-        if isUnloadable {
-            scene.rootNode.enumerateChildNodes { (node, stop) in
-                    node.removeFromParentNode()
-                }
-        }
+        super.load()
     }
     
     override func gameInit() {
+        super.gameInit()
         let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
@@ -56,7 +41,7 @@ extension s01_TutorialScene {
         let ambientLight = SCNNode()
         ambientLight.light = SCNLight()
         ambientLight.light?.type = .ambient
-        
+        deletableNodes.append(ambientLight)
         return ambientLight
     }
     
@@ -66,6 +51,7 @@ extension s01_TutorialScene {
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
 
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        deletableNodes.append(floorNode)
         return floorNode
     }
     
