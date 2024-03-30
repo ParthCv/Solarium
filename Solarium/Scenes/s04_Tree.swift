@@ -17,11 +17,6 @@ class s04_Tree: SceneTemplate {
     override func load() {
         scene.rootNode.addChildNode(createFloor())
         super.load()
-        // Add the player to the scene
-        scene.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true)!
         
         setUpButtonsOnPlatform()
         
