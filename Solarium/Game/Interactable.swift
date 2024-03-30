@@ -31,7 +31,7 @@ class Interactable {
     init(node: SCNNode, priority: TriggerPriority, displayText: String?) {
         self.node = node
         self.priority = priority
-        triggerVolume = 8
+        triggerVolume = 5
         self.displayText = displayText
         doInteractDelegate = Interactable.defaultInteract
     }
