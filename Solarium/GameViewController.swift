@@ -11,6 +11,9 @@ import SceneKit
 import GameplayKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+    
+    var audioManager: AudioManager?
+    
     var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
     
     // Get the overlay view for the game
@@ -60,6 +63,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        audioManager = AudioManager()
+        
+        // Add this code for when we swap scenes
+//        audioManager!.stopCurrentStageBGM(sceneType: SceneEnum.SCN0)
+//        audioManager!.playCurrentStageBGM(sceneType: SceneEnum.SCN2)
 
         // Initialize and load the current scene
         switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
