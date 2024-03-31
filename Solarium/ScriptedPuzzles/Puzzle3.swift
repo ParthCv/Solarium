@@ -9,7 +9,15 @@ import SceneKit
 
 class Puzzle3: Puzzle {
     
-    var possilblePositions = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200]
+    //Max amount for drains
+    var bigDrainMax: Int = 1200
+    var medDrainMax: Int = 800
+    var smlDrainMax: Int = 500
+    
+    //Cur Position indices
+    var bigDrainCurrPos: Int = 1200
+    var medDrainCurrPos: Int = 0
+    var smlDrainCurrPos: Int = 0
     
     //Drains
     var bigDrain: Interactable?
@@ -17,7 +25,12 @@ class Puzzle3: Puzzle {
     var smlDrain: Interactable?
     
     //Btns
-    
+    var btnAB: Interactable?
+    var btnBA: Interactable?
+    var btnBC: Interactable?
+    var btnCB: Interactable?
+    var btnCA: Interactable?
+    var btnAC: Interactable?
     
     //Platform
     var platform: Interactable?
@@ -25,168 +38,90 @@ class Puzzle3: Puzzle {
     
     //Puzzle Solutions
     /*
-     balls - b1(blue),b2(yellow),b3(teal),b4(gree),b5(magenta)
-     initial
-        pF - b2
-        p1 - nil
-        p2 - b5
-        p3 - b4
-        p4 - b1
-        p5 - b3
-     sol
-        pF - nil
-        p1 - b1
-        p2 - b2
-        p3 - b3
-        p4 - b4
-        p5 - b5
+     GOAL => get a -> 600, b -> 600 & c->0
+     
+     START
+        a = 1200
+        b = 0
+        c = 0
+     
+     SOL ORDER
+        a->b
+        b->c
+        c->a
+        b->c
+        a->b
+        b->c
+        c->a
+     
+     if u fuk up refill a and the do it again
      */
     
-    //Pedestals
-    var pedestalBtm: Interactable?
-    var solutionPedestals: [Interactable?]
-//    var pedestal1: Interactable?
-//    var pedestal2: Interactable?
-//    var pedestal3: Interactable?
-//    var pedestal4: Interactable?
-//    var pedestal5: Interactable?
-    
-    //Balls
-    var ball1: Interactable?
-    var ball2: Interactable?
-    var ball3: Interactable?
-    var ball4: Interactable?
-    var ball5: Interactable?
-    var solutionBallOrder: [Interactable?]
-    
-    var platformPositions: [SCNVector3]?
-    var currPlatformPosIndex: Int?
-    
-    var puzzleStateArray = Array(repeating: false, count: 5)
-    
     override init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate: SceneTemplate) {
-        solutionPedestals = []
-        solutionBallOrder = []
         super.init(puzzleID: puzzleID, trackedEntities: trackedEntities, sceneTemplate: sceneTemplate)
-        platformPositions = []
     }
     
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
-
+        bigDrain = trackedEntities[0]
+        medDrain = trackedEntities[1]
+        smlDrain = trackedEntities[2]
+        
+        btnAB = trackedEntities[3]
+        btnBA = trackedEntities[4]
+        btnBC = trackedEntities[5]
+        btnCB = trackedEntities[6]
+        btnCA = trackedEntities[7]
+        btnAC = trackedEntities[8]
+        
+        let waterNodeBigdrain = bigDrain!.node.childNode(withName: "cylinder", recursively: true)!
+        let waterNodeMeddrain = medDrain!.node.childNode(withName: "cylinder", recursively: true)!
+        let waterNodeSmldrain = smlDrain!.node.childNode(withName: "cylinder", recursively: true)!
+        
+        btnAB!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeBigdrain, NodeB: waterNodeMeddrain, NodeAMax: bigDrainMax, NodeBMax: medDrainMax, NodeACurr: &bigDrainCurrPos, NodeBCurr: &medDrainCurrPos))
+        btnBA!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeMeddrain, NodeB: waterNodeBigdrain, NodeAMax: medDrainMax, NodeBMax: bigDrainMax, NodeACurr: &medDrainCurrPos, NodeBCurr: &bigDrainCurrPos))
+        
+        btnBC!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeMeddrain, NodeB: waterNodeSmldrain, NodeAMax: medDrainMax, NodeBMax: smlDrainMax, NodeACurr: &medDrainCurrPos, NodeBCurr: &smlDrainCurrPos))
+        btnCB!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeSmldrain, NodeB: waterNodeMeddrain, NodeAMax: smlDrainMax, NodeBMax: medDrainMax, NodeACurr: &smlDrainCurrPos, NodeBCurr: &medDrainCurrPos))
+        
+        btnCA!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeSmldrain, NodeB: waterNodeBigdrain, NodeAMax: smlDrainMax, NodeBMax: bigDrainMax, NodeACurr: &smlDrainCurrPos, NodeBCurr: &bigDrainCurrPos))
+        btnAC!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeBigdrain, NodeB: waterNodeSmldrain, NodeAMax: bigDrainMax, NodeBMax: smlDrainMax, NodeACurr: &bigDrainCurrPos, NodeBCurr: &smlDrainCurrPos))
     }
     
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
-
-    }
-    
-    func movePlatformUpIntercatDelegate() {
-        currPlatformPosIndex = (currPlatformPosIndex! + 1) % platformPositions!.count
-        
-        let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: 5)
-        
-        platformBtnUp!.priority = .noPriority
-        
-        platform!.node.runAction(moveAction) {
-            self.platformBtnUp!.priority = .mediumPriority
+        print("A -",bigDrainCurrPos, " B - ",medDrainCurrPos, " C - ", smlDrainCurrPos)
+        if(self.medDrainCurrPos == 600 && self.bigDrainCurrPos == 600) {
+            print("Puzzle Solved")
         }
-        
     }
     
-    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> (){
-            let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
+    func drainBtnDelegateMaker(NodeA: SCNNode, NodeB: SCNNode, NodeAMax: Int, NodeBMax: Int,  NodeACurr: inout Int, NodeBCurr: inout Int) -> () -> () {
+        // Calculate New Values
+        let amountToMove: Int = NodeACurr >= (NodeBMax - NodeBCurr) ? NodeBMax - NodeBCurr : NodeACurr
+        let amountToStay: Int = NodeACurr - amountToMove
+        
+        // Set the new values
+        NodeBCurr = NodeBCurr + amountToMove
+        NodeACurr = amountToMove
+        
+        //print("Node A - ",NodeACurr, " node B - ", NodeBCurr)
+        
+        // get new pos child
+        let newNodeAPos: String = String(NodeACurr)
+        let newNodeBPos: String = String(NodeBCurr)
             return {
-                // if the player isnt holdin smthg and the base node is the parent of the ball
-                if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
-                    // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
-                    let ballNode = batRootNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = playerBallPosNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    ballNode.runAction(moveAction) {
-                        let newPos = playerBallPosNode.worldPosition
-                        playerBallPosNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                        self.sceneTemplate.playerCharacter.isHoldingSmthg = true
-                    }
-                    
-                } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
-                    //Reparent to the root node
-                    let ballNode = playerBallPosNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = batRootNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    self.sceneTemplate.playerCharacter.isHoldingSmthg = false
-                    ballNode.runAction(moveAction) {
-                        let newPos = ballNode.worldPosition
-                        batRootNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                    }
-                }
+                //print(NodeA.parent!.name!," - ",newNodeAPos,NodeB.parent!.name!, " - ", newNodeBPos)
+                let nodeInA = NodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
+                let nodeInB = NodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+                
+                let nodeAAction = SCNAction.move(to: nodeInA.worldPosition, duration: 1)
+                let nodeBAction = SCNAction.move(to: nodeInB.worldPosition, duration: 1)
+                self.checkPuzzleWinCon()
+//                NodeA.runAction(nodeAAction)
+//                NodeB.runAction(nodeBAction)
             }
-        }
-    
-    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode, nameOfBall: String, index: Int) -> () -> (){
-            let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
-            return {
-                // if the player isnt holdin smthg and the base node is the parent of the ball
-                if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
-                    // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
-                    let ballNode = batRootNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = playerBallPosNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    ballNode.runAction(moveAction) {
-                        let newPos = playerBallPosNode.worldPosition
-                        playerBallPosNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                        self.sceneTemplate.playerCharacter.isHoldingSmthg = true
-                        self.puzzleStateArray[index] = false
-                    }
-                    
-                } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
-                    //Reparent to the root node
-                    let ballNode = playerBallPosNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = batRootNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    self.sceneTemplate.playerCharacter.isHoldingSmthg = false
-                    ballNode.runAction(moveAction) {
-                        let newPos = ballNode.worldPosition
-                        batRootNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                        
-                        if self.checkIfBallIsInRightPlace(batteryRoot: batRootNode, correctBallName: nameOfBall) {
-                            self.puzzleStateArray[index] = true
-                            //check puzzlestate
-                            let condition = self.puzzleStateArray.allSatisfy({$0 == true})
-                            print(condition)
-                        }
-                    }
-                }
-            }
-        }
-    
-    func checkIfBallIsInRightPlace(batteryRoot: SCNNode, correctBallName: String) -> Bool {
-        return batteryRoot.childNodes[0].name == correctBallName
-    }
+        }	
     
 }
 

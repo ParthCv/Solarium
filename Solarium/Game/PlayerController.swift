@@ -15,7 +15,7 @@ class PlayerController {
     
     let forceDampingFactor: Float = 90
     
-    let cameraOffset: Float = 15
+    let cameraOffset: Float = 30
     
     var playerCharacter: PlayerCharacter!
     
