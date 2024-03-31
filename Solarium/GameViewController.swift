@@ -69,6 +69,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         // Add this code for when we swap scenes
 //        audioManager!.stopCurrentStageBGM(sceneType: SceneEnum.SCN0)
 //        audioManager!.playCurrentStageBGM(sceneType: SceneEnum.SCN2)
+        
+        // Add this code for when we interact with a button/door/orb
+//        audioManager?.playInteractSound(interactableName: "Door")
 
         // Initialize and load the current scene
         switchScene(currScn: nil, nextScn: SceneEnum.SCN4)

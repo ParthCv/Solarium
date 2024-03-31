@@ -30,8 +30,51 @@ class AudioManager {
         }
         
         preloadBGM()
+        preloadSFX()
         
     }
+    
+    private func preloadSFX() {
+        
+        let sfxFiles = ["Interact_Button", "Interact_Door", "Interact_Orb"]
+        
+        for sfxFile in sfxFiles {
+            // Check if SFX Loaded
+            guard let sfxURL = Bundle.main.url(forResource: sfxFile, withExtension: "wav", subdirectory: "art.scnassets/SFX") else {
+                print("Interact SFX music file \(sfxFile) not found")
+                continue
+            }
+            
+            let sfxPlayer = AVPlayer(url: sfxURL)
+            sfxPlayer.volume = 0.1
+            let puzzleInteractableName = getInteractSFXNameFromFile(from: sfxFile)
+            
+            print(puzzleInteractableName)
+            
+            interactSFXPlayer[puzzleInteractableName] = sfxPlayer
+        }
+    }
+    
+    func getInteractSFXNameFromFile(from fileName: String) -> String {
+        let components = fileName.components(separatedBy: "_")
+        if components.count >= 2 {
+            return components[1]
+        } else {
+            print("Invalid file name format: \(fileName)")
+            return ""
+        }
+    }
+    
+    func playInteractSound(interactableName: String) {
+        guard let soundPlayer = interactSFXPlayer[interactableName] else {
+            print("Sound for \(interactableName) not found")
+            return
+        }
+        
+        soundPlayer.seek(to: .zero)
+        soundPlayer.play()
+    }
+
 
     private func preloadBGM() {
         
