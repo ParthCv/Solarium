@@ -72,8 +72,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         titleBackgroundImage.isHidden = true
         pauseButton.isHidden = false
         
-        //Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
     }
     
     @objc func pauseButtonTapped() {
@@ -131,8 +129,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         super.viewDidLoad()
         
         setupTitleScreen()
-        //switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
-        print("NormTest2")
+        
+        // DO NOT MOVE THIS FUNCTION, SHIT WILL BREAK
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
