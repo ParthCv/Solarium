@@ -11,6 +11,12 @@ import SceneKit
 import GameplayKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+    
+    var titleLabel:               UILabel!
+    var titleStartButton:         UIButton!
+    var titleBackgroundImage:     UIImageView!
+    var pauseButton:              UIButton!
+
     var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
     
     // Get the overlay view for the game
@@ -57,12 +63,76 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         ]
     }
     
+    @objc func startButtonTapped() {
+        print("startBtnPressed")
+        
+        //Clean up main menu elements
+        titleLabel.isHidden = true
+        titleStartButton.isHidden = true
+        titleBackgroundImage.isHidden = true
+        pauseButton.isHidden = false
+        
+        //Initialize and load the current scene
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
+    }
+    
+    @objc func pauseButtonTapped() {
+        print("pauseBtnPressed")
+        
+        titleLabel.isHidden = false
+        titleStartButton.isHidden = false
+        titleBackgroundImage.isHidden = false
+        pauseButton.isHidden = true
+        
+    }
+    
+    func setupTitleScreen() {
+        
+        print("x")
+        
+        // Create a new background image view
+        titleBackgroundImage = UIImageView(image: UIImage(named: "art.scnassets/TitleScreenBackground.png"))
+        titleBackgroundImage.frame = gameView.bounds
+        titleBackgroundImage.contentMode = .scaleAspectFill // Adjust content mode as needed
+        gameView.addSubview(titleBackgroundImage)
+        gameView.sendSubviewToBack(titleBackgroundImage) // Send it to the back so it's behind other UI elements
+
+        // Set up main menu UI
+        titleLabel = UILabel()
+        titleLabel.text = "Main Menu"
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 24)
+        titleLabel.frame = CGRect(x: 0, y: 100, width: view.frame.width, height: 50)
+        gameView.addSubview(titleLabel)
+        
+        titleStartButton = UIButton(type: .system)
+        titleStartButton.setTitle("Start Game", for: .normal)
+        titleStartButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20) // Custom font size
+        titleStartButton.setTitleColor(.white, for: .normal) // Set font color to white
+        titleStartButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        titleStartButton.frame = CGRect(x: 100, y: 200, width: 200, height: 50)
+        gameView.addSubview(titleStartButton)
+        
+        let buttonSize: CGFloat = 25
+        pauseButton = UIButton(type: .system)
+        pauseButton.setTitle("⏸", for: .normal)
+        pauseButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        pauseButton.frame = CGRect(x: view.frame.width - buttonSize - 20, y: 20, width: buttonSize, height: buttonSize)
+        pauseButton.backgroundColor = UIColor.gray
+        pauseButton.layer.cornerRadius = buttonSize / 2
+        pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
+        view.addSubview(pauseButton)
+        pauseButton.isHidden = true
+        
+    }
+        
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
+        
+        setupTitleScreen()
+        //switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
+        print("NormTest2")
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
