@@ -115,7 +115,6 @@ class Puzzle4: Puzzle {
     
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
-
     }
     
     func movePlatformUpIntercatDelegate() {
@@ -125,101 +124,119 @@ class Puzzle4: Puzzle {
         
         platformBtnUp!.priority = .noPriority
         
+        print("Ininital touch of the button for platform to go to next floor")
+        self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+        
         platform!.node.runAction(moveAction) {
             self.platformBtnUp!.priority = .mediumPriority
+            print("Elevator has reached the next floor")
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
         }
         
     }
     
-    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> (){
-            let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
-            return {
-                // if the player isnt holdin smthg and the base node is the parent of the ball
-                if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
-                    // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
-                    let ballNode = batRootNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = playerBallPosNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    ballNode.runAction(moveAction) {
-                        let newPos = playerBallPosNode.worldPosition
-                        playerBallPosNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                        self.sceneTemplate.playerCharacter.isHoldingSmthg = true
-                    }
-                    
-                } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
-                    //Reparent to the root node
-                    let ballNode = playerBallPosNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = batRootNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    self.sceneTemplate.playerCharacter.isHoldingSmthg = false
-                    ballNode.runAction(moveAction) {
-                        let newPos = ballNode.worldPosition
-                        batRootNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                    }
-                }
-            }
-        }
     
-    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode, nameOfBall: String, index: Int) -> () -> (){
-            let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
-            return {
-                // if the player isnt holdin smthg and the base node is the parent of the ball
-                if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
-                    // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
-                    let ballNode = batRootNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = playerBallPosNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    ballNode.runAction(moveAction) {
-                        let newPos = playerBallPosNode.worldPosition
-                        playerBallPosNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                        self.sceneTemplate.playerCharacter.isHoldingSmthg = true
-                        self.puzzleStateArray[index] = false
-                    }
-                    
-                } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
-                    //Reparent to the root node
-                    let ballNode = playerBallPosNode.childNodes[0]
-                    let currentBallPos = ballNode.worldPosition
-                    self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
-                    //Reset the position and scale back
-                    ballNode.worldPosition = currentBallPos
-                    
-                    let toPos = batRootNode.worldPosition
-                    let moveAction = SCNAction.move(to: toPos, duration: 1)
-                    self.sceneTemplate.playerCharacter.isHoldingSmthg = false
-                    ballNode.runAction(moveAction) {
-                        let newPos = ballNode.worldPosition
-                        batRootNode.addChildNode(ballNode)
-                        ballNode.worldPosition = newPos
-                        
-                        if self.checkIfBallIsInRightPlace(batteryRoot: batRootNode, correctBallName: nameOfBall) {
-                            self.puzzleStateArray[index] = true
-                            //check puzzlestate
-                            let condition = self.puzzleStateArray.allSatisfy({$0 == true})
-                            print(condition)
-                        }
-                    }
+    
+    // 1-off pedestal that is not part of the puzzle (Closest pedestal to spawn for testing)
+    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> () {
+        
+        let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
+        return {
+            // if the player isnt holdin smthg and the base node is the parent of the ball
+            if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
+                // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
+                let ballNode = batRootNode.childNodes[0]
+                let currentBallPos = ballNode.worldPosition
+                self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
+                //Reset the position and scale back
+                ballNode.worldPosition = currentBallPos
+                
+                let toPos = playerBallPosNode.worldPosition
+                let moveAction = SCNAction.move(to: toPos, duration: 1)
+                ballNode.runAction(moveAction) {
+                    let newPos = playerBallPosNode.worldPosition
+                    playerBallPosNode.addChildNode(ballNode)
+                    ballNode.worldPosition = newPos
+                    self.sceneTemplate.playerCharacter.isHoldingSmthg = true
                 }
+                print("Picked up orb")
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
+    
+            } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
+                //Reparent to the root node
+                let ballNode = playerBallPosNode.childNodes[0]
+                let currentBallPos = ballNode.worldPosition
+                self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
+                //Reset the position and scale back
+                ballNode.worldPosition = currentBallPos
+                
+                let toPos = batRootNode.worldPosition
+                let moveAction = SCNAction.move(to: toPos, duration: 1)
+                self.sceneTemplate.playerCharacter.isHoldingSmthg = false
+                ballNode.runAction(moveAction) {
+                    let newPos = ballNode.worldPosition
+                    batRootNode.addChildNode(ballNode)
+                    ballNode.worldPosition = newPos
+                }
+                print("Dropped off orb")
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
+                
             }
         }
+    }
+    
+    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode, nameOfBall: String, index: Int) -> () -> () {
+        let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
+        return {
+            // if the player isnt holdin smthg and the base node is the parent of the ball
+            if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
+                // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
+                let ballNode = batRootNode.childNodes[0]
+                let currentBallPos = ballNode.worldPosition
+                self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
+                //Reset the position and scale back
+                ballNode.worldPosition = currentBallPos
+                
+                let toPos = playerBallPosNode.worldPosition
+                let moveAction = SCNAction.move(to: toPos, duration: 1)
+                ballNode.runAction(moveAction) {
+                    let newPos = playerBallPosNode.worldPosition
+                    playerBallPosNode.addChildNode(ballNode)
+                    ballNode.worldPosition = newPos
+                    self.sceneTemplate.playerCharacter.isHoldingSmthg = true
+                    self.puzzleStateArray[index] = false
+                }
+                print("Picked up orb")
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
+                
+            } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
+                //Reparent to the root node
+                let ballNode = playerBallPosNode.childNodes[0]
+                let currentBallPos = ballNode.worldPosition
+                self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
+                //Reset the position and scale back
+                ballNode.worldPosition = currentBallPos
+                
+                let toPos = batRootNode.worldPosition
+                let moveAction = SCNAction.move(to: toPos, duration: 1)
+                self.sceneTemplate.playerCharacter.isHoldingSmthg = false
+                ballNode.runAction(moveAction) {
+                    let newPos = ballNode.worldPosition
+                    batRootNode.addChildNode(ballNode)
+                    ballNode.worldPosition = newPos
+                    
+                    if self.checkIfBallIsInRightPlace(batteryRoot: batRootNode, correctBallName: nameOfBall) {
+                        self.puzzleStateArray[index] = true
+                        //check puzzlestate
+                        let condition = self.puzzleStateArray.allSatisfy({$0 == true})
+                        print(condition)
+                    }
+                }
+                print("Dropped off orb")
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
+            }
+        }
+    }
     
     func checkIfBallIsInRightPlace(batteryRoot: SCNNode, correctBallName: String) -> Bool {
         return batteryRoot.childNodes[0].name == correctBallName

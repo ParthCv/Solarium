@@ -23,7 +23,7 @@ import SceneKit
 ///
 ///var deletableNodes: [SCNNode],  list of all deletable nodes
 ///
-class SceneTemplate {    
+class SceneTemplate {
     var gvc: GameViewController
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()
@@ -84,6 +84,8 @@ class SceneTemplate {
                     print(targetScene)
                     let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                     scnInteract.doInteractDelegate = {
+                        print("SceneTransitionDelegate Here -> Play Sound")
+                        self.gvc.audioManager?.playInteractSound(interactableName: "Door")
                         DispatchQueue.main.async(execute: {
                             SharedData.sharedData.playerSpawnIndex = Int(nameParts[2])!
                             self.gvc.switchScene(currScn: self, nextScn: targetScene)
