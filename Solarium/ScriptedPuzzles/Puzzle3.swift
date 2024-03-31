@@ -71,21 +71,200 @@ class Puzzle3: Puzzle {
         btnBA = trackedEntities[4]
         btnBC = trackedEntities[5]
         btnCB = trackedEntities[6]
-        btnCA = trackedEntities[7]
-        btnAC = trackedEntities[8]
+        btnAC = trackedEntities[7]
+        btnCA = trackedEntities[8]
         
         let waterNodeBigdrain = bigDrain!.node.childNode(withName: "cylinder", recursively: true)!
         let waterNodeMeddrain = medDrain!.node.childNode(withName: "cylinder", recursively: true)!
         let waterNodeSmldrain = smlDrain!.node.childNode(withName: "cylinder", recursively: true)!
         
-        btnAB!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeBigdrain, NodeB: waterNodeMeddrain, NodeAMax: bigDrainMax, NodeBMax: medDrainMax, NodeACurr: &bigDrainCurrPos, NodeBCurr: &medDrainCurrPos))
-        btnBA!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeMeddrain, NodeB: waterNodeBigdrain, NodeAMax: medDrainMax, NodeBMax: bigDrainMax, NodeACurr: &medDrainCurrPos, NodeBCurr: &bigDrainCurrPos))
         
-        btnBC!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeMeddrain, NodeB: waterNodeSmldrain, NodeAMax: medDrainMax, NodeBMax: smlDrainMax, NodeACurr: &medDrainCurrPos, NodeBCurr: &smlDrainCurrPos))
-        btnCB!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeSmldrain, NodeB: waterNodeMeddrain, NodeAMax: smlDrainMax, NodeBMax: medDrainMax, NodeACurr: &smlDrainCurrPos, NodeBCurr: &medDrainCurrPos))
+        btnAB!.setInteractDelegate(function: {
+            //A->B
+ 
+            let nodeA = waterNodeBigdrain
+            let nodeACurr = self.bigDrainCurrPos
+            
+            let nodeB = waterNodeMeddrain
+            let nodeBMax = self.medDrainMax
+            let nodeBCurr = self.medDrainCurrPos
+            
+            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
+            let amountToStay: Int = nodeACurr - amountToMove
+            print("Move Amount in \(nodeB.parent!.name!) - \(amountToMove) Amount stay in \(nodeA.parent!.name!) -\(amountToStay)")
+            // Set the new values
+            self.medDrainCurrPos = self.medDrainCurrPos + amountToMove
+            self.bigDrainCurrPos = amountToStay
+            
+            // get new pos child
+            let newNodeAPos: String = String(self.bigDrainCurrPos)
+            let newNodeBPos: String = String(self.medDrainCurrPos)
+            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
+            let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
+            let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+
+            let nodeAAction = SCNAction.move(to: nodeInA.position, duration: 1)
+            let nodeBAction = SCNAction.move(to: nodeInB.position, duration: 1)
+            nodeA.runAction(nodeAAction)
+            nodeB.runAction(nodeBAction)
+            self.checkPuzzleWinCon()
+        })
         
-        btnCA!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeSmldrain, NodeB: waterNodeBigdrain, NodeAMax: smlDrainMax, NodeBMax: bigDrainMax, NodeACurr: &smlDrainCurrPos, NodeBCurr: &bigDrainCurrPos))
-        btnAC!.setInteractDelegate(function: drainBtnDelegateMaker(NodeA: waterNodeBigdrain, NodeB: waterNodeSmldrain, NodeAMax: bigDrainMax, NodeBMax: smlDrainMax, NodeACurr: &bigDrainCurrPos, NodeBCurr: &smlDrainCurrPos))
+        btnBA!.setInteractDelegate(function: {
+            //B->A
+            let nodeA = waterNodeMeddrain
+            let nodeACurr = self.medDrainCurrPos
+
+            let nodeB = waterNodeBigdrain
+            let nodeBMax = self.bigDrainMax
+            let nodeBCurr = self.bigDrainCurrPos
+
+            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
+            let amountToStay: Int = nodeACurr - amountToMove
+            print("Move Amount in \(nodeB.parent!.name!) - \(amountToMove) Amount stay in \(nodeA.parent!.name!) -\(amountToStay)")
+            // Set the new values
+            self.bigDrainCurrPos = self.bigDrainCurrPos + amountToMove
+            self.medDrainCurrPos = amountToStay
+
+            // get new pos child
+            let newNodeAPos: String = String(self.medDrainCurrPos)
+            let newNodeBPos: String = String(self.bigDrainCurrPos)
+            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
+            let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
+            let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+
+            let nodeAAction = SCNAction.move(to: nodeInA.position, duration: 1)
+            let nodeBAction = SCNAction.move(to: nodeInB.position, duration: 1)
+            nodeA.runAction(nodeAAction)
+            nodeB.runAction(nodeBAction)
+            self.checkPuzzleWinCon()
+        })
+        
+        btnBC!.setInteractDelegate(function: {
+            //B->C
+            let nodeA = waterNodeMeddrain
+
+            let nodeACurr = self.medDrainCurrPos
+
+            let nodeB = waterNodeSmldrain
+            let nodeBMax = self.smlDrainMax
+            let nodeBCurr = self.smlDrainCurrPos
+
+            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
+            let amountToStay: Int = nodeACurr - amountToMove
+            print("Move Amount in \(nodeB.parent!.name!) - \(amountToMove) Amount stay in \(nodeA.parent!.name!) -\(amountToStay)")
+            // Set the new values
+            self.smlDrainCurrPos = self.smlDrainCurrPos + amountToMove
+            self.medDrainCurrPos = amountToStay
+
+            // get new pos child
+            let newNodeAPos: String = String(self.medDrainCurrPos)
+            let newNodeBPos: String = String(self.smlDrainCurrPos)
+            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
+            let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
+            let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+
+            let nodeAAction = SCNAction.move(to: nodeInA.position, duration: 1)
+            let nodeBAction = SCNAction.move(to: nodeInB.position, duration: 1)
+            nodeA.runAction(nodeAAction)
+            nodeB.runAction(nodeBAction)
+            self.checkPuzzleWinCon()
+        })
+        
+        btnCB!.setInteractDelegate(function: {
+            //C->B
+            let nodeA = waterNodeSmldrain
+            let nodeAMax = self.smlDrainMax
+            let nodeACurr = self.smlDrainCurrPos
+
+            let nodeB = waterNodeMeddrain
+            let nodeBMax = self.medDrainMax
+            let nodeBCurr = self.medDrainCurrPos
+
+            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
+            let amountToStay: Int = nodeACurr - amountToMove
+            print("Move Amount in \(nodeB.parent!.name!) - \(amountToMove) Amount stay in \(nodeA.parent!.name!) -\(amountToStay)")
+            // Set the new values
+            self.medDrainCurrPos = self.medDrainCurrPos + amountToMove
+            self.smlDrainMax = amountToStay
+
+            // get new pos child
+            let newNodeAPos: String = String(self.smlDrainCurrPos)
+            let newNodeBPos: String = String(self.medDrainCurrPos)
+            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
+            let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
+            let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+
+            let nodeAAction = SCNAction.move(to: nodeInA.position, duration: 1)
+            let nodeBAction = SCNAction.move(to: nodeInB.position, duration: 1)
+            nodeA.runAction(nodeAAction)
+            nodeB.runAction(nodeBAction)
+            self.checkPuzzleWinCon()
+        })
+        
+        btnCA!.setInteractDelegate(function: {
+            //C->A
+            let nodeA = waterNodeSmldrain
+            let nodeAMax = self.smlDrainMax
+            let nodeACurr = self.smlDrainCurrPos
+
+            let nodeB = waterNodeBigdrain
+            let nodeBMax = self.bigDrainMax
+            let nodeBCurr = self.bigDrainCurrPos
+
+            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
+            let amountToStay: Int = nodeACurr - amountToMove
+
+            print("Move Amount in \(nodeB.parent!.name!) - \(amountToMove) Amount stay in \(nodeA.parent!.name!) -\(amountToStay)")
+
+            // Set the new values
+            self.bigDrainCurrPos = self.bigDrainCurrPos + amountToMove
+            self.smlDrainCurrPos = amountToStay
+
+            // get new pos child
+            let newNodeAPos: String = String(self.smlDrainCurrPos)
+            let newNodeBPos: String = String(self.bigDrainCurrPos)
+            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
+            let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
+            let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+
+            let nodeAAction = SCNAction.move(to: nodeInA.position, duration: 1)
+            let nodeBAction = SCNAction.move(to: nodeInB.position, duration: 1)
+            nodeA.runAction(nodeAAction)
+            nodeB.runAction(nodeBAction)
+            self.checkPuzzleWinCon()
+        })
+        
+        btnAC!.setInteractDelegate(function: {
+            //A->C
+            let nodeA = waterNodeBigdrain
+            let nodeAMax = self.bigDrainMax
+            let nodeACurr = self.bigDrainCurrPos
+
+            let nodeB = waterNodeSmldrain
+            let nodeBMax = self.smlDrainMax
+            let nodeBCurr = self.smlDrainCurrPos
+
+            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
+            let amountToStay: Int = nodeACurr - amountToMove
+            print("Move Amount in \(nodeB.parent!.name!) - \(amountToMove) Amount stay in \(nodeA.parent!.name!) -\(amountToStay)")
+            // Set the new values
+            self.smlDrainCurrPos = self.smlDrainCurrPos + amountToMove
+            self.bigDrainCurrPos = amountToStay
+
+            // get new pos child
+            let newNodeAPos: String = String(self.bigDrainCurrPos)
+            let newNodeBPos: String = String(self.smlDrainCurrPos)
+            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
+            let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
+            let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+
+            let nodeAAction = SCNAction.move(to: nodeInA.position, duration: 1)
+            let nodeBAction = SCNAction.move(to: nodeInB.position, duration: 1)
+            nodeA.runAction(nodeAAction)
+            nodeB.runAction(nodeBAction)
+            self.checkPuzzleWinCon()
+        })
     }
     
     // Per Puzzle Check for Win condition
@@ -96,32 +275,6 @@ class Puzzle3: Puzzle {
         }
     }
     
-    func drainBtnDelegateMaker(NodeA: SCNNode, NodeB: SCNNode, NodeAMax: Int, NodeBMax: Int,  NodeACurr: inout Int, NodeBCurr: inout Int) -> () -> () {
-        // Calculate New Values
-        let amountToMove: Int = NodeACurr >= (NodeBMax - NodeBCurr) ? NodeBMax - NodeBCurr : NodeACurr
-        let amountToStay: Int = NodeACurr - amountToMove
-        
-        // Set the new values
-        NodeBCurr = NodeBCurr + amountToMove
-        NodeACurr = amountToMove
-        
-        //print("Node A - ",NodeACurr, " node B - ", NodeBCurr)
-        
-        // get new pos child
-        let newNodeAPos: String = String(NodeACurr)
-        let newNodeBPos: String = String(NodeBCurr)
-            return {
-                //print(NodeA.parent!.name!," - ",newNodeAPos,NodeB.parent!.name!, " - ", newNodeBPos)
-                let nodeInA = NodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-                let nodeInB = NodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
-                
-                let nodeAAction = SCNAction.move(to: nodeInA.worldPosition, duration: 1)
-                let nodeBAction = SCNAction.move(to: nodeInB.worldPosition, duration: 1)
-                self.checkPuzzleWinCon()
-//                NodeA.runAction(nodeAAction)
-//                NodeB.runAction(nodeBAction)
-            }
-        }	
-    
 }
+
 

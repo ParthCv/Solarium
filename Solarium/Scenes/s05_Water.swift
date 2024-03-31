@@ -65,27 +65,13 @@ extension s05_Water {
         deletableNodes.append(floorNode)
         return floorNode
     }
-    
-    func setUpButtonsOnPlatform() {
-        let platformNode: SCNNode = scene.rootNode.childNode(withName: "P0_5_0_platform", recursively: true)!
-        let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P0_6_2_up", recursively: true)!
-        let btnRoot = platformNode.childNodes[0]
-        let curBtnWolrdPos = upButtonNode.worldPosition
-        platformNode.addChildNode(upButtonNode)
-        upButtonNode.worldPosition = curBtnWolrdPos
-        btnRoot.physicsBody?.resetTransform()
-    }
-    
-    func setUpBallOnPedestal(pedestal: SCNNode, ball: SCNNode) {
-        let batteryPos = pedestal.childNode(withName: "BatteryRoot", recursively: true)!
-        batteryPos.addChildNode(ball)
-        ball.worldPosition = batteryPos.worldPosition
-    }
+
     
     func setUpDrainPosition(drain: SCNNode, pos: Int) {
+        let nodeToMove = drain.childNode(withName: "cylinder", recursively: true)!
         let posStr = String(pos)
         let newPosNod = drain.childNode(withName: posStr, recursively: true)!
-        drain.worldPosition = newPosNod.worldPosition
+        nodeToMove.worldPosition = newPosNod.worldPosition
     }
     
 }
