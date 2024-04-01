@@ -131,6 +131,7 @@ class SceneTemplate {
                     let interactableIndex = nameParts[1]
                     let intCast = Int(String(interactableIndex))!
                     foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
+                    print("Interactable created - ", nameParts[3], "with priority - ", nameParts[2])
                 }
                 return true
             }

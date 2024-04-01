@@ -38,7 +38,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.sceneDictionary = [
-            .SCN0: s04_Tree(gvc: self),
+            .SCN0: s05_Water(gvc: self),
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
@@ -49,7 +49,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sceneDictionary = [
-            .SCN0: s04_Tree(gvc: self),
+            .SCN0: s05_Water(gvc: self),
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
@@ -62,7 +62,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         super.viewDidLoad()
 
         // Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN0)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
