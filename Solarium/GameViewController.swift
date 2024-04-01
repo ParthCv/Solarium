@@ -16,6 +16,9 @@ enum SceneEnum : String{
 }
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+    
+    var audioManager: AudioManager?
+    
     var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
     
     // Get the overlay view for the game
@@ -65,6 +68,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        audioManager = AudioManager()
 
         // Initialize and load the current scene
         switchScene(currScn: nil, nextScn: SceneEnum.SCN2)
@@ -189,8 +194,11 @@ extension GameViewController{
     // Function to switch scenes
     @MainActor
     func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum) {
+        
         // Find the scene to load
         if let sceneTemplate = sceneDictionary[nextScn]{
+            audioManager?.playCurrentStageBGM(sceneName: nextScn)
+            
             // Load the next scene fisrt
             sceneTemplate.load()
             

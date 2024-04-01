@@ -7,7 +7,9 @@
 
 import SceneKit
 
+
 class SceneTemplate {    
+
     var gvc: GameViewController
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()
@@ -68,6 +70,11 @@ class SceneTemplate {
                     print(targetScene)
                     let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                     scnInteract.doInteractDelegate = {
+                        // Door interact sound is the default that will be played when transitioning between Scenes.
+                        self.gvc.audioManager?.playInteractSound(interactableName: "Door")
+                        // Stop current scene BGM. Playing the next scene BGM handled in GameViewController.switchScene()
+                        self.gvc.audioManager?.stopCurrentStageBGM()
+                        //self.gvc.audioManager?.playCurrentStageBGM(sceneName: targetScene)
                         DispatchQueue.main.async(execute: {
                             SharedData.sharedData.playerSpawnIndex = Int(nameParts[2])!
                             self.gvc.switchScene(currScn: self, nextScn: targetScene)
