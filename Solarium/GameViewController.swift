@@ -70,13 +70,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         super.viewDidLoad()
         
         audioManager = AudioManager()
-        
-        // Add this code for when we swap scenes
-//        audioManager!.stopCurrentStageBGM(sceneType: SceneEnum.SCN0)
-//        audioManager!.playCurrentStageBGM(sceneType: SceneEnum.SCN2)
-        
-        // Add this code for when we interact with a button/door/orb
-//        audioManager?.playInteractSound(interactableName: "Door")
 
         // Initialize and load the current scene
         switchScene(currScn: nil, nextScn: SceneEnum.SCN0)
@@ -204,8 +197,11 @@ extension GameViewController{
     // Function to switch scenes
     @MainActor
     func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum) {
+        
         // Find the scene to load
         if let sceneTemplate = sceneDictionary[nextScn]{
+            audioManager?.playCurrentStageBGM(sceneName: nextScn)
+            
             // Load the next scene fisrt
             sceneTemplate.load()
             

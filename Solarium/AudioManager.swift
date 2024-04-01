@@ -17,8 +17,6 @@ class AudioManager {
     
     init() {
         
-        print("initAANALIZING AUDIO")
-        
         self.instanceID = UUID()
         currentSceneBGMEnum = SceneEnum.SCN0
         
@@ -99,9 +97,6 @@ class AudioManager {
             }
         }
         
-        
-        //TODO: Need a way to get current scene lvl
-        playCurrentStageBGM(sceneName: SceneEnum.SCN0) // hardcoded SCN0 for now
     }
     
     func playCurrentStageBGM(sceneName: SceneEnum) {
