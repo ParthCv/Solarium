@@ -10,9 +10,7 @@ import SceneKit
 import SpriteKit
 
 final class GameView: SCNView, SCNSceneRendererDelegate {
-    
-    
-    
+
     let joystickName = "JoysticNub"
     let dpadRadius: CGFloat = 75
     let joystickRadius: CGFloat = 25

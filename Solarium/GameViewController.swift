@@ -114,7 +114,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         pauseButton.backgroundColor = UIColor.gray
         pauseButton.layer.cornerRadius = buttonSize / 2
         pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
-        view.addSubview(pauseButton)
+        gameView.addSubview(pauseButton)
         pauseButton.isHidden = true
         
     }
