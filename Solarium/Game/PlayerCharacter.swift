@@ -24,9 +24,6 @@ class PlayerCharacter {
     // Name of the player node
     var nodeName: String
     
-    // physics body on the scene
-    var physicsBody: SCNPhysicsBody = SCNPhysicsBody()
-    
     // controller for the player
     var playerController: PlayerController!
     
@@ -54,16 +51,6 @@ class PlayerCharacter {
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
         
-        // Add a physics body to the player
-//        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil
-//        )
-//        
-//        self.modelNode.physicsBody?.friction 
-//        = 0.99
-        
-        //set the collision params
-        setCollisionBitMask()
-        
         // Read the anmations file and add it to the player
         self.animations = animationController.loadAnimations(animationFile: animationFile)
         for (key, anim) in animations{
@@ -84,13 +71,4 @@ class PlayerCharacter {
         self.animationController.playAnimation(animations: self.animations, key: "walk")
     }
 
-    // Set the bit mask for player
-    private func setCollisionBitMask() {
-        // Player own bitmask
-        //modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.player.rawValue
-        
-        // Bitmask of things the player will collide with
-//        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.ground.rawValue | SolariumCollisionBitMask.interactable.rawValue
-    }
-    
 }

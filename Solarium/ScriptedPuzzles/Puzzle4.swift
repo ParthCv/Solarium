@@ -42,11 +42,6 @@ class Puzzle4: Puzzle {
     //Pedestals
     var pedestalBtm: Interactable?
     var solutionPedestals: [Interactable?]
-//    var pedestal1: Interactable?
-//    var pedestal2: Interactable?
-//    var pedestal3: Interactable?
-//    var pedestal4: Interactable?
-//    var pedestal5: Interactable?
     
     //Balls
     var ball1: Interactable?
@@ -88,21 +83,10 @@ class Puzzle4: Puzzle {
         let objectPosOnPlayerNode = sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
         
         solutionBallOrder = [trackedEntities[13], trackedEntities[14], trackedEntities[15], trackedEntities[16], trackedEntities[17]]
-        //        ball1 = trackedEntities[13]
-        //        ball2 = trackedEntities[14]
-        //        ball3 = trackedEntities[15]
-        //        ball4 = trackedEntities[16]
-        //        ball5 = trackedEntities[17]
-        
+
         pedestalBtm = trackedEntities[7]
         pedestalBtm!.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &pedestalBtm!.node))
         solutionPedestals = [trackedEntities[8], trackedEntities[9], trackedEntities[10], trackedEntities[11], trackedEntities[12]]
-        //        pedestal1 = trackedEntities[8]
-        //        //pedestal1!.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &pedestal1!.node))
-        //        pedestal2 = trackedEntities[9]
-        //        pedestal3 = trackedEntities[10]
-        //        pedestal4 = trackedEntities[11]
-        //        pedestal5 = trackedEntities[12]
         
         for i in 0 ..< solutionPedestals.count {
             let ped = solutionPedestals[i]!
