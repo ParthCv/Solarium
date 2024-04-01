@@ -279,8 +279,7 @@ class Puzzle3: Puzzle {
     }
     
     func setupFileOverlay() {
-        let backgroundImage = UIImage(named: "art.scnassets/files.png")!.alpha(0.85)
-        
+        let backgroundImage = UIImage(named: "art.scnassets/files.png")!.alpha(1)
         let texture = SKTexture(image: backgroundImage)
         let bound = self.sceneTemplate.gvc.gameView.bounds
         let fileImageNode = SKSpriteNode(texture: texture)
@@ -304,10 +303,8 @@ class Puzzle3: Puzzle {
         hintLabel.numberOfLines = 0
         hintLabel.isHidden = true
         
-        //fileImageNode.isHidden = true
         let interactButton = JKButtonNode(title: "X", state: .normal)
         interactButton.action = hideHintCallBack
-        
         interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
         interactButton.size = CGSizeMake(45,45)
         interactButton.canPlaySounds = false
@@ -334,9 +331,15 @@ class Puzzle3: Puzzle {
         let fileNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "fileImage")
         let textNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "Hint1")
         let closeBtn = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "CloseBtn")
+        
+        let fadeIn = SKAction.fadeAlpha(to: 0.70, duration: 1)
         fileNode!.isHidden = false
-        textNode!.isHidden = false
-        closeBtn!.isHidden = false
+        fileNode?.run(fadeIn) {
+            textNode!.isHidden = false
+            closeBtn!.isHidden = false
+        }
+        
+        
     }
 }
 
