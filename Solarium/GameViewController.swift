@@ -67,7 +67,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         super.viewDidLoad()
 
         // Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN0)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN2)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -84,9 +84,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
-        
-        // Perform Solarium Game Init Logic
-        currentScene?.gameInit()
     }
     
     // Physics Loops
