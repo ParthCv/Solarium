@@ -61,7 +61,7 @@ class PuzzleMovingPlatformTest: Puzzle {
 
         print("curr pos ", currPlatformPosIndex!)
         
-        let moveAction = SCNAction.move(to: endPos, duration: 4)
+        let moveAction = SCNAction.move(to: endPos, duration: 10)
         
         triggerButtonNode?.priority = .noPriority
 
