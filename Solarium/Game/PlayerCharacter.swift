@@ -24,8 +24,8 @@ class PlayerCharacter {
     // Name of the player node
     var nodeName: String
     
-    // physics body on the scene
-    var physicsBody: SCNPhysicsBody = SCNPhysicsBody()
+    // physics body on the scene (not being used atm, dont get confused) - Old relic from physicsbody movement
+    //var physicsBody: SCNPhysicsBody = SCNPhysicsBody()
     
     // controller for the player
     var playerController: PlayerController!

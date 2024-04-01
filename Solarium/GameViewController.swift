@@ -64,29 +64,29 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     }
     
     @objc func startButtonTapped() {
-        print("startBtnPressed")
-        
-        //Clean up main menu elements
+        // Hide Title Sceen Elements
         titleLabel.isHidden = true
         titleStartButton.isHidden = true
         titleBackgroundImage.isHidden = true
         pauseButton.isHidden = false
         
+        gameView.scene?.isPaused = false
     }
     
     @objc func pauseButtonTapped() {
-        print("pauseBtnPressed")
-        
+        // Unhide Title Sceen Elements
         titleLabel.isHidden = false
         titleStartButton.isHidden = false
         titleBackgroundImage.isHidden = false
         pauseButton.isHidden = true
         
+        gameView.scene?.isPaused = true
+        currentScene?.playerCharacter.modelNode.physicsBody?.velocity = SCNVector3Zero
+        currentScene?.playerCharacter.modelNode.physicsBody?.angularVelocity = SCNVector4Zero
+        
     }
     
     func setupTitleScreen() {
-        
-        print("x")
         
         // Create a new background image view
         titleBackgroundImage = UIImageView(image: UIImage(named: "art.scnassets/TitleScreenBackground.png"))
