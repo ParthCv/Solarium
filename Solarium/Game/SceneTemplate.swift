@@ -7,22 +7,6 @@
 
 import SceneKit
 
-/// Abstract class to hold the basic info for a scene
-///
-///var mainCamera: SCNNode, Main camera in the scene
-///
-///var playerCharacter: PlayerCharacter, Player charecter object
-///
-///var scene: SCNScene!, The scene itself in the scnasset folder
-///
-///var isUnloadable: Bool, Flag to make the scene unloaded after the switch
-///
-///var puzzles: [Puzzle], The list of puzzles for this scene
-///
-///var currentPuzzle: Int, Index of currentPuzzle
-///
-///var deletableNodes: [SCNNode],  list of all deletable nodes
-///
 class SceneTemplate {    
     var gvc: GameViewController
     // Main camera in the scene
@@ -131,6 +115,7 @@ class SceneTemplate {
                     let interactableIndex = nameParts[1]
                     let intCast = Int(String(interactableIndex))!
                     foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
+                    print("Interactable created - ", nameParts[3], "with priority - ", nameParts[2])
                 }
                 return true
             }
