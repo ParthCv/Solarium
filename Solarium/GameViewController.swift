@@ -10,6 +10,11 @@ import QuartzCore
 import SceneKit
 import GameplayKit
 
+// Enum to hold all th escens in the game
+enum SceneEnum : String{
+    case SCN0, SCN1, SCN2, SCN3, SCN4
+}
+
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
     

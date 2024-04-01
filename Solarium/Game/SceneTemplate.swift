@@ -7,22 +7,6 @@
 
 import SceneKit
 
-/// Abstract class to hold the basic info for a scene
-///
-///var mainCamera: SCNNode, Main camera in the scene
-///
-///var playerCharacter: PlayerCharacter, Player charecter object
-///
-///var scene: SCNScene!, The scene itself in the scnasset folder
-///
-///var isUnloadable: Bool, Flag to make the scene unloaded after the switch
-///
-///var puzzles: [Puzzle], The list of puzzles for this scene
-///
-///var currentPuzzle: Int, Index of currentPuzzle
-///
-///var deletableNodes: [SCNNode],  list of all deletable nodes
-///
 class SceneTemplate {    
     var gvc: GameViewController
     // Main camera in the scene
