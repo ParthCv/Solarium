@@ -13,13 +13,14 @@ class AudioManager {
     var interactSFXPlayer: [String: AVPlayer] = [:]    // Dictionary to map Puzzle Interactables to different sounds
     var instanceID: UUID
     var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
-    
+    var currentSceneBGMEnum: SceneEnum
     
     init() {
         
         print("initAANALIZING AUDIO")
         
         self.instanceID = UUID()
+        currentSceneBGMEnum = SceneEnum.SCN0
         
         do {
             let session = AVAudioSession.sharedInstance()
@@ -100,10 +101,10 @@ class AudioManager {
         
         
         //TODO: Need a way to get current scene lvl
-        playCurrentStageBGM(sceneType: SceneEnum.SCN0) // hardcoded SCN0 for now
+        playCurrentStageBGM(sceneName: SceneEnum.SCN0) // hardcoded SCN0 for now
     }
     
-    func playCurrentStageBGM(sceneType: SceneEnum) {
+    func playCurrentStageBGM(sceneName: SceneEnum) {
         guard !backgroundMusicPlayer.isEmpty else {
             print("No background music loaded")
             return
@@ -111,7 +112,7 @@ class AudioManager {
         
         var bgmFileName: String
         
-        switch sceneType {
+        switch sceneName {
             case .SCN0:
                 bgmFileName = "Loop#1"
             case .SCN1:
@@ -126,20 +127,22 @@ class AudioManager {
         
         if let bgmPlayer = backgroundMusicPlayer.first(where: { $0.url?.lastPathComponent == "\(bgmFileName).wav" }) {
             bgmPlayer.play()
+            currentSceneBGMEnum = sceneName
         } else {
-            print("Background music for scene \(sceneType.rawValue) not found")
+            print("Background music for scene \(sceneName.rawValue) not found")
         }
     }
     
-    func stopCurrentStageBGM(sceneType: SceneEnum) {
+    func stopCurrentStageBGM() {
         guard !backgroundMusicPlayer.isEmpty else {
             print("No background music loaded")
             return
         }
         
+        //var sceneType = currentSceneBGMEnum
         var bgmFileName: String
         
-        switch sceneType {
+        switch currentSceneBGMEnum {
             case .SCN0:
                 bgmFileName = "Loop#1"
             case .SCN1:
@@ -155,7 +158,7 @@ class AudioManager {
         if let bgmPlayer = backgroundMusicPlayer.first(where: { $0.url?.lastPathComponent == "\(bgmFileName).wav" }) {
             bgmPlayer.stop()
         } else {
-            print("Background music for scene \(sceneType.rawValue) not found")
+            print("Background music for scene \(currentSceneBGMEnum.rawValue) not found")
         }
     }
     

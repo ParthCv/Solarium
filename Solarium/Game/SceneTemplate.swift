@@ -86,6 +86,8 @@ class SceneTemplate {
                     scnInteract.doInteractDelegate = {
                         print("SceneTransitionDelegate Here -> Play Sound")
                         self.gvc.audioManager?.playInteractSound(interactableName: "Door")
+                        self.gvc.audioManager?.stopCurrentStageBGM()
+                        self.gvc.audioManager?.playCurrentStageBGM(sceneName: targetScene)
                         DispatchQueue.main.async(execute: {
                             SharedData.sharedData.playerSpawnIndex = Int(nameParts[2])!
                             self.gvc.switchScene(currScn: self, nextScn: targetScene)
