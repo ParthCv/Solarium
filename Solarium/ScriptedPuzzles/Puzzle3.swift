@@ -81,7 +81,6 @@ class Puzzle3: Puzzle {
         
         btnAB!.setInteractDelegate(function: {
             //A->B
- 
             let nodeA = waterNodeBigdrain
             let nodeACurr = self.bigDrainCurrPos
             
@@ -143,7 +142,6 @@ class Puzzle3: Puzzle {
         btnBC!.setInteractDelegate(function: {
             //B->C
             let nodeA = waterNodeMeddrain
-
             let nodeACurr = self.medDrainCurrPos
 
             let nodeB = waterNodeSmldrain
@@ -174,7 +172,6 @@ class Puzzle3: Puzzle {
         btnCB!.setInteractDelegate(function: {
             //C->B
             let nodeA = waterNodeSmldrain
-            let nodeAMax = self.smlDrainMax
             let nodeACurr = self.smlDrainCurrPos
 
             let nodeB = waterNodeMeddrain
@@ -205,7 +202,6 @@ class Puzzle3: Puzzle {
         btnCA!.setInteractDelegate(function: {
             //C->A
             let nodeA = waterNodeSmldrain
-            let nodeAMax = self.smlDrainMax
             let nodeACurr = self.smlDrainCurrPos
 
             let nodeB = waterNodeBigdrain
@@ -238,7 +234,6 @@ class Puzzle3: Puzzle {
         btnAC!.setInteractDelegate(function: {
             //A->C
             let nodeA = waterNodeBigdrain
-            let nodeAMax = self.bigDrainMax
             let nodeACurr = self.bigDrainCurrPos
 
             let nodeB = waterNodeSmldrain
