@@ -183,7 +183,7 @@ class Puzzle3: Puzzle {
             print("Move Amount in \(nodeB.parent!.name!) - \(amountToMove) Amount stay in \(nodeA.parent!.name!) -\(amountToStay)")
             // Set the new values
             self.medDrainCurrPos = self.medDrainCurrPos + amountToMove
-            self.smlDrainMax = amountToStay
+            self.smlDrainCurrPos = amountToStay
 
             // get new pos child
             let newNodeAPos: String = String(self.smlDrainCurrPos)
