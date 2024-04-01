@@ -17,7 +17,6 @@ enum SceneEnum : String{
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     
-    var titleLabel:               UILabel!
     var titleStartButton:         UIButton!
     var titleBackgroundImage:     UIImageView!
     var pauseButton:              UIButton!
@@ -70,7 +69,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     @objc func startButtonTapped() {
         // Hide Title Sceen Elements
-        titleLabel.isHidden = true
         titleStartButton.isHidden = true
         titleBackgroundImage.isHidden = true
         pauseButton.isHidden = false
@@ -80,7 +78,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     @objc func pauseButtonTapped() {
         // Unhide Title Sceen Elements
-        titleLabel.isHidden = false
         titleStartButton.isHidden = false
         titleBackgroundImage.isHidden = false
         pauseButton.isHidden = true
@@ -101,13 +98,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         gameView.sendSubviewToBack(titleBackgroundImage) // Send it to the back so it's behind other UI elements
 
         // Set up main menu UI
-        titleLabel = UILabel()
-        titleLabel.text = "Main Menu"
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 24)
-        titleLabel.frame = CGRect(x: 0, y: 100, width: view.frame.width, height: 50)
-        gameView.addSubview(titleLabel)
-        
         titleStartButton = UIButton(type: .system)
         titleStartButton.setTitle("Start Game", for: .normal)
         titleStartButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20) // Custom font size
