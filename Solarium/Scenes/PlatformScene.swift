@@ -54,28 +54,16 @@ extension PlatformScene {
     
     func setUpPlatform() {
         // Make the button child of the platform so it moves with it
-        let buttonNode = self.scene.rootNode.childNode(withName: "P0_1_2_PlatformButton", recursively: true)
+        let upButtonNode = self.scene.rootNode.childNode(withName: "P0_1_2_PlatformButton", recursively: true)!
         
-        let platformNode = self.scene.rootNode.childNode(withName: "P0_0_0_Platform", recursively: true)
+        let platformNode = self.scene.rootNode.childNode(withName: "P0_0_0_Platform", recursively: true)!
         
-        let btnRoot = platformNode!.childNodes[0]
+        let btnRoot = platformNode.childNodes[0]
+        let curBtnWolrdPos = upButtonNode.worldPosition
+        platformNode.addChildNode(upButtonNode)
+        upButtonNode.worldPosition = curBtnWolrdPos
+        btnRoot.physicsBody?.resetTransform()
         
-        let buttonNodePos = btnRoot.worldPosition
-        let buttonNodeScale = btnRoot.scale
-
-        platformNode!.addChildNode(buttonNode!)
-        
-        btnRoot.scale = buttonNodeScale
-        buttonNode?.worldPosition = buttonNodePos
-        btnRoot.physicsBody!.resetTransform()
-        print(btnRoot.presentation.worldPosition)
-        
-        //Move the platform to the start point
-        let startPlatformEdge = self.scene.rootNode.childNode(withName: "P0_3_0_PlatformStart", recursively: true)
-        
-        let startPos = startPlatformEdge!.childNodes[1].worldPosition
-        
-        platformNode!.position = startPos
     }
     
 }

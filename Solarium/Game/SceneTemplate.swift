@@ -7,7 +7,9 @@
 
 import SceneKit
 
+
 class SceneTemplate {    
+
     var gvc: GameViewController
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()
@@ -44,7 +46,7 @@ class SceneTemplate {
     }
     
     // preload for the scene
-    func load(){
+    @MainActor func load(){
         //get spawn points
         scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
             if let name = node.name, name.range(of: "SP_", options: .regularExpression) != nil {
@@ -68,6 +70,11 @@ class SceneTemplate {
                     print(targetScene)
                     let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                     scnInteract.doInteractDelegate = {
+                        // Door interact sound is the default that will be played when transitioning between Scenes.
+                        self.gvc.audioManager?.playInteractSound(interactableName: "Door")
+                        // Stop current scene BGM. Playing the next scene BGM handled in GameViewController.switchScene()
+                        self.gvc.audioManager?.stopCurrentStageBGM()
+                        //self.gvc.audioManager?.playCurrentStageBGM(sceneName: targetScene)
                         DispatchQueue.main.async(execute: {
                             SharedData.sharedData.playerSpawnIndex = Int(nameParts[2])!
                             self.gvc.switchScene(currScn: self, nextScn: targetScene)
@@ -87,6 +94,7 @@ class SceneTemplate {
         deletableNodes.append(playerNode)
         // Add a camera to the scene
         mainCamera = scene.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
+        gameInit()
     }
     
     // delete the nodes from memeory
@@ -97,6 +105,8 @@ class SceneTemplate {
         spawnPoints.removeAll()
         sceneChangeInteractables.removeAll()
         puzzles.removeAll()
+        print(spawnPoints.count)
+        print(sceneChangeInteractables.count)
     }
     
     /// The function called on the scene to perform Solarium game setup logic

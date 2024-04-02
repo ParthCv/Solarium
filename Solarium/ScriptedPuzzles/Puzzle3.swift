@@ -6,6 +6,7 @@
 //
 
 import SceneKit
+import SpriteKit
 
 class Puzzle3: Puzzle {
     
@@ -35,6 +36,9 @@ class Puzzle3: Puzzle {
     //Platform
     var platform: Interactable?
     var platformBtnUp: Interactable?
+    
+    //Hint
+    var file: Interactable?
     
     //Puzzle Solutions
     /*
@@ -74,10 +78,14 @@ class Puzzle3: Puzzle {
         btnAC = trackedEntities[7]
         btnCA = trackedEntities[8]
         
+        file = trackedEntities[9]
+        file!.setInteractDelegate(function: fileDelegate)
+        
         let waterNodeBigdrain = bigDrain!.node.childNode(withName: "cylinder", recursively: true)!
         let waterNodeMeddrain = medDrain!.node.childNode(withName: "cylinder", recursively: true)!
         let waterNodeSmldrain = smlDrain!.node.childNode(withName: "cylinder", recursively: true)!
         
+        setupFileOverlay()
         
         btnAB!.setInteractDelegate(function: {
             //A->B
@@ -270,6 +278,69 @@ class Puzzle3: Puzzle {
         }
     }
     
+    func setupFileOverlay() {
+        let backgroundImage = UIImage(named: "art.scnassets/files.png")!.alpha(1)
+        let texture = SKTexture(image: backgroundImage)
+        let bound = self.sceneTemplate.gvc.gameView.bounds
+        let fileImageNode = SKSpriteNode(texture: texture)
+        fileImageNode.name = "fileImage"
+        fileImageNode.position = CGPointMake(bound.width/2, bound.height/2)
+        fileImageNode.size = bound.size
+        fileImageNode.isHidden = true
+        
+        let hintText = PuzzleHints["Puzzle_3_0"]!
+        let hintLabel = SKLabelNode()        
+        hintLabel.text = hintText
+        hintLabel.fontSize = 20
+        hintLabel.fontColor = .white
+        hintLabel.fontName = "Monofur"
+        hintLabel.name = "Hint1"
+        hintLabel.verticalAlignmentMode = .center
+        hintLabel.horizontalAlignmentMode = .center
+        hintLabel.position = CGPointMake(bound.width/2, bound.height/2)
+        hintLabel.lineBreakMode = .byWordWrapping
+        hintLabel.preferredMaxLayoutWidth = 500
+        hintLabel.numberOfLines = 0
+        hintLabel.isHidden = true
+        
+        let interactButton = JKButtonNode(title: "X", state: .normal)
+        interactButton.action = hideHintCallBack
+        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.size = CGSizeMake(45,45)
+        interactButton.canPlaySounds = false
+        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
+        interactButton.position.x = 750
+        interactButton.position.y = 300
+        interactButton.isHidden = true
+        interactButton.name = "CloseBtn"
+        
+        self.sceneTemplate.gvc.gameView.overlaySKScene?.addChild(fileImageNode)
+        self.sceneTemplate.gvc.gameView.overlaySKScene?.addChild(hintLabel)
+        self.sceneTemplate.gvc.gameView.overlaySKScene?.addChild(interactButton)
+    }
+    
+    func hideHintCallBack(_ sender: JKButtonNode) {
+        sender.isHidden = true
+        let fileNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "fileImage")
+        let textNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "Hint1")
+        fileNode!.isHidden = true
+        textNode!.isHidden = true
+    }
+    
+    func fileDelegate() {
+        let fileNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "fileImage")
+        let textNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "Hint1")
+        let closeBtn = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "CloseBtn")
+        
+        let fadeIn = SKAction.fadeAlpha(to: 0.70, duration: 1)
+        fileNode!.isHidden = false
+        fileNode?.run(fadeIn) {
+            textNode!.isHidden = false
+            closeBtn!.isHidden = false
+        }
+        
+        
+    }
 }
 
 

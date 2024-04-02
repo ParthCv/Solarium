@@ -21,6 +21,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     var titleBackgroundImage:     UIImageView!
     var pauseButton:              UIButton!
 
+    var audioManager: AudioManager?
+    
     var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
     
     // Get the overlay view for the game
@@ -122,11 +124,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        audioManager = AudioManager()
 
         setupTitleScreen()
 
         // Initialize and load the current scene DO NOT MOVE THIS FUNCTION, SHIT WILL BREAK
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN0)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN2)
 
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -143,9 +147,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
-        
-        // Perform Solarium Game Init Logic
-        currentScene?.gameInit()
     }
     
     // Physics Loops
@@ -251,8 +252,11 @@ extension GameViewController{
     // Function to switch scenes
     @MainActor
     func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum) {
+        
         // Find the scene to load
         if let sceneTemplate = sceneDictionary[nextScn]{
+            audioManager?.playCurrentStageBGM(sceneName: nextScn)
+            
             // Load the next scene fisrt
             sceneTemplate.load()
             

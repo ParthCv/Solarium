@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AAE3F0B2BB9522D0064DD8B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE3F0A2BB9522D0064DD8B /* AudioManager.swift */; };
 		2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */; };
 		B50159DE2BB7601B00D44221 /* s02_Agriculture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */; };
 		B50159E02BB7602700D44221 /* s03_Lights.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DF2BB7602700D44221 /* s03_Lights.swift */; };
@@ -42,7 +43,6 @@
 		E2E00A612B72EA5000B35D6C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A602B72EA5000B35D6C /* art.scnassets */; };
 		E2E00A632B72EA5000B35D6C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E00A622B72EA5000B35D6C /* GameViewController.swift */; };
 		E2E00A662B72EA5000B35D6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A642B72EA5000B35D6C /* Main.storyboard */; };
-		E2E00A682B72EA5100B35D6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A672B72EA5100B35D6C /* Assets.xcassets */; };
 		E2E00A6B2B72EA5100B35D6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2E00A692B72EA5100B35D6C /* LaunchScreen.storyboard */; };
 		E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40872B9709CD003DFE95 /* SceneChangeInteractable.swift */; };
 		E2EE3EE62B97F2F600A43652 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40822B96F1D6003DFE95 /* Extensions.swift */; };
@@ -52,6 +52,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1AAE3F092BB952000064DD8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1AAE3F0A2BB9522D0064DD8B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s01_Tutorial.swift; sourceTree = "<group>"; };
 		B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s02_Agriculture.swift; sourceTree = "<group>"; };
 		B50159DF2BB7602700D44221 /* s03_Lights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s03_Lights.swift; sourceTree = "<group>"; };
@@ -90,7 +92,6 @@
 		E2E00A602B72EA5000B35D6C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		E2E00A622B72EA5000B35D6C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		E2E00A652B72EA5000B35D6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E2E00A672B72EA5100B35D6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2E00A6A2B72EA5100B35D6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE0B3C582BA1006F008FAD06 /* Puzzle0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle0.swift; sourceTree = "<group>"; };
 		EE0B3C5A2BA10077008FAD06 /* Puzzle1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle1.swift; sourceTree = "<group>"; };
@@ -123,9 +124,9 @@
 				E2120AFB2B919B380024EC74 /* OtherScene.swift */,
 				B5EE1CBE2BB3616C00012F5F /* TeleportScene.swift */,
 				E22E054B2BA398C000B9955D /* PedestalScene.swift */,
+				B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */,
 				E268A2A32BB4F80F0023E281 /* PlatformScene.swift */,
 				2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */,
-				B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */,
 				B50159DF2BB7602700D44221 /* s03_Lights.swift */,
 				E2291B302BB68A4E00A7D4FC /* s04_Tree.swift */,
 				E2982DDF2BB91995002B88F5 /* s05_Water.swift */,
@@ -193,12 +194,13 @@
 				E2120AF62B918BE60024EC74 /* Scenes */,
 				E2DE13DF2B7C57C4002B6CBD /* Utils */,
 				E2DE13D52B7C1370002B6CBD /* Game */,
+				1AAE3F0A2BB9522D0064DD8B /* AudioManager.swift */,
 				B5722A032B743E0D0088CB64 /* GameView.swift */,
-				E2E00A5E2B72EA5000B35D6C /* AppDelegate.swift */,
-				E2E00A602B72EA5000B35D6C /* art.scnassets */,
 				E2E00A622B72EA5000B35D6C /* GameViewController.swift */,
+				E2E00A5E2B72EA5000B35D6C /* AppDelegate.swift */,
+				1AAE3F092BB952000064DD8B /* Assets.xcassets */,
+				E2E00A602B72EA5000B35D6C /* art.scnassets */,
 				E2E00A642B72EA5000B35D6C /* Main.storyboard */,
-				E2E00A672B72EA5100B35D6C /* Assets.xcassets */,
 				E2E00A692B72EA5100B35D6C /* LaunchScreen.storyboard */,
 				B53193032B97EBAE0036E05D /* scenes.scnassets */,
 			);
@@ -292,7 +294,6 @@
 				B55F153C2BB62A0900909D6C /* DoorAnimations.json in Resources */,
 				E2E00A612B72EA5000B35D6C /* art.scnassets in Resources */,
 				E2E00A6B2B72EA5100B35D6C /* LaunchScreen.storyboard in Resources */,
-				E2E00A682B72EA5100B35D6C /* Assets.xcassets in Resources */,
 				B5D395E02B7D5CEC008C2CB2 /* WifeAnimations.json in Resources */,
 				E2E00A662B72EA5000B35D6C /* Main.storyboard in Resources */,
 			);
@@ -315,6 +316,7 @@
 				E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */,
 				E2DE13E12B7C57CD002B6CBD /* SharedConstants.swift in Sources */,
 				B50159E02BB7602700D44221 /* s03_Lights.swift in Sources */,
+				1AAE3F0B2BB9522D0064DD8B /* AudioManager.swift in Sources */,
 				B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */,
 				E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */,
 				E22E054E2BA3B25F00B9955D /* PickUpInteractable.swift in Sources */,
