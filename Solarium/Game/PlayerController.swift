@@ -11,7 +11,7 @@ class PlayerController {
     // node that includes the player mesh
     var playerCharacterNode: SCNNode
     
-    let defaultPlayerSpeed: Float = 10.0
+    let defaultPlayerSpeed: Float = 15.0
     
     let forceDampingFactor: Float = 90
     
