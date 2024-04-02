@@ -8,23 +8,26 @@
 import SceneKit
 
 class Puzzle2 : Puzzle {
-    var tubePuzzleState = Array(repeating:false, count:3)
+    var tubePuzzleState = Array(repeating:false, count:4)
     var isDoorOpen = false
     var tank = SCNNode()
     var sprinkler = SCNNode()
     override func linkEntitiesToPuzzleLogic() {
-        let buttons = [ trackedEntities[0]!, trackedEntities[1]!, trackedEntities[2]! ]
-        let waterTubes = [trackedEntities[3]!,  trackedEntities[4]!,  trackedEntities[5]! ]
-        tank = trackedEntities[6]!.node
-        let ball = trackedEntities[7]!
-        let ped = trackedEntities[8]!
-        let door = Door(node: trackedEntities[9]!.node, openState: false)
-        sprinkler = trackedEntities[10]!.node
         
+        tank = trackedEntities[0]!.node
+        let door = Door(node: trackedEntities[1]!.node, openState: false)
+        sprinkler = trackedEntities[2]!.node
+        
+        let ball = trackedEntities[3]!
+        let ped = trackedEntities[4]!
+        
+        let buttons = [ trackedEntities[5]!, trackedEntities[6]!, trackedEntities[7]!, trackedEntities[8]!]
+        let waterTubes = [trackedEntities[9]!, trackedEntities[10]!, trackedEntities[11]!, trackedEntities[12]! ]
         for i in 0 ..< buttons.count {
-            buttons[i].doInteractDelegate = tubePuzzleButtonDelegateMaker(sets: [
-                i: waterTubes[i]
-            ])
+            var sets = [ i: waterTubes[i] ]
+            if (i != 0) { sets[i-1] = waterTubes[i-1] }
+            if (i != buttons.count - 1) { sets[i+1] = waterTubes[i+1] }
+            buttons[i].doInteractDelegate = tubePuzzleButtonDelegateMaker(sets: sets)
         }
         
         let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
@@ -51,7 +54,7 @@ class Puzzle2 : Puzzle {
     }
     
     func unfillTank(){
-        if(tubePuzzleState[0] && tubePuzzleState[1] && tubePuzzleState[2]){
+        if(tubePuzzleState.allSatisfy({$0 == true})){
             let toPos = tank.worldPosition - SCNVector3(0, tank.scale.y,0)
             let moveAction = SCNAction.move(to: toPos, duration: 1)
             tank.runAction(moveAction){
@@ -60,12 +63,12 @@ class Puzzle2 : Puzzle {
         }
     }
     
-    func tubePuzzleButtonDelegateMaker(sets: [Int: Interactable?]) -> () -> () {
+    func tubePuzzleButtonDelegateMaker(sets: [Int: Interactable?]) -> (() -> ()) {
         return {
             for set in sets {
                 self.tubePuzzleState[set.key] = !self.tubePuzzleState[set.key]
                 let tubePos = set.value!.node.worldPosition
-                let toPos = self.tubePuzzleState[set.key] ? SCNVector3(x: tubePos.x, y: 20, z: tubePos.z): SCNVector3(x: tubePos.x, y: -20, z: tubePos.z)
+                let toPos = self.tubePuzzleState[set.key] ? SCNVector3(x: tubePos.x, y: 30, z: tubePos.z): SCNVector3(x: tubePos.x, y: 60, z: tubePos.z)
                 let moveAction = SCNAction.move(to: toPos, duration: 2)
                 set.value?.node.runAction(moveAction){
                     self.unfillTank()
@@ -74,7 +77,7 @@ class Puzzle2 : Puzzle {
         }
     }
     
-    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode, toggleFunc: @escaping () -> ()) -> () -> (){
+    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode, toggleFunc: @escaping () -> ()) -> (() -> ()){
         let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
         let onToggleDo = toggleFunc
         return {
@@ -118,7 +121,7 @@ class Puzzle2 : Puzzle {
         }
     }
     
-    func ballPickUpDelegateMaker(playerBallPosNode: SCNNode, ball: Interactable) -> () -> () {
+    func ballPickUpDelegateMaker(playerBallPosNode: SCNNode, ball: Interactable) -> (() -> ()) {
         // if the player isnt holdin smthg and the base node is the parent of the ball
         return{
             if (!self.sceneTemplate.playerCharacter.isHoldingSmthg) {
