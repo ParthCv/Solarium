@@ -21,6 +21,7 @@ class SceneTemplate {
     var scene: SCNScene! = nil
     var spawnPoints: [Int: SCNNode]
     var sceneChangeInteractables: [SceneChangeInteractable]
+    var autoTriggerEntities: [Interactable]
     
     // flag to make the scene unloaded after the switch
     var isUnloadable: Bool
@@ -37,6 +38,7 @@ class SceneTemplate {
         isUnloadable = false
         spawnPoints = [:]
         sceneChangeInteractables = []
+        autoTriggerEntities = []
         deletableNodes = []
         puzzles = []
         currentPuzzle = 0
@@ -100,6 +102,33 @@ class SceneTemplate {
             
         })
         
+        scene.rootNode.childNodes(passingTest: { (node,stop) -> Bool in
+            if let name = node.name, name.range(of: "AT_", options: .regularExpression) != nil{
+                let nameParts = name.components(separatedBy: "_")
+                if nameParts.count >= 2 {
+                    switch nameParts[1]{
+                    case "Teleport":
+                        if nameParts.count >= 4 {
+                            let target = nameParts[3]
+                            let tpInteract = Interactable(node: node, priority: TriggerPriority.noPriority, displayText: nil)
+                            tpInteract.doInteractDelegate = { [weak self] in
+                                let player = self!.playerCharacter.modelNode
+                                
+                                let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
+                                player?.runAction(moveAction)
+                            }
+                            autoTriggerEntities.append(tpInteract)
+                        }
+                        break
+                    default: break
+                    }
+                    
+                }
+                return true
+            }
+            return false
+        })
+        
         // Add the player to the scene
         let playerNode = playerCharacter.loadPlayerCharacter(spawnPosition: spawnPoints[SharedData.sharedData.playerSpawnIndex]!.worldPosition)
         scene.rootNode.addChildNode(playerNode)
@@ -116,6 +145,7 @@ class SceneTemplate {
         }
         spawnPoints.removeAll()
         sceneChangeInteractables.removeAll()
+        autoTriggerEntities.removeAll()
         puzzles.removeAll()
         print(spawnPoints.count)
         print(sceneChangeInteractables.count)
@@ -203,6 +233,12 @@ class SceneTemplate {
             if interactableEntity.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.priority {
                 highestPriority = interactableEntity.priority
                 interactableObject = interactableEntity
+            }
+        }
+        
+        for interactableEntity in autoTriggerEntities {
+            if interactableEntity.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.triggerVolume! {
+                interactableEntity.doInteractDelegate!()
             }
         }
         
