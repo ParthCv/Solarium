@@ -26,8 +26,8 @@ class s02_Agriculture: SceneTemplate{
         let puzzle0 : Puzzle = Puzzle2(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
-//        let puzzle1 : Puzzle = Puzzle2(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
-//        puzzles.append(puzzle1)
+        let puzzle1 : Puzzle = Puzzle3(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
+        puzzles.append(puzzle1)
         
         for puzzle in puzzles {
             getPuzzleTrackedEntities(puzzleObj: puzzle)
