@@ -16,7 +16,7 @@ enum SceneEnum : String{
 }
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
-    
+
     var audioManager: AudioManager?
     
     var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
@@ -66,6 +66,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN5: s06_Riddle(gvc: self)
         ]
     }
+
     
     // Awake function
     override func viewDidLoad() {
@@ -91,6 +92,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
+        
+        // Pause game after everything has been loaded - no inputs taken in Title Screen
+        gameView.isPaused = true
+        gameView.scene?.isPaused = true
     }
     
     // Physics Loops
@@ -148,7 +153,7 @@ extension GameViewController {
         let touchLocation = touch.location(in: self.view)
         
         // Check if the touch is in the d-pad
-        if gameView.virtualDPad().contains(touchLocation) {
+        if !gameView.isPaused && gameView.virtualDPad().contains(touchLocation) {
             // Calculate the x and y directions
             let middleOfCircleX = gameView.virtualDPad().origin.x + gameView.dpadRadius
             let middleOfCircleY = gameView.virtualDPad().origin.y + gameView.dpadRadius

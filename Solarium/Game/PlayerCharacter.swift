@@ -23,7 +23,7 @@ class PlayerCharacter {
     
     // Name of the player node
     var nodeName: String
-    
+        
     // controller for the player
     var playerController: PlayerController!
     
