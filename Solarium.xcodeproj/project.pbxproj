@@ -33,6 +33,8 @@
 		E268A2A42BB4F80F0023E281 /* PlatformScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E268A2A32BB4F80F0023E281 /* PlatformScene.swift */; };
 		E2982DDE2BB91976002B88F5 /* Puzzle3.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2982DDD2BB91976002B88F5 /* Puzzle3.swift */; };
 		E2982DE02BB91995002B88F5 /* s05_Water.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2982DDF2BB91995002B88F5 /* s05_Water.swift */; };
+		E2A996402BBB8B9500D79004 /* s06_Riddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A9963F2BBB8B9500D79004 /* s06_Riddle.swift */; };
+		E2A996422BBB8BA800D79004 /* Puzzle6.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A996412BBB8BA800D79004 /* Puzzle6.swift */; };
 		E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40802B96C362003DFE95 /* JKButtonNode.swift */; };
 		E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40842B96FF79003DFE95 /* Interactable.swift */; };
 		E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */; };
@@ -79,6 +81,8 @@
 		E268A2A32BB4F80F0023E281 /* PlatformScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformScene.swift; sourceTree = "<group>"; };
 		E2982DDD2BB91976002B88F5 /* Puzzle3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle3.swift; sourceTree = "<group>"; };
 		E2982DDF2BB91995002B88F5 /* s05_Water.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s05_Water.swift; sourceTree = "<group>"; };
+		E2A9963F2BBB8B9500D79004 /* s06_Riddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s06_Riddle.swift; sourceTree = "<group>"; };
+		E2A996412BBB8BA800D79004 /* Puzzle6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle6.swift; sourceTree = "<group>"; };
 		E2DC40802B96C362003DFE95 /* JKButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKButtonNode.swift; sourceTree = "<group>"; };
 		E2DC40822B96F1D6003DFE95 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E2DC40842B96FF79003DFE95 /* Interactable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactable.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 				B50159DF2BB7602700D44221 /* s03_Lights.swift */,
 				E2291B302BB68A4E00A7D4FC /* s04_Tree.swift */,
 				E2982DDF2BB91995002B88F5 /* s05_Water.swift */,
+				E2A9963F2BBB8B9500D79004 /* s06_Riddle.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 				B50159E12BB7742E00D44221 /* Puzzle2.swift */,
 				E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */,
 				E2982DDD2BB91976002B88F5 /* Puzzle3.swift */,
+				E2A996412BBB8BA800D79004 /* Puzzle6.swift */,
 			);
 			path = ScriptedPuzzles;
 			sourceTree = "<group>";
@@ -313,6 +319,7 @@
 				B50159E22BB7742E00D44221 /* Puzzle2.swift in Sources */,
 				E268A2A42BB4F80F0023E281 /* PlatformScene.swift in Sources */,
 				E2982DDE2BB91976002B88F5 /* Puzzle3.swift in Sources */,
+				E2A996402BBB8B9500D79004 /* s06_Riddle.swift in Sources */,
 				E2EE3EE52B97F2F100A43652 /* SceneChangeInteractable.swift in Sources */,
 				E2DE13E12B7C57CD002B6CBD /* SharedConstants.swift in Sources */,
 				B50159E02BB7602700D44221 /* s03_Lights.swift in Sources */,
@@ -333,6 +340,7 @@
 				2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */,
 				E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */,
 				E2E00A5F2B72EA5000B35D6C /* AppDelegate.swift in Sources */,
+				E2A996422BBB8BA800D79004 /* Puzzle6.swift in Sources */,
 				E2982DE02BB91995002B88F5 /* s05_Water.swift in Sources */,
 				E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */,
 				E2291B2F2BB6869500A7D4FC /* Puzzle4.swift in Sources */,

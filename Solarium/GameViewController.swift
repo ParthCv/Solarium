@@ -12,7 +12,7 @@ import GameplayKit
 
 // Enum to hold all th escens in the game
 enum SceneEnum : String{
-    case SCN0, SCN1, SCN2, SCN3, SCN4
+    case SCN0, SCN1, SCN2, SCN3, SCN4, SCN5
 }
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
@@ -50,7 +50,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
-            .SCN4: s04_Tree(gvc: self)
+            .SCN4: s04_Tree(gvc: self),
+            .SCN5: s06_Riddle(gvc: self)
         ]
     }
     
@@ -61,7 +62,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
-            .SCN4: s04_Tree(gvc: self)
+            .SCN4: s04_Tree(gvc: self),
+            .SCN5: s06_Riddle(gvc: self)
         ]
     }
     
@@ -72,7 +74,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         audioManager = AudioManager()
 
         // Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN2)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN5)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
