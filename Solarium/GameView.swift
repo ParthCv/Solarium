@@ -24,6 +24,9 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
     var pauseMenuBtn: JKButtonNode!
     var pauseMenuResumeBtn: JKButtonNode!
     
+    var mainMenuImageNode: SKSpriteNode!
+    var mainMenuStartBtn: JKButtonNode!
+    
     //TODO: Should Move this to GameViewController 
     let interactButton = JKButtonNode(title: "Interact", state: .normal)
     
@@ -45,7 +48,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         pauseMenuBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
         pauseMenuBtn.position.x = self.bounds.height - buttonSize - 15
         pauseMenuBtn.position.y = self.bounds.width - buttonSize - 15
-        pauseMenuBtn.isHidden = false
+        pauseMenuBtn.isHidden = true
         pauseMenuBtn.action = pauseBtnCallback
         pauseMenuBtn.name = "PauseMenuBtn"
         
@@ -60,46 +63,62 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         pauseMenuResumeBtn.action = resumeBtnCallback
         pauseMenuResumeBtn.name = "PauseMenuResumeBtn"
         
-        let mainMenuImage = UIImage(named: "art.scnassets/TitleScreenBackground.png")!
-        let mainMenuTexture = SKTexture(image: mainMenuImage)
-        let mainMenuImageNode = SKSpriteNode(texture: mainMenuTexture)
-        let scaleFactor = min(bounds.size.width/mainMenuImage.size.width, bounds.size.height/mainMenuImage.size.height)
+        let mmImage = UIImage(named: "art.scnassets/TitleScreenBackground.png")!
+        let mmTexture = SKTexture(image: mmImage)
+        mainMenuImageNode = SKSpriteNode(texture: mmTexture)
+        // Set the size of the background node to match the size of the scene. Width and height are flipped for some reason.
+        mainMenuImageNode.size.width = self.bounds.size.height
+        mainMenuImageNode.size.height = self.bounds.size.width
+        mainMenuImageNode.position.x = self.bounds.height / 2
+        mainMenuImageNode.position.y = self.bounds.width / 2
+        mainMenuImageNode.isHidden = false
         
-        mainMenuImageNode.setScale(scaleFactor)
-        mainMenuImageNode.position = CGPoint(x:bounds.size.height/2, y:bounds.size.width/2)
-        mainMenuImageNode.name = "mainMenuImage"           .ˀ
+        mainMenuStartBtn = JKButtonNode(title: "Start Game", state: .normal)
+        mainMenuStartBtn.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        mainMenuStartBtn.size = CGSizeMake(200,50)
+        mainMenuStartBtn.canPlaySounds = false
+        mainMenuStartBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.yellow)
+        mainMenuStartBtn.position.x = self.bounds.height / 2
+        mainMenuStartBtn.position.y = (self.bounds.width / 2) - 100
+        mainMenuStartBtn.action = startBtnCallback
+        mainMenuStartBtn.name = "PauseMenuResumeBtn"
+        mainMenuStartBtn.isHidden = false
         
+        self.overlaySKScene?.addChild(mainMenuImageNode)
+        self.overlaySKScene?.addChild(mainMenuStartBtn)
         self.overlaySKScene?.addChild(pauseMenuBtn)
         self.overlaySKScene?.addChild(pauseMenuResumeBtn)
-        self.overlaySKScene?.addChild(mainMenuImageNode)
     }
     
-    func resizeSpriteNode( _ spriteNode: SKSpriteNode, to size: CGSize ) {
-        let aspectRatio = spriteNode.size.width / spriteNode.size.height
-        let targetWidth = size.width
-        let targetHeight = targetWidth/aspectRatio
-        spriteNode.size = CGSize(width: targetWidth, height: targetHeight)
+    func startBtnCallback(_ sender: JKButtonNode) {
+        sender.isHidden = true
+        mainMenuImageNode.isHidden = true
+        pauseMenuBtn.isHidden = false
+        
+        isPaused = false
+        self.scene!.isPaused = false
     }
     
     func pauseBtnCallback(_ sender: JKButtonNode) {
         sender.isHidden = true
         joyStick.isHidden = true
         pauseMenuResumeBtn.isHidden = false
-        isPaused = true
         
-        self.scene!.isPaused = true
+        // Pause player physics manually, dealing with situation where paused while on moving platforms
         let player = scene?.rootNode.childNode(withName: "PlayerNode_Wife", recursively: true)!
-        
         player?.physicsBody?.velocity = SCNVector3Zero
         player?.physicsBody?.angularVelocity = SCNVector4Zero
+        
+        isPaused = true
+        self.scene!.isPaused = true
     }
     
     func resumeBtnCallback(_ sender: JKButtonNode) {
         sender.isHidden = true
         joyStick.isHidden = false
         pauseMenuBtn.isHidden = false
-        isPaused = false
         
+        isPaused = false
         self.scene!.isPaused = false
     }
     

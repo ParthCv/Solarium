@@ -16,10 +16,6 @@ enum SceneEnum : String{
 }
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
-    
-//    var titleStartButton:         UIButton!
-//    var titleBackgroundImage:     UIImageView!
-//    var pauseButton:              UIButton!
 
     var audioManager: AudioManager?
     
@@ -68,61 +64,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN4: s04_Tree(gvc: self)
         ]
     }
+
     
-//    @objc func startButtonTapped() {
-//        // Hide Title Sceen Elements
-//        titleStartButton.isHidden = true
-//        titleBackgroundImage.isHidden = true
-//        pauseButton.isHidden = false
-//        
-//        gameView.scene?.isPaused = false
-//    }
-//    
-//    @objc func pauseButtonTapped() {
-//        // Unhide Title Sceen Elements
-//        titleStartButton.isHidden = false
-//        titleBackgroundImage.isHidden = false
-//        pauseButton.isHidden = true
-//        
-//        gameView.scene?.isPaused = true
-//        currentScene?.playerCharacter.modelNode.physicsBody?.velocity = SCNVector3Zero
-//        currentScene?.playerCharacter.modelNode.physicsBody?.angularVelocity = SCNVector4Zero
-//        
-//    }
-//    
-//    func setupTitleScreen() {
-//        
-//        // Create a new background image view
-//        titleBackgroundImage = UIImageView(image: UIImage(named: "art.scnassets/TitleScreenBackground.png"))
-//        titleBackgroundImage.frame = gameView.bounds
-//        titleBackgroundImage.contentMode = .scaleAspectFill // Adjust content mode as needed
-//        gameView.addSubview(titleBackgroundImage)
-//        gameView.sendSubviewToBack(titleBackgroundImage) // Send it to the back so it's behind other UI elements
-//
-//        // Set up main menu UI
-//        titleStartButton = UIButton(type: .system)
-//        titleStartButton.setTitle("Start Game", for: .normal)
-//        titleStartButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20) // Custom font size
-//        titleStartButton.setTitleColor(.white, for: .normal) // Set font color to white
-//        titleStartButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-//        titleStartButton.frame = CGRect(x: 100, y: 200, width: 200, height: 50)
-//        gameView.addSubview(titleStartButton)
-//        
-//        let buttonSize: CGFloat = 25
-//        pauseButton = UIButton(type: .system)
-//        pauseButton.setTitle("⏸", for: .normal)
-//        pauseButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-//        pauseButton.frame = CGRect(x: view.frame.width - buttonSize - 20, y: 20, width: buttonSize, height: buttonSize)
-//        pauseButton.backgroundColor = UIColor.gray
-//        pauseButton.layer.cornerRadius = buttonSize / 2
-//        pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
-//        gameView.addSubview(pauseButton)
-//        pauseButton.isHidden = true
-//        
-//    }
-    
-    
-        
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,6 +92,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
+        
+        // Pause game after everything has been loaded - no inputs taken in Title Screen
+        gameView.isPaused = true
+        gameView.scene?.isPaused = true
     }
     
     // Physics Loops
