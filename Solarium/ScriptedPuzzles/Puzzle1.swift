@@ -38,6 +38,7 @@ class Puzzle1 : Puzzle {
         if (!solved && isFinalDoorOpen) {
             self.solved = true
             (sceneTemplate as! s01_TutorialScene).allPuzzlesDone() //TODO: EW GROSS change SceneTemplate from protocol to class
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
         }
     }
     
@@ -71,6 +72,7 @@ class Puzzle1 : Puzzle {
                     ballNode.worldPosition = newPos
                     self.sceneTemplate.playerCharacter.isHoldingSmthg = true
                 }
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
                 
             } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
                 //Reparent to the root node
@@ -88,6 +90,7 @@ class Puzzle1 : Puzzle {
                     batRootNode.addChildNode(ballNode)
                     ballNode.worldPosition = newPos
                 }
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
             }
         }
     }
