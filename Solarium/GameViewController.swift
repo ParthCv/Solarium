@@ -17,9 +17,9 @@ enum SceneEnum : String{
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     
-    var titleStartButton:         UIButton!
-    var titleBackgroundImage:     UIImageView!
-    var pauseButton:              UIButton!
+//    var titleStartButton:         UIButton!
+//    var titleBackgroundImage:     UIImageView!
+//    var pauseButton:              UIButton!
 
     var audioManager: AudioManager?
     
@@ -69,57 +69,59 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         ]
     }
     
-    @objc func startButtonTapped() {
-        // Hide Title Sceen Elements
-        titleStartButton.isHidden = true
-        titleBackgroundImage.isHidden = true
-        pauseButton.isHidden = false
-        
-        gameView.scene?.isPaused = false
-    }
+//    @objc func startButtonTapped() {
+//        // Hide Title Sceen Elements
+//        titleStartButton.isHidden = true
+//        titleBackgroundImage.isHidden = true
+//        pauseButton.isHidden = false
+//        
+//        gameView.scene?.isPaused = false
+//    }
+//    
+//    @objc func pauseButtonTapped() {
+//        // Unhide Title Sceen Elements
+//        titleStartButton.isHidden = false
+//        titleBackgroundImage.isHidden = false
+//        pauseButton.isHidden = true
+//        
+//        gameView.scene?.isPaused = true
+//        currentScene?.playerCharacter.modelNode.physicsBody?.velocity = SCNVector3Zero
+//        currentScene?.playerCharacter.modelNode.physicsBody?.angularVelocity = SCNVector4Zero
+//        
+//    }
+//    
+//    func setupTitleScreen() {
+//        
+//        // Create a new background image view
+//        titleBackgroundImage = UIImageView(image: UIImage(named: "art.scnassets/TitleScreenBackground.png"))
+//        titleBackgroundImage.frame = gameView.bounds
+//        titleBackgroundImage.contentMode = .scaleAspectFill // Adjust content mode as needed
+//        gameView.addSubview(titleBackgroundImage)
+//        gameView.sendSubviewToBack(titleBackgroundImage) // Send it to the back so it's behind other UI elements
+//
+//        // Set up main menu UI
+//        titleStartButton = UIButton(type: .system)
+//        titleStartButton.setTitle("Start Game", for: .normal)
+//        titleStartButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20) // Custom font size
+//        titleStartButton.setTitleColor(.white, for: .normal) // Set font color to white
+//        titleStartButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+//        titleStartButton.frame = CGRect(x: 100, y: 200, width: 200, height: 50)
+//        gameView.addSubview(titleStartButton)
+//        
+//        let buttonSize: CGFloat = 25
+//        pauseButton = UIButton(type: .system)
+//        pauseButton.setTitle("⏸", for: .normal)
+//        pauseButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+//        pauseButton.frame = CGRect(x: view.frame.width - buttonSize - 20, y: 20, width: buttonSize, height: buttonSize)
+//        pauseButton.backgroundColor = UIColor.gray
+//        pauseButton.layer.cornerRadius = buttonSize / 2
+//        pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
+//        gameView.addSubview(pauseButton)
+//        pauseButton.isHidden = true
+//        
+//    }
     
-    @objc func pauseButtonTapped() {
-        // Unhide Title Sceen Elements
-        titleStartButton.isHidden = false
-        titleBackgroundImage.isHidden = false
-        pauseButton.isHidden = true
-        
-        gameView.scene?.isPaused = true
-        currentScene?.playerCharacter.modelNode.physicsBody?.velocity = SCNVector3Zero
-        currentScene?.playerCharacter.modelNode.physicsBody?.angularVelocity = SCNVector4Zero
-        
-    }
     
-    func setupTitleScreen() {
-        
-        // Create a new background image view
-        titleBackgroundImage = UIImageView(image: UIImage(named: "art.scnassets/TitleScreenBackground.png"))
-        titleBackgroundImage.frame = gameView.bounds
-        titleBackgroundImage.contentMode = .scaleAspectFill // Adjust content mode as needed
-        gameView.addSubview(titleBackgroundImage)
-        gameView.sendSubviewToBack(titleBackgroundImage) // Send it to the back so it's behind other UI elements
-
-        // Set up main menu UI
-        titleStartButton = UIButton(type: .system)
-        titleStartButton.setTitle("Start Game", for: .normal)
-        titleStartButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20) // Custom font size
-        titleStartButton.setTitleColor(.white, for: .normal) // Set font color to white
-        titleStartButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-        titleStartButton.frame = CGRect(x: 100, y: 200, width: 200, height: 50)
-        gameView.addSubview(titleStartButton)
-        
-        let buttonSize: CGFloat = 25
-        pauseButton = UIButton(type: .system)
-        pauseButton.setTitle("⏸", for: .normal)
-        pauseButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        pauseButton.frame = CGRect(x: view.frame.width - buttonSize - 20, y: 20, width: buttonSize, height: buttonSize)
-        pauseButton.backgroundColor = UIColor.gray
-        pauseButton.layer.cornerRadius = buttonSize / 2
-        pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
-        gameView.addSubview(pauseButton)
-        pauseButton.isHidden = true
-        
-    }
         
     // Awake function
     override func viewDidLoad() {
@@ -127,10 +129,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         audioManager = AudioManager()
 
-        setupTitleScreen()
+        //setupTitleScreen()
 
         // Initialize and load the current scene DO NOT MOVE THIS FUNCTION, SHIT WILL BREAK
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN2)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN4)
 
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -204,7 +206,7 @@ extension GameViewController {
         let touchLocation = touch.location(in: self.view)
         
         // Check if the touch is in the d-pad
-        if gameView.virtualDPad().contains(touchLocation) {
+        if !gameView.isPaused && gameView.virtualDPad().contains(touchLocation) {
             // Calculate the x and y directions
             let middleOfCircleX = gameView.virtualDPad().origin.x + gameView.dpadRadius
             let middleOfCircleY = gameView.virtualDPad().origin.y + gameView.dpadRadius

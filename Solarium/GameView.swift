@@ -16,6 +16,13 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
     let joystickRadius: CGFloat = 25
     let deadZoneRadius: CGFloat = 25
     var joystickOrigin = CGPoint.zero
+    var joyStick: SKNode!
+    
+    var titleBackgroundImage:     UIImageView!
+    
+    var isPaused: Bool = false
+    var pauseMenuBtn: JKButtonNode!
+    var pauseMenuResumeBtn: JKButtonNode!
     
     //TODO: Should Move this to GameViewController 
     let interactButton = JKButtonNode(title: "Interact", state: .normal)
@@ -23,7 +30,80 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         setup2DOverlay()
+        setupTitleScreen()
     }
+    
+
+    
+    func setupTitleScreen() {
+        
+        let buttonSize: CGFloat = 20
+        pauseMenuBtn = JKButtonNode(title: "⏸", state: .normal)
+        pauseMenuBtn.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        pauseMenuBtn.size = CGSizeMake(buttonSize,buttonSize)
+        pauseMenuBtn.canPlaySounds = false
+        pauseMenuBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
+        pauseMenuBtn.position.x = self.bounds.height - buttonSize - 15
+        pauseMenuBtn.position.y = self.bounds.width - buttonSize - 15
+        pauseMenuBtn.isHidden = false
+        pauseMenuBtn.action = pauseBtnCallback
+        pauseMenuBtn.name = "PauseMenuBtn"
+        
+        pauseMenuResumeBtn = JKButtonNode(title: "Resume", state: .normal)
+        pauseMenuResumeBtn.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        pauseMenuResumeBtn.size = CGSizeMake(200,50)
+        pauseMenuResumeBtn.canPlaySounds = false
+        pauseMenuResumeBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
+        pauseMenuResumeBtn.position.x = self.bounds.height / 2
+        pauseMenuResumeBtn.position.y = (self.bounds.width / 2) - 100
+        pauseMenuResumeBtn.isHidden = true
+        pauseMenuResumeBtn.action = resumeBtnCallback
+        pauseMenuResumeBtn.name = "PauseMenuResumeBtn"
+        
+        let mainMenuImage = UIImage(named: "art.scnassets/TitleScreenBackground.png")!
+        let mainMenuTexture = SKTexture(image: mainMenuImage)
+        let mainMenuImageNode = SKSpriteNode(texture: mainMenuTexture)
+        let scaleFactor = min(bounds.size.width/mainMenuImage.size.width, bounds.size.height/mainMenuImage.size.height)
+        
+        mainMenuImageNode.setScale(scaleFactor)
+        mainMenuImageNode.position = CGPoint(x:bounds.size.height/2, y:bounds.size.width/2)
+        mainMenuImageNode.name = "mainMenuImage"           .ˀ
+        
+        self.overlaySKScene?.addChild(pauseMenuBtn)
+        self.overlaySKScene?.addChild(pauseMenuResumeBtn)
+        self.overlaySKScene?.addChild(mainMenuImageNode)
+    }
+    
+    func resizeSpriteNode( _ spriteNode: SKSpriteNode, to size: CGSize ) {
+        let aspectRatio = spriteNode.size.width / spriteNode.size.height
+        let targetWidth = size.width
+        let targetHeight = targetWidth/aspectRatio
+        spriteNode.size = CGSize(width: targetWidth, height: targetHeight)
+    }
+    
+    func pauseBtnCallback(_ sender: JKButtonNode) {
+        sender.isHidden = true
+        joyStick.isHidden = true
+        pauseMenuResumeBtn.isHidden = false
+        isPaused = true
+        
+        self.scene!.isPaused = true
+        let player = scene?.rootNode.childNode(withName: "PlayerNode_Wife", recursively: true)!
+        
+        player?.physicsBody?.velocity = SCNVector3Zero
+        player?.physicsBody?.angularVelocity = SCNVector4Zero
+    }
+    
+    func resumeBtnCallback(_ sender: JKButtonNode) {
+        sender.isHidden = true
+        joyStick.isHidden = false
+        pauseMenuBtn.isHidden = false
+        isPaused = false
+        
+        self.scene!.isPaused = false
+    }
+    
+    
     
     func setup2DOverlay() {
         let viewHeight = bounds.size.height
@@ -57,7 +137,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         interactButton.position.y = 100
         interactButton.isHidden = true
         
-        let joyStick = SKNode()
+        joyStick = SKNode()
         joyStick.addChild(dpadShape)
         joyStick.addChild(joystickShape)
         
