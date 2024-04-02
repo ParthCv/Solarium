@@ -6,6 +6,7 @@
 //
 
 import SceneKit
+import SpriteKit
 
 class Puzzle6: Puzzle {
     //Puzzle Solutions
@@ -34,6 +35,13 @@ class Puzzle6: Puzzle {
     var ball5: Interactable?
     var solutionBallOrder: [Interactable?]
     
+    //Hints
+    var hints: [Interactable?]
+    var hint1: Interactable?
+    var hint2: Interactable?
+    var hint3: Interactable?
+    var hint4: Interactable?
+    
     var platformPositions: [SCNVector3]?
     var currPlatformPosIndex: Int?
     
@@ -44,7 +52,9 @@ class Puzzle6: Puzzle {
         solutionBallOrder = []
         platformPositions = []
         storePedestals = []
+        hints = []
         super.init(puzzleID: puzzleID, trackedEntities: trackedEntities, sceneTemplate: sceneTemplate)
+        setupFileOverlay()
     }
     
     // Function called when entities assigned
@@ -57,6 +67,8 @@ class Puzzle6: Puzzle {
         
         solutionPedestals = [trackedEntities[10], trackedEntities[11], trackedEntities[12], trackedEntities[13], trackedEntities[14]]
         
+        hints = [trackedEntities[15], trackedEntities[16], trackedEntities[17], trackedEntities[18]]
+        
         for i in 0 ..< storePedestals.count {
             let ped = storePedestals[i]
             ped!.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped!.node))
@@ -67,12 +79,30 @@ class Puzzle6: Puzzle {
             ped.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped.node, nameOfBall: solutionBallOrder[i]!.node.name!, index: i))
         }
         
+        for i in 0 ..< hints.count {
+            let hint = hints[i]
+            hint!.setInteractDelegate(function: hintDelegateMaker(fileNodeName: "hint\(i+1)", btnNodeName: "btnCls\(i+1)"))
+        }
+        
     }
     
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
         let condition = self.puzzleStateArray.allSatisfy({$0 == true})
         if( condition ) {print("Puzzle Complete")}
+    }
+    
+    func hintDelegateMaker(fileNodeName: String, btnNodeName: String) -> () -> () {
+        return {
+            let fileNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: fileNodeName)
+            let closeBtn = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: btnNodeName)
+            
+            let fadeIn = SKAction.fadeAlpha(to: 0.70, duration: 1)
+            fileNode!.isHidden = false
+            fileNode?.run(fadeIn) {
+                closeBtn!.isHidden = false
+            }
+        }
     }
     
 
@@ -170,6 +200,54 @@ class Puzzle6: Puzzle {
     func checkIfBallIsInRightPlace(batteryRoot: SCNNode, correctBallName: String) -> Bool {
         print("comparing ", batteryRoot.childNodes[0].name!, " and ", correctBallName)
         return batteryRoot.childNodes[0].name! == correctBallName
+    }
+    
+    func setupFileOverlay() {
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createHintTexture(nodeName: "hint1", texturePath: "art.scnassets/hintRiddle6/hint1_riddle6.png"))
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createHintTexture(nodeName: "hint2", texturePath: "art.scnassets/hintRiddle6/hint2_riddle6.png"))
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createHintTexture(nodeName: "hint3", texturePath: "art.scnassets/hintRiddle6/hint3_riddle6.png"))
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createHintTexture(nodeName: "hint4", texturePath: "art.scnassets/hintRiddle6/hint4_riddle6.png"))
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createCloseBtns(btnName: "btnCls1", nodeToHide: "hint1"))
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createCloseBtns(btnName: "btnCls2", nodeToHide: "hint2"))
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createCloseBtns(btnName: "btnCls3", nodeToHide: "hint3"))
+        self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createCloseBtns(btnName: "btnCls4", nodeToHide: "hint4"))
+    }
+    
+    func createHintTexture(nodeName: String, texturePath: String) -> (SKSpriteNode) {
+        let backgroundImage = UIImage(named: texturePath)!.alpha(1)
+        let texture = SKTexture(image: backgroundImage)
+        let bound = self.sceneTemplate.gvc.gameView.bounds
+        let hint = SKSpriteNode(texture: texture)
+        hint.name = nodeName
+        hint.position = CGPointMake(bound.width/2, bound.height/2)
+        hint.size = bound.size
+        hint.isHidden = true
+        
+        return hint
+    }
+    
+    func createCloseBtns(btnName: String, nodeToHide: String) -> (JKButtonNode) {
+        let interactButton = JKButtonNode(title: "X", state: .normal)
+        interactButton.action = closeBtnDelgateMaker(skNodeToHide: nodeToHide)
+        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.size = CGSizeMake(45,45)
+        interactButton.canPlaySounds = false
+        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
+        interactButton.position.x = 750
+        interactButton.position.y = 300
+        interactButton.isHidden = true
+        interactButton.name = btnName
+        
+        return interactButton
+    }
+    
+    func closeBtnDelgateMaker(skNodeToHide: String) -> ((JKButtonNode)->()) {
+        return {(_ sender: JKButtonNode) in
+            sender.isHidden = true
+            let skNode = self.sceneTemplate.gvc.gameView.overlaySKScene!.childNode(withName: skNodeToHide)!
+            skNode.isHidden = true
+            
+        }
     }
     
 }
