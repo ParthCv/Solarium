@@ -51,6 +51,8 @@ extension s01_TutorialScene {
         floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
 
         floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        floorNode.physicsBody!.rollingFriction = 1
+        floorNode.physicsBody!.friction = 1
         deletableNodes.append(floorNode)
         return floorNode
     }

@@ -76,11 +76,23 @@ class SceneTemplate {
                         self.gvc.audioManager?.stopCurrentStageBGM()
                         //self.gvc.audioManager?.playCurrentStageBGM(sceneName: targetScene)
                         DispatchQueue.main.async(execute: {
-                            SharedData.sharedData.playerSpawnIndex = Int(nameParts[2])!
+                            SharedData.sharedData.playerSpawnIndex = scnInteract.targetSpawnPoint
                             self.gvc.switchScene(currScn: self, nextScn: targetScene)
                         })
                     }
                     sceneChangeInteractables.append(scnInteract)
+                }
+                return true
+            }
+            return false
+            
+        })
+        
+        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
+            if let name = node.name, name.range(of: "D_", options: .regularExpression) != nil {
+                let nameParts = name.components(separatedBy: "_")
+                if nameParts.count >= 2 {
+                    Door(node: node, openState: (nameParts[2] == "1"))
                 }
                 return true
             }
