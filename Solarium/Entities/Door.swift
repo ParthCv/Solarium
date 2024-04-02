@@ -25,6 +25,8 @@ class Door {
             anim.animation.isRemovedOnCompletion = false
             self.modelNode.addAnimationPlayer(anim, forKey: key)
         }
+        isOpen = openState ?? false
+        if isOpen { openDoor() }
     }
     
     func toggleDoor(){
