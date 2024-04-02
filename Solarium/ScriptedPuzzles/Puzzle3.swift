@@ -292,7 +292,9 @@ class Puzzle3: Puzzle {
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
         print("A -",drainCurrPos[0], " B - ", drainCurrPos[1], " C - ", drainCurrPos[2])
-        if(self.drainCurrPos[0] == 30 && self.drainCurrPos[1] == 30) {
+        if(!solved && self.drainCurrPos[0] == 30 && self.drainCurrPos[1] == 30) {
+            solved = true
+            sceneTemplate.nextPuzzle()
             print("Puzzle Solved")
         }
     }

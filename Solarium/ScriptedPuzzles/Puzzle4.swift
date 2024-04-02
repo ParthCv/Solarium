@@ -71,14 +71,15 @@ class Puzzle4: Puzzle {
         floor4 = trackedEntities[3]
         floor5 = trackedEntities[4]
         
-        platformPositions!.append(floor1!.node.childNodes[1].worldPosition)
-        platformPositions!.append(floor2!.node.childNodes[1].worldPosition)
-        platformPositions!.append(floor3!.node.childNodes[1].worldPosition)
-        platformPositions!.append(floor4!.node.childNodes[1].worldPosition)
-        platformPositions!.append(floor5!.node.childNodes[1].worldPosition)
         
         platform = trackedEntities[5]
         platformBtnUp = trackedEntities[6]
+        
+        platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor1!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
+        platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor2!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
+        platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor3!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
+        platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor4!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
+        platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor5!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
         
         let objectPosOnPlayerNode = sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
         
@@ -99,12 +100,18 @@ class Puzzle4: Puzzle {
     
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
+        if(!solved && self.puzzleStateArray.allSatisfy({$0 == true})) {
+            solved = true
+            sceneTemplate.nextPuzzle()
+            print("Puzzle Solved")
+        }
     }
     
     func movePlatformUpIntercatDelegate() {
         currPlatformPosIndex = (currPlatformPosIndex! + 1) % platformPositions!.count
-        
-        let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: 5)
+        let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
+        print(pos)
+        let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/7.5)))
         
         platformBtnUp!.priority = .noPriority
         
@@ -211,9 +218,10 @@ class Puzzle4: Puzzle {
                     
                     if self.checkIfBallIsInRightPlace(batteryRoot: batRootNode, correctBallName: nameOfBall) {
                         self.puzzleStateArray[index] = true
-                        //check puzzlestate
-                        let condition = self.puzzleStateArray.allSatisfy({$0 == true})
-                        print(condition)
+                        self.checkPuzzleWinCon()
+//                        //check puzzlestate
+//                        let condition = self.puzzleStateArray.allSatisfy({$0 == true})
+//                        print(condition)
                     }
                 }
                 print("Dropped off orb")
