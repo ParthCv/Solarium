@@ -15,10 +15,6 @@ class Puzzle3: Puzzle {
     let medDrainMax: Int = 40
     let smlDrainMax: Int = 25
     
-    //Cur Position indices
-//    var bigDrainCurrPos: Int = 60
-//    var medDrainCurrPos: Int = 0
-//    var smlDrainCurrPos: Int = 0
     var drainCurrPos = [60, 0, 0]
     
     //Drains
@@ -88,13 +84,15 @@ class Puzzle3: Puzzle {
         let ball = trackedEntities[11]!
         ped = trackedEntities[12]!
         
+        // Get the nodes that actually move
+        let waterNodeABigdrain = bigDrain!.node
+        let waterNodeBMeddrain = medDrain!.node
+        let waterNodeCSmldrain = smlDrain!.node
         
-        
-        let waterNodeABigdrain = bigDrain!.node//.childNode(withName: "cylinder", recursively: true)!
-        let waterNodeBMeddrain = medDrain!.node//.childNode(withName: "cylinder", recursively: true)!
-        let waterNodeCSmldrain = smlDrain!.node//.childNode(withName: "cylinder", recursively: true)!
-        
+        // Setup the overlay for the hint
         setupFileOverlay()
+        
+        //Set up delegates for all the buttons
         btnAB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeBMeddrain, nodeAIndex: 0, nodeBIndex: 1, nodeBMax: medDrainMax)
         btnBA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeABigdrain, nodeAIndex: 1, nodeBIndex: 0, nodeBMax: bigDrainMax)
         btnBC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeCSmldrain, nodeAIndex: 1, nodeBIndex: 2, nodeBMax: smlDrainMax)
@@ -113,8 +111,6 @@ class Puzzle3: Puzzle {
             solved = true
             sceneTemplate.nextPuzzle()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
-            print(solved)
-            //self.sceneTemplate.gvc.scenesPuzzleComplete[findKey(mvalue: self.sceneTemplate, dict: self.sceneTemplate.gvc.sceneDictionary)] = true
         }
     }
     
@@ -125,35 +121,31 @@ class Puzzle3: Puzzle {
     }
     
     func AtoBDelegateMaker(nodeA: SCNNode, nodeB: SCNNode,  nodeAIndex: Int, nodeBIndex: Int, nodeBMax: Int) -> ( ()->()) {
+        // the array for the indices of the drain position is made a unowned reference cuz there is a string reference cycle
         return { [unowned self] () in
-//            let nodeA = nodeA
-            let nodeACurr = self.drainCurrPos[nodeAIndex]
-//
-//            let nodeB = nodeB
-//            let nodeBMax = self.smlDrainMax
-            let nodeBCurr = self.drainCurrPos[nodeBIndex]
 
+            let nodeACurr = self.drainCurrPos[nodeAIndex]
+
+            let nodeBCurr = self.drainCurrPos[nodeBIndex]
+            
+            // Calc the amount that needs to stay and move
             let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
             let amountToStay: Int = nodeACurr - amountToMove
-            print("Move Amount in \(nodeB.name!) - \(amountToMove) Amount stay in \(nodeA.name!) -\(amountToStay)")
+           
             // Set the new values
             self.drainCurrPos[nodeBIndex] = nodeBCurr + amountToMove
             self.drainCurrPos[nodeAIndex] = amountToStay
-            print("Node B in \(nodeB.name!) - \(self.drainCurrPos[nodeBIndex] ) Node A in \(nodeA.name!) -\(self.drainCurrPos[nodeAIndex])")
 
-//            // get new pos child
-//            let newNodeAPos = self.bigDrainCurrPos
-//            let newNodeBPos = self.medDrainCurrPos
-            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
-            //let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-            //let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
+            // Get the position the node has to move to
             let nodeAMoveToPos = SCNVector3(nodeA.position.x, Float(self.drainCurrPos[nodeAIndex]), nodeA.position.z)
             let nodeBMoveToPos = SCNVector3(nodeB.position.x, Float(self.drainCurrPos[nodeBIndex]), nodeB.position.z)
 
             let nodeAAction = SCNAction.move(to: nodeAMoveToPos, duration: 1)
             let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
+            
             nodeA.runAction(nodeAAction)
             nodeB.runAction(nodeBAction)
+            
             self.checkTankDoor()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
         }

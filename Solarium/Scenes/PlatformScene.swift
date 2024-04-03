@@ -7,6 +7,12 @@
 
 import SceneKit
 
+/**
+ 
+ JUST A TEST CLASS NOT USED ANYMORE
+ 
+ */
+
 class PlatformScene: SceneTemplate {
 
     

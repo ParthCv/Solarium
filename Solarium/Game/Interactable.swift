@@ -6,6 +6,7 @@
 //
 import SceneKit
 
+// Enum for proorities for interactables
 enum TriggerPriority: Int, Comparable, CaseIterable {
     case noPriority, lowPriority, mediumPriority, highPriority
     
@@ -14,6 +15,7 @@ enum TriggerPriority: Int, Comparable, CaseIterable {
     }
 }
 
+// Class to represent entities that have action associated with them on interact
 class Interactable {
     var node: SCNNode
     
@@ -26,6 +28,7 @@ class Interactable {
     // Text on the button that get displayed on the button
     var displayText: String?
     
+    // Function pointer for the on press callback interact button
     @Published var doInteractDelegate: (() -> Void)?
     
     init(node: SCNNode, priority: TriggerPriority, displayText: String?) {
@@ -45,8 +48,9 @@ class Interactable {
         doInteractDelegate!()
     }
     
+    // Default Interact function
     static func defaultInteract(){
-        print("this dont do shit - Jas")
+        print("No interact callback setup!")
     }
 }
 

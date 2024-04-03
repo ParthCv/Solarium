@@ -5,9 +5,14 @@
 //  Created by Parth Chaturvedi on 2024-03-14.
 //
 
+/**
+ 
+ JUST A TEST CLASS NOT USED ANYMORE
+ 
+ */
+
 import SceneKit
 
-//TODO: rename later
 enum PickUpType {
     case RedPickable, BluePickable
 }

@@ -37,35 +37,15 @@ class Puzzle4: Puzzle {
         p3 - b3
         p4 - b4
         p5 - b5
+     
+     Optimal fastest way to get to solution:
+         1) Go to floor 4, Grab Blue, Place on floor 1.
+         2) Go to floor 3, Grab Green, Place on floor 4.
+         3) Go to floor 5, Grab Teal, place on floor 3.
+         4) Go to floor 2, Grab Magenta, place on floor 5
+         5) Go to floor B, Grab Yellow, place on floor 2.
      */
 
-/*
-        Initial setup for scrambled puzzle:
-        Floor B - Yellow
-        Floor 1 - empty
-        Floor 2 - Magenta
-        Floor 3 - Green 
-        Floor 4 - Blue
-        Floor 5 - Teal 
-        
-        
-        Solution:
-        Floor B - empty 
-        Floor 1 - Blue
-        Floor 2 - Yellow
-        Floor 3 - Teal 
-        Floor 4 - Green
-        Floor 5 - Magenta 
-        
-        
-        Optimal fastest way to get to solution:
-        1) Go to floor 4, Grab Blue, Place on floor 1. 
-        2) Go to floor 3, Grab Green, Place on floor 4. 
-        3) Go to floor 5, Grab Teal, place on floor 3. 
-        4) Go to floor 2, Grab Magenta, place on floor 5
-        5) Go to floor B, Grab Yellow, place on floor 2. 
-*/
-    
     //Pedestals
     var pedestalBtm: Interactable?
     var solutionPedestals: [Interactable?]
@@ -79,6 +59,7 @@ class Puzzle4: Puzzle {
     var solutionBallOrder: [Interactable?]
     
     var platformPositions: [SCNVector3]?
+    
     var currPlatformPosIndex: Int?
     
     var puzzleStateArray = Array(repeating: false, count: 5)
@@ -104,6 +85,7 @@ class Puzzle4: Puzzle {
         platform = trackedEntities[5]
         platformBtnUp = trackedEntities[6]
         
+        // Setup the position for the platform
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor1!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor2!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor3!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
@@ -113,13 +95,15 @@ class Puzzle4: Puzzle {
         let objectPosOnPlayerNode = sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
         
         solutionBallOrder = [trackedEntities[13], trackedEntities[14], trackedEntities[15], trackedEntities[16], trackedEntities[17]]
-
+        
+        //Setup the base pedestal
         pedestalBtm = trackedEntities[7]
         pedestalBtm!.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &pedestalBtm!.node))
         solutionPedestals = [trackedEntities[8], trackedEntities[9], trackedEntities[10], trackedEntities[11], trackedEntities[12]]
         
         doorComplete = Door(node: trackedEntities[18]!.node, openState: nil)
         
+        // Set the dlegates for the solution pedestals
         for i in 0 ..< solutionPedestals.count {
             let ped = solutionPedestals[i]!
             ped.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped.node, nameOfBall: solutionBallOrder[i]!.node.name!, index: i))
@@ -147,12 +131,10 @@ class Puzzle4: Puzzle {
         
         platformBtnUp!.priority = .noPriority
         
-        print("Ininital touch of the button for platform to go to next floor")
         self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
         
         platform!.node.runAction(moveAction) {
             self.platformBtnUp!.priority = .mediumPriority
-            print("Elevator has reached the next floor")
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
         }
         
@@ -160,7 +142,7 @@ class Puzzle4: Puzzle {
     
     
     
-    // 1-off pedestal that is not part of the puzzle (Closest pedestal to spawn for testing)
+    // Delagate for just pick up and drop off the ball on the pedestal
     func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> () {
         
         let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
@@ -182,7 +164,6 @@ class Puzzle4: Puzzle {
                     ballNode.worldPosition = newPos
                     self.sceneTemplate.playerCharacter.isHoldingSmthg = true
                 }
-                print("Picked up orb")
                 self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
     
             } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
@@ -201,13 +182,13 @@ class Puzzle4: Puzzle {
                     batRootNode.addChildNode(ballNode)
                     ballNode.worldPosition = newPos
                 }
-                print("Dropped off orb")
                 self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
                 
             }
         }
     }
     
+    // Delgate maker for the pesdestal that check for the win condition for the puzzle when the correct ball is placed on it
     func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode, nameOfBall: String, index: Int) -> () -> () {
         let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
         return {
@@ -229,7 +210,6 @@ class Puzzle4: Puzzle {
                     self.sceneTemplate.playerCharacter.isHoldingSmthg = true
                     self.puzzleStateArray[index] = false
                 }
-                print("Picked up orb")
                 self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
                 
             } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
@@ -251,12 +231,8 @@ class Puzzle4: Puzzle {
                     if self.checkIfBallIsInRightPlace(batteryRoot: batRootNode, correctBallName: nameOfBall) {
                         self.puzzleStateArray[index] = true
                         self.checkPuzzleWinCon()
-//                        //check puzzlestate
-//                        let condition = self.puzzleStateArray.allSatisfy({$0 == true})
-//                        print(condition)
                     }
                 }
-                print("Dropped off orb")
                 self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
             }
         }
