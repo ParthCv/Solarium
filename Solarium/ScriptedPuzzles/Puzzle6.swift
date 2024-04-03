@@ -92,6 +92,7 @@ class Puzzle6: Puzzle {
         if( condition ) {
             print("Puzzle Complete")
             self.sceneTemplate.nextPuzzle()
+            self.sceneTemplate.gvc.scenesPuzzleComplete[findKey(mvalue: self.sceneTemplate, dict: self.sceneTemplate.gvc.sceneDictionary)] = true
         }
     }
     

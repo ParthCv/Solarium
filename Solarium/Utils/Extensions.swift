@@ -55,3 +55,15 @@ func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, rect:CGRect) {
    // Optionally move the SKLabelNode to the center of the rectangle.
    labelNode.position = CGPoint(x: rect.midX, y: rect.midY - labelNode.frame.height / 2.0)
 }
+
+
+
+func findKey(mvalue: SceneTemplate, dict: [SceneEnum:SceneTemplate])-> SceneEnum {
+
+   for (key, value) in dict {
+      if value == mvalue {
+         return key
+      }
+   }
+    return .SCN0
+}

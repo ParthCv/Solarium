@@ -221,3 +221,13 @@ class SceneTemplate {
         }
     }
 }
+
+extension SceneTemplate: Comparable {
+    static func == (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
+        return type(of: lhs) == type(of: rhs)
+    }
+    
+    static func < (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
+        return false
+    }
+}
