@@ -38,6 +38,33 @@ class Puzzle4: Puzzle {
         p4 - b4
         p5 - b5
      */
+
+/*
+        Initial setup for scrambled puzzle:
+        Floor B - Yellow
+        Floor 1 - empty
+        Floor 2 - Magenta
+        Floor 3 - Green 
+        Floor 4 - Blue
+        Floor 5 - Teal 
+        
+        
+        Solution:
+        Floor B - empty 
+        Floor 1 - Blue
+        Floor 2 - Yellow
+        Floor 3 - Teal 
+        Floor 4 - Green
+        Floor 5 - Magenta 
+        
+        
+        Optimal fastest way to get to solution:
+        1) Go to floor 4, Grab Blue, Place on floor 1. 
+        2) Go to floor 3, Grab Green, Place on floor 4. 
+        3) Go to floor 5, Grab Teal, place on floor 3. 
+        4) Go to floor 2, Grab Magenta, place on floor 5
+        5) Go to floor B, Grab Yellow, place on floor 2. 
+*/
     
     //Pedestals
     var pedestalBtm: Interactable?
