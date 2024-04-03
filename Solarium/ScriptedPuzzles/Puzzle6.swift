@@ -89,7 +89,10 @@ class Puzzle6: Puzzle {
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
         let condition = self.puzzleStateArray.allSatisfy({$0 == true})
-        if( condition ) {print("Puzzle Complete")}
+        if( condition ) {
+            print("Puzzle Complete")
+            self.sceneTemplate.nextPuzzle()
+        }
     }
     
     func hintDelegateMaker(fileNodeName: String, btnNodeName: String) -> () -> () {
@@ -97,7 +100,7 @@ class Puzzle6: Puzzle {
             let fileNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: fileNodeName)
             let closeBtn = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: btnNodeName)
             
-            let fadeIn = SKAction.fadeAlpha(to: 0.70, duration: 1)
+            let fadeIn = SKAction.fadeIn(withDuration: 1)
             fileNode!.isHidden = false
             fileNode?.run(fadeIn) {
                 closeBtn!.isHidden = false
@@ -214,13 +217,14 @@ class Puzzle6: Puzzle {
     }
     
     func createHintTexture(nodeName: String, texturePath: String) -> (SKSpriteNode) {
-        let backgroundImage = UIImage(named: texturePath)!.alpha(1)
+        let backgroundImage = UIImage(named: texturePath)!
         let texture = SKTexture(image: backgroundImage)
         let bound = self.sceneTemplate.gvc.gameView.bounds
         let hint = SKSpriteNode(texture: texture)
+        hint.alpha = 0.1
         hint.name = nodeName
         hint.position = CGPointMake(bound.width/2, bound.height/2)
-        hint.size = bound.size
+        hint.size = CGSize(width: bound.width/2, height: bound.height/2)
         hint.isHidden = true
         
         return hint

@@ -28,6 +28,7 @@ class SceneTemplate {
     // the list of puzzles for this scene
     var puzzles: [Puzzle]
     var currentPuzzle: Int
+    var sceneComplete: Bool = false
     
     // list of all deletable nodes
     var deletableNodes: [SCNNode]
@@ -153,7 +154,10 @@ class SceneTemplate {
     ///Increment currentPuzzle
     func nextPuzzle() {
         currentPuzzle += 1
+        sceneComplete = currentPuzzle == puzzles.count
+        //if(sceneComplete) //TODO: tell gvc room complete
         print("current puzzle: ", currentPuzzle)
+        print("scene complete: ", sceneComplete)
     }
     
     ///Called when all puzzles are done
