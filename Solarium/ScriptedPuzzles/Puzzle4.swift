@@ -56,6 +56,8 @@ class Puzzle4: Puzzle {
     
     var puzzleStateArray = Array(repeating: false, count: 5)
     
+    var doorComplete: Door?
+    
     override init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate: SceneTemplate) {
         solutionPedestals = []
         solutionBallOrder = []
@@ -89,6 +91,8 @@ class Puzzle4: Puzzle {
         pedestalBtm!.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &pedestalBtm!.node))
         solutionPedestals = [trackedEntities[8], trackedEntities[9], trackedEntities[10], trackedEntities[11], trackedEntities[12]]
         
+        doorComplete = Door(node: trackedEntities[18]!.node, openState: nil)
+        
         for i in 0 ..< solutionPedestals.count {
             let ped = solutionPedestals[i]!
             ped.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped.node, nameOfBall: solutionBallOrder[i]!.node.name!, index: i))
@@ -102,6 +106,7 @@ class Puzzle4: Puzzle {
     override func checkPuzzleWinCon(){
         if(!solved && self.puzzleStateArray.allSatisfy({$0 == true})) {
             solved = true
+            doorComplete!.toggleDoor()
             sceneTemplate.nextPuzzle()
             print("Puzzle Solved")
         }
