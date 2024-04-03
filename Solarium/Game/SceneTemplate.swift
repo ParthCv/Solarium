@@ -186,6 +186,9 @@ class SceneTemplate {
         currentPuzzle += 1
         sceneComplete = currentPuzzle == puzzles.count
         //if(sceneComplete) //TODO: tell gvc room complete
+        if (sceneComplete) {
+            self.gvc.scenesPuzzleComplete[findKey(mvalue: self, dict: self.gvc.sceneDictionary)] = sceneComplete
+        }
         print("current puzzle: ", currentPuzzle)
         print("scene complete: ", sceneComplete)
     }
