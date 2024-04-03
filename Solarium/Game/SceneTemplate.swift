@@ -186,6 +186,9 @@ class SceneTemplate {
         currentPuzzle += 1
         sceneComplete = currentPuzzle == puzzles.count
         //if(sceneComplete) //TODO: tell gvc room complete
+        if (sceneComplete) {
+            self.gvc.scenesPuzzleComplete[findKey(mvalue: self, dict: self.gvc.sceneDictionary)] = sceneComplete
+        }
         print("current puzzle: ", currentPuzzle)
         print("scene complete: ", sceneComplete)
     }
@@ -255,5 +258,15 @@ class SceneTemplate {
             gameViewController.interactButton.title.text = interactableObject!.displayText
             gameViewController.interactButton.isHidden = false
         }
+    }
+}
+
+extension SceneTemplate: Comparable {
+    static func == (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
+        return type(of: lhs) == type(of: rhs)
+    }
+    
+    static func < (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
+        return false
     }
 }

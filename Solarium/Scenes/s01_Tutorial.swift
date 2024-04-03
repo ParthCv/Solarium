@@ -22,6 +22,10 @@ class s01_TutorialScene: SceneTemplate{
     }
     
     override func gameInit() {
+        if (self.gvc.scenesPuzzleComplete[.SCN2]! && self.gvc.scenesPuzzleComplete[.SCN3]!) {
+            let door = Door(node: self.scene.rootNode.childNode(withName: "D_Door_0", recursively: true)!, openState: true)
+            
+        }
         super.gameInit()
         let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)

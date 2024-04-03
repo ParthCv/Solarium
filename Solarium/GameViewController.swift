@@ -43,6 +43,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     var lastTickTime: TimeInterval = 0.0
     
+    var scenesPuzzleComplete: [SceneEnum : Bool] = [:]
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.sceneDictionary = [
@@ -53,6 +55,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN4: s04_Tree(gvc: self),
             .SCN5: s06_Riddle(gvc: self)
         ]
+        for scene in self.sceneDictionary {
+            scenesPuzzleComplete[scene.key] = false
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +70,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN4: s04_Tree(gvc: self),
             .SCN5: s06_Riddle(gvc: self)
         ]
+        for scene in self.sceneDictionary {
+            scenesPuzzleComplete[scene.key] = false
+        }
     }
 
     
@@ -75,7 +83,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         audioManager = AudioManager()
 
         // Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN2)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN1)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -194,10 +202,6 @@ extension GameViewController {
 }
 
 extension GameViewController{
-//    func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum){
-//        SceneController.singleton.switchScene(self.gameView, currScn: currScn, nextScn: nextScn)
-//    }
-    
     // Function to switch scenes
     @MainActor
     func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum) {

@@ -113,6 +113,7 @@ class Puzzle3: Puzzle {
             solved = true
             sceneTemplate.nextPuzzle()
             print(solved)
+            //self.sceneTemplate.gvc.scenesPuzzleComplete[findKey(mvalue: self.sceneTemplate, dict: self.sceneTemplate.gvc.sceneDictionary)] = true
         }
     }
     
