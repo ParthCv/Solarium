@@ -40,6 +40,8 @@ class Puzzle3: Puzzle {
     
     //Hint
     var file: Interactable?
+    var tankDoor: Door?
+    var ped: Interactable?
     
     //Puzzle Solutions
     /*
@@ -82,6 +84,12 @@ class Puzzle3: Puzzle {
         file = trackedEntities[9]
         file!.setInteractDelegate(function: fileDelegate)
         
+        tankDoor = Door(node: trackedEntities[10]!.node, openState: false)
+        let ball = trackedEntities[11]!
+        ped = trackedEntities[12]!
+        
+        
+        
         let waterNodeABigdrain = bigDrain!.node//.childNode(withName: "cylinder", recursively: true)!
         let waterNodeBMeddrain = medDrain!.node//.childNode(withName: "cylinder", recursively: true)!
         let waterNodeCSmldrain = smlDrain!.node//.childNode(withName: "cylinder", recursively: true)!
@@ -94,206 +102,23 @@ class Puzzle3: Puzzle {
         btnAC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeCSmldrain, nodeAIndex: 0, nodeBIndex: 2, nodeBMax: smlDrainMax)
         btnCA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeABigdrain, nodeAIndex: 2, nodeBIndex: 0, nodeBMax: bigDrainMax)
         
-//        btnAB!.setInteractDelegate(function: {
-//            //A->B
-//            let nodeA = waterNodeBigdrain
-//            let nodeACurr = self.bigDrainCurrPos
-//            
-//            let nodeB = waterNodeMeddrain
-//            let nodeBMax = self.medDrainMax
-//            let nodeBCurr = self.medDrainCurrPos
-//            
-//            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
-//            let amountToStay: Int = nodeACurr - amountToMove
-//            print("Move Amount in \(nodeB.name!) - \(amountToMove) Amount stay in \(nodeA.name!) -\(amountToStay)")
-//            // Set the new values
-//            self.medDrainCurrPos = self.medDrainCurrPos + amountToMove
-//            self.bigDrainCurrPos = amountToStay
-//            
-//            // get new pos child
-//            let newNodeAPos = self.bigDrainCurrPos
-//            let newNodeBPos = self.medDrainCurrPos
-//            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
-//            //let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-//            //let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
-//            let nodeAMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeAPos), nodeA.position.z)
-//            let nodeBMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeBPos), nodeA.position.z)
-//
-//            let nodeAAction = SCNAction.move(to: nodeAMoveToPos, duration: 1)
-//            let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
-//            nodeA.runAction(nodeAAction)
-//            nodeB.runAction(nodeBAction)
-//            self.checkPuzzleWinCon()
-        //})
-        
-//        btnBA!.setInteractDelegate(function: {
-//            //B->A
-//            let nodeA = waterNodeMeddrain
-//            let nodeACurr = self.medDrainCurrPos
-//
-//            let nodeB = waterNodeBigdrain
-//            let nodeBMax = self.bigDrainMax
-//            let nodeBCurr = self.bigDrainCurrPos
-//
-//            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
-//            let amountToStay: Int = nodeACurr - amountToMove
-//            print("Move Amount in \(nodeB.name!) - \(amountToMove) Amount stay in \(nodeA.name!) -\(amountToStay)")
-//            // Set the new values
-//            self.bigDrainCurrPos = self.bigDrainCurrPos + amountToMove
-//            self.medDrainCurrPos = amountToStay
-//
-//            // get new pos child
-//            let newNodeAPos = self.bigDrainCurrPos
-//            let newNodeBPos = self.medDrainCurrPos
-//            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
-//            //let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-//            //let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
-//            let nodeAMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeAPos), nodeA.position.z)
-//            let nodeBMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeBPos), nodeA.position.z)
-//
-//            let nodeAAction = SCNAction.move(to: nodeAMoveToPos, duration: 1)
-//            let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
-//            nodeA.runAction(nodeAAction)
-//            nodeB.runAction(nodeBAction)
-//            self.checkPuzzleWinCon()
-//        })
-//        
-//        btnBC!.setInteractDelegate(function: {
-//            //B->C
-//            let nodeA = waterNodeMeddrain
-//            let nodeACurr = self.medDrainCurrPos
-//
-//            let nodeB = waterNodeSmldrain
-//            let nodeBMax = self.smlDrainMax
-//            let nodeBCurr = self.smlDrainCurrPos
-//
-//            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
-//            let amountToStay: Int = nodeACurr - amountToMove
-//            print("Move Amount in \(nodeB.name!) - \(amountToMove) Amount stay in \(nodeA.name!) -\(amountToStay)")
-//            // Set the new values
-//            self.smlDrainCurrPos = self.smlDrainCurrPos + amountToMove
-//            self.medDrainCurrPos = amountToStay
-//
-//            // get new pos child
-//            let newNodeAPos = self.bigDrainCurrPos
-//            let newNodeBPos = self.medDrainCurrPos
-//            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
-//            //let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-//            //let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
-//            let nodeAMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeAPos), nodeA.position.z)
-//            let nodeBMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeBPos), nodeA.position.z)
-//
-//            let nodeAAction = SCNAction.move(to: nodeAMoveToPos, duration: 1)
-//            let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
-//            nodeA.runAction(nodeAAction)
-//            nodeB.runAction(nodeBAction)
-//            self.checkPuzzleWinCon()
-//        })
-//        
-//        btnCB!.setInteractDelegate(function: {
-//            //C->B
-//            let nodeA = waterNodeSmldrain
-//            let nodeACurr = self.smlDrainCurrPos
-//
-//            let nodeB = waterNodeMeddrain
-//            let nodeBMax = self.medDrainMax
-//            let nodeBCurr = self.medDrainCurrPos
-//
-//            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
-//            let amountToStay: Int = nodeACurr - amountToMove
-//            print("Move Amount in \(nodeB.name!) - \(amountToMove) Amount stay in \(nodeA.name!) -\(amountToStay)")
-//            // Set the new values
-//            self.medDrainCurrPos = self.medDrainCurrPos + amountToMove
-//            self.smlDrainCurrPos = amountToStay
-//
-//            // get new pos child
-//            let newNodeAPos = self.bigDrainCurrPos
-//            let newNodeBPos = self.medDrainCurrPos
-//            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
-//            //let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-//            //let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
-//            let nodeAMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeAPos), nodeA.position.z)
-//            let nodeBMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeBPos), nodeA.position.z)
-//
-//            let nodeAAction = SCNAction.move(to: nodeAMoveToPos, duration: 1)
-//            let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
-//            nodeA.runAction(nodeAAction)
-//            nodeB.runAction(nodeBAction)
-//            self.checkPuzzleWinCon()
-//        })
-//        
-//        btnCA!.setInteractDelegate(function: {
-//            //C->A
-//            let nodeA = waterNodeSmldrain
-//            let nodeACurr = self.smlDrainCurrPos
-//
-//            let nodeB = waterNodeBigdrain
-//            let nodeBMax = self.bigDrainMax
-//            let nodeBCurr = self.bigDrainCurrPos
-//
-//            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
-//            let amountToStay: Int = nodeACurr - amountToMove
-//
-//            print("Move Amount in \(nodeB.name!) - \(amountToMove) Amount stay in \(nodeA.name!) -\(amountToStay)")
-//
-//            // Set the new values
-//            self.bigDrainCurrPos = self.bigDrainCurrPos + amountToMove
-//            self.smlDrainCurrPos = amountToStay
-//
-//            // get new pos child
-//            let newNodeAPos = self.bigDrainCurrPos
-//            let newNodeBPos = self.medDrainCurrPos
-//            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
-//            //let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-//            //let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
-//            let nodeAMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeAPos), nodeA.position.z)
-//            let nodeBMoveToPos = SCNVector3(nodeB.position.x, Float(newNodeBPos), nodeB.position.z)
-//
-//            let nodeAAction = SCNAction.move(to: nodeAMoveToPos, duration: 1)
-//            let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
-//            nodeA.runAction(nodeAAction)
-//            nodeB.runAction(nodeBAction)
-//            self.checkPuzzleWinCon()
-//        })
-//        
-//        btnAC!.setInteractDelegate(function: {
-//            //A->C
-//            let nodeA = waterNodeBigdrain
-//            let nodeACurr = self.bigDrainCurrPos
-//
-//            let nodeB = waterNodeSmldrain
-//            let nodeBMax = self.smlDrainMax
-//            let nodeBCurr = self.smlDrainCurrPos
-//
-//            let amountToMove: Int = nodeACurr >= (nodeBMax - nodeBCurr) ? nodeBMax - nodeBCurr : nodeACurr
-//            let amountToStay: Int = nodeACurr - amountToMove
-//            print("Move Amount in \(nodeB.name!) - \(amountToMove) Amount stay in \(nodeA.name!) -\(amountToStay)")
-//            // Set the new values
-//            self.smlDrainCurrPos = self.smlDrainCurrPos + amountToMove
-//            self.bigDrainCurrPos = amountToStay
-//
-//            // get new pos child
-//            let newNodeAPos = self.bigDrainCurrPos
-//            let newNodeBPos = self.medDrainCurrPos
-//            //print(nodeA.parent!.name!," - ",newNodeAPos,nodeB.parent!.name!, " - ", newNodeBPos)
-//            //let nodeInA = nodeA.parent!.childNode(withName: newNodeAPos, recursively: true)!
-//            //let nodeInB = nodeB.parent!.childNode(withName: newNodeBPos, recursively: true)!
-//            let nodeAMoveToPos = SCNVector3(nodeA.position.x, Float(newNodeAPos), nodeA.position.z)
-//            let nodeBMoveToPos = SCNVector3(nodeB.position.x, Float(newNodeBPos), nodeB.position.z)
-//
-//            let nodeAAction = SCNAction.move(to: nodeAMoveToPos, duration: 1)
-//            let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
-//            nodeA.runAction(nodeAAction)
-//            nodeB.runAction(nodeBAction)
-//            self.checkPuzzleWinCon()
-//        })
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        ball.doInteractDelegate = ballPickUpDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, ball: ball)
+        ped!.doInteractDelegate = pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped!.node)
     }
     
     // Per Puzzle Check for Win condition
     override func checkPuzzleWinCon(){
-        print("A -",drainCurrPos[0], " B - ", drainCurrPos[1], " C - ", drainCurrPos[2])
+        if ( !solved && !(ped!.node.childNode(withName: "BatteryRoot", recursively: true)!.childNodes.isEmpty)){
+            solved = true
+            sceneTemplate.nextPuzzle()
+            print(solved)
+        }
+    }
+    
+    func checkTankDoor(){
         if(self.drainCurrPos[0] == 30 && self.drainCurrPos[1] == 30) {
-            print("Puzzle Solved")
+            tankDoor!.toggleDoor()
         }
     }
     
@@ -327,7 +152,7 @@ class Puzzle3: Puzzle {
             let nodeBAction = SCNAction.move(to: nodeBMoveToPos, duration: 1)
             nodeA.runAction(nodeAAction)
             nodeB.runAction(nodeBAction)
-            self.checkPuzzleWinCon()
+            self.checkTankDoor()
         }
     }
     
@@ -391,8 +216,67 @@ class Puzzle3: Puzzle {
             textNode!.isHidden = false
             closeBtn!.isHidden = false
         }
-        
-        
+    }
+    
+    func ballPickUpDelegateMaker(playerBallPosNode: SCNNode, ball: Interactable) -> (() -> ()) {
+        // if the player isnt holdin smthg and the base node is the parent of the ball
+        return{
+            if (!self.sceneTemplate.playerCharacter.isHoldingSmthg) {
+                let ballNode = ball.node
+                ball.node = SCNNode()
+                ball.priority = TriggerPriority.noPriority
+                let toPos = playerBallPosNode.worldPosition
+                let moveAction = SCNAction.move(to: toPos, duration: 1)
+                ballNode.runAction(moveAction) {
+                    let newPos = playerBallPosNode.worldPosition
+                    playerBallPosNode.addChildNode(ballNode)
+                    ballNode.worldPosition = newPos
+                    self.sceneTemplate.playerCharacter.isHoldingSmthg = true
+                }
+            }
+        }
+    }
+    
+    func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> (){
+        let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
+        return {
+            // if the player isnt holdin smthg and the base node is the parent of the ball
+            if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
+                // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
+                let ballNode = batRootNode.childNodes[0]
+                let currentBallPos = ballNode.worldPosition
+                self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
+                //Reset the position and scale back
+                ballNode.worldPosition = currentBallPos
+                
+                let toPos = playerBallPosNode.worldPosition
+                let moveAction = SCNAction.move(to: toPos, duration: 1)
+                ballNode.runAction(moveAction) {
+                    let newPos = playerBallPosNode.worldPosition
+                    playerBallPosNode.addChildNode(ballNode)
+                    ballNode.worldPosition = newPos
+                    self.sceneTemplate.playerCharacter.isHoldingSmthg = true
+                }
+                
+            } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
+                //Reparent to the root node
+                let ballNode = playerBallPosNode.childNodes[0]
+                let currentBallPos = ballNode.worldPosition
+                self.sceneTemplate.scene.rootNode.addChildNode(ballNode)
+                //Reset the position and scale back
+                ballNode.worldPosition = currentBallPos
+                
+                let toPos = batRootNode.worldPosition
+                let moveAction = SCNAction.move(to: toPos, duration: 1)
+                self.sceneTemplate.playerCharacter.isHoldingSmthg = false
+                ballNode.runAction(moveAction) {
+                    let newPos = ballNode.worldPosition
+                    batRootNode.addChildNode(ballNode)
+                    ballNode.worldPosition = newPos
+                    self.checkPuzzleWinCon()
+                }
+            }
+        }
     }
 }
 
