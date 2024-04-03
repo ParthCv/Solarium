@@ -112,6 +112,7 @@ class Puzzle3: Puzzle {
         if ( !solved && !(ped!.node.childNode(withName: "BatteryRoot", recursively: true)!.childNodes.isEmpty)){
             solved = true
             sceneTemplate.nextPuzzle()
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
             print(solved)
             //self.sceneTemplate.gvc.scenesPuzzleComplete[findKey(mvalue: self.sceneTemplate, dict: self.sceneTemplate.gvc.sceneDictionary)] = true
         }
@@ -154,6 +155,7 @@ class Puzzle3: Puzzle {
             nodeA.runAction(nodeAAction)
             nodeB.runAction(nodeBAction)
             self.checkTankDoor()
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
         }
     }
     
@@ -234,6 +236,7 @@ class Puzzle3: Puzzle {
                     ballNode.worldPosition = newPos
                     self.sceneTemplate.playerCharacter.isHoldingSmthg = true
                 }
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
             }
         }
     }
@@ -258,6 +261,7 @@ class Puzzle3: Puzzle {
                     ballNode.worldPosition = newPos
                     self.sceneTemplate.playerCharacter.isHoldingSmthg = true
                 }
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
                 
             } else if (self.sceneTemplate.playerCharacter.isHoldingSmthg && batRootNode.childNodes.isEmpty) {
                 //Reparent to the root node
@@ -276,6 +280,7 @@ class Puzzle3: Puzzle {
                     ballNode.worldPosition = newPos
                     self.checkPuzzleWinCon()
                 }
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Orb")
             }
         }
     }

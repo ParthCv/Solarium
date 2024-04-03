@@ -37,6 +37,7 @@ class Puzzle2 : Puzzle {
                 doorA.toggleDoor()
                 self.isDoorOpen = doorA.isOpen
                 self.checkPuzzleWinCon()
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
             }
         }
         
@@ -45,6 +46,7 @@ class Puzzle2 : Puzzle {
             if self.tubePuzzleState.allSatisfy({$0 == true}){
                 if (doorA.isOpen) { doorA.toggleDoor() }
                 doorB.toggleDoor()
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
             }
         }
         
@@ -62,6 +64,7 @@ class Puzzle2 : Puzzle {
             print("Puzzle 0 Complete")
             solved = true
             sceneTemplate.nextPuzzle()
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
         }
     }
     
@@ -69,6 +72,7 @@ class Puzzle2 : Puzzle {
         let toPos = sprinkler.worldPosition + SCNVector3(0, sprinkler.scale.y,0)
         let moveAction = SCNAction.move(to: toPos, duration: 1)
         sprinkler.runAction(moveAction)
+        // Play water sound in the future
     }
     
     func unfillTank(){
@@ -91,6 +95,7 @@ class Puzzle2 : Puzzle {
                 set.value?.node.runAction(moveAction){
                     self.unfillTank()
                 }
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
             }
         }
     }
