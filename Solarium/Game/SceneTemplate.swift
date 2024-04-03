@@ -117,6 +117,7 @@ class SceneTemplate {
                                 
                                 let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
                                 player?.runAction(moveAction)
+                                // TODO: ADD TELEPORT INTERACT SOUND HERE FOR FINAL
                             }
                             autoTriggerEntities.append(tpInteract)
                         }
