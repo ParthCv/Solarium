@@ -11,11 +11,11 @@ class PlayerController {
     // node that includes the player mesh
     var playerCharacterNode: SCNNode
     
-    let defaultPlayerSpeed: Float = 10.0
+    let defaultPlayerSpeed: Float = 15.0
     
     let forceDampingFactor: Float = 90
     
-    let cameraOffset: Float = 15
+    let cameraOffset: Float = 30
     
     var playerCharacter: PlayerCharacter!
     
@@ -43,10 +43,10 @@ class PlayerController {
         
 //        //rest the transformations
 //        playerCharacterNode.physicsBody?.resetTransform()
-//        
+//
         playerCharacterNode.position = SCNVector3(
             playerCharacterNode.position.x + (changeInX * defaultPlayerSpeed * Float(deltaTime)),
-            0,
+            playerCharacterNode.position.y,
             playerCharacterNode.position.z + (changeInZ * defaultPlayerSpeed * Float(deltaTime))
         );
 
@@ -73,11 +73,11 @@ class PlayerController {
     // make the camera follow the player
     func repositionCameraToFollowPlayer(mainCamera: SCNNode) {
         // damping facto for the lerp of the camera
-        let cameraDamping: Float = 0.3
+        let cameraDamping: Float = 0.9
         let playerPosition = playerCharacterNode.position
         
         // Calculate the position of the target position of the camera
-        let targetPosition = SCNVector3(x: playerPosition.x, y: cameraOffset, z: playerPosition.z + cameraOffset)
+        let targetPosition = SCNVector3(x: playerPosition.x, y: playerPosition.y + cameraOffset, z: playerPosition.z + cameraOffset)
         
         var cameraPosition: SCNVector3 = mainCamera.position
         
@@ -89,7 +89,8 @@ class PlayerController {
         // set the position of the camera
         cameraPosition = SCNVector3(cameraXPos, cameraYPos, cameraZPos)
         mainCamera.position = cameraPosition
-        
+        mainCamera.look(at: playerCharacterNode.position) //Camera has rotation
+//        print(mainCamera.eulerAngles)
     }
     
     // Setter and getter for the player state

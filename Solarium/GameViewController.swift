@@ -10,7 +10,16 @@ import QuartzCore
 import SceneKit
 import GameplayKit
 
+// Enum to hold all th escens in the game
+enum SceneEnum : String{
+    case SCN0, SCN1, SCN2, SCN3, SCN4, SCN5
+}
+
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+
+    var audioManager: AudioManager?
+    
+    var sceneDictionary: [SceneEnum : SceneTemplate] = [:]
     
     // Get the overlay view for the game
     var gameView: GameView {
@@ -26,12 +35,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     // Rotation for player from the d-pad
     var degree: Float = 0
-    
-    // Player character object with all its properties
-    let playerCharacter: PlayerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
-    
-    // Main camera in the scene
-    var mainCamera: SCNNode = SCNNode()
 
     // The current scene as SceneTemplate
     var currentScene: SceneTemplate?
@@ -40,12 +43,47 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     var lastTickTime: TimeInterval = 0.0
     
+    var scenesPuzzleComplete: [SceneEnum : Bool] = [:]
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.sceneDictionary = [
+            .SCN0: s05_Water(gvc: self),
+            .SCN1: s01_TutorialScene(gvc: self),
+            .SCN2: s02_Agriculture(gvc: self),
+            .SCN3: s03_Lights(gvc: self),
+            .SCN4: s04_Tree(gvc: self),
+            .SCN5: s06_Riddle(gvc: self)
+        ]
+        for scene in self.sceneDictionary {
+            scenesPuzzleComplete[scene.key] = false
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.sceneDictionary = [
+            .SCN0: s05_Water(gvc: self),
+            .SCN1: s01_TutorialScene(gvc: self),
+            .SCN2: s02_Agriculture(gvc: self),
+            .SCN3: s03_Lights(gvc: self),
+            .SCN4: s04_Tree(gvc: self),
+            .SCN5: s06_Riddle(gvc: self)
+        ]
+        for scene in self.sceneDictionary {
+            scenesPuzzleComplete[scene.key] = false
+        }
+    }
+
+    
     // Awake function
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        audioManager = AudioManager()
 
         // Initialize and load the current scene
-        currentScene = SceneController.singleton.switchScene(gameView, currScn: nil, nextScn: SceneEnum.SCN1)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN1)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -56,27 +94,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             SCNDebugOptions.showPhysicsShapes
         ]
         
-        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
-        interactButton.canPlaySounds = false
-        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
-        interactButton.position.x = 750
-        interactButton.position.y = 100
-        interactButton.isHidden = true
-        interactButton.action = interactButtonClick(_:)
+        setUpInteractButton()
         
         gameView.overlaySKScene?.addChild(interactButton)
         
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
         
-        // Add the player to the scene
-        currentScene?.scene!.rootNode.addChildNode(playerCharacter.loadPlayerCharacter(spawnPosition: SCNVector3(0, 10, 0)))
-        
-        // Add a camera to the scene
-        mainCamera = currentScene?.scene!.rootNode.childNode(withName: "mainCamera", recursively: true) ?? SCNNode()
-        
-        // Perform Solarium Game Init Logic
-        currentScene?.gameInit()
+        // Pause game after everything has been loaded - no inputs taken in Title Screen
+        gameView.isPaused = true
+        gameView.scene?.isPaused = true
     }
     
     // Physics Loops
@@ -96,20 +123,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     
     // Rendering Loop
     @objc
-    func renderer(_ renderer: SCNRenderer, updateAtTime time: TimeInterval) {
-        
-        // Move and rotate the player from the inputs of the d-pad
-        playerCharacter.playerController.movePlayerInXAndYDirection(
-            changeInX: normalizedInputDirection.x,
-            changeInZ: normalizedInputDirection.y,
-            rotAngle: degree,
-            deltaTime: time - lastTickTime
-        )
-        
-        // Make the camera follow the player
-        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
-        currentScene?.update(gameViewController: self)
-        
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        currentScene?.update(gameViewController: self, updateAtTime: time)
         lastTickTime = time;
     }
 }
@@ -128,7 +143,7 @@ extension GameViewController {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Read touch input
-        if let touch = touch {
+        if let touch = touch { 
             readDpadInput(touch)
         }
         gameView.updateJoystick(dPadDirectionInPixels)
@@ -146,7 +161,7 @@ extension GameViewController {
         let touchLocation = touch.location(in: self.view)
         
         // Check if the touch is in the d-pad
-        if gameView.virtualDPad().contains(touchLocation) {
+        if !gameView.isPaused && gameView.virtualDPad().contains(touchLocation) {
             // Calculate the x and y directions
             let middleOfCircleX = gameView.virtualDPad().origin.x + gameView.dpadRadius
             let middleOfCircleY = gameView.virtualDPad().origin.y + gameView.dpadRadius
@@ -161,9 +176,9 @@ extension GameViewController {
     
     // roation for the d-pad
     private func calculateTilt() -> Float{
-        if(pow(dPadDirectionInPixels.x ,2) + pow(dPadDirectionInPixels.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
-            return 0
-        }
+//        if(pow(dPadDirectionInPixels.x ,2) + pow(dPadDirectionInPixels.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
+//            return 0
+//        }
         let normalized = normalize(dPadDirectionInPixels)
         let degree = atan2(normalized.x, normalized.y)
         return degree
@@ -172,8 +187,43 @@ extension GameViewController {
 
 extension GameViewController {
     func interactButtonClick(_ sender: JKButtonNode) {
-        currentScene = SceneController.singleton.switchScene(gameView, currScn: currentScene, nextScn: .SCN2)
+        switchScene(currScn: currentScene, nextScn: .SCN2)
+    }
+    
+    func setUpInteractButton() {
+        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.canPlaySounds = false
+        interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
+        interactButton.position.x = 750
+        interactButton.position.y = 100
+        interactButton.isHidden = true
+        interactButton.action = interactButtonClick(_:)
     }
 }
 
+extension GameViewController{
+    // Function to switch scenes
+    @MainActor
+    func switchScene(currScn: SceneTemplate?, nextScn: SceneEnum) {
+        
+        // Find the scene to load
+        if let sceneTemplate = sceneDictionary[nextScn]{
+            audioManager?.playCurrentStageBGM(sceneName: nextScn)
+            
+            // Load the next scene fisrt
+            sceneTemplate.load()
+            
+            // Switch and transition the scene
+            gameView.present(sceneTemplate.scene, with: .fade(withDuration: 0.5), incomingPointOfView: nil, completionHandler: nil)
+            
+            // Unload the old scene
+            if (currScn != nil) { currScn?.unload()}
+            currentScene =  sceneTemplate
+        }
+    }
+}
 
+class SharedData {
+    static let sharedData = SharedData()
+    var playerSpawnIndex = 0
+}

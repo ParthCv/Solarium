@@ -19,21 +19,20 @@ class PlayerCharacter {
     var modelFilePath: String
     
     // Node for the model
-    var modelNode: SCNNode = SCNNode()
+    var modelNode: SCNNode!
     
     // Name of the player node
     var nodeName: String
-    
-    // physics body on the scene
-    var physicsBody: SCNPhysicsBody = SCNPhysicsBody()
-    
+        
     // controller for the player
     var playerController: PlayerController!
+    
+    var isHoldingSmthg: Bool = false
     
     init(modelFilePath: String, nodeName: String) {
         self.modelFilePath = modelFilePath
         self.nodeName = nodeName
-        self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
+        //self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
     }
     
     // load the player from file and setup the properties
@@ -43,22 +42,14 @@ class PlayerCharacter {
 
         //Update the properties again
         
+        
         //get the root node from the scene with all the child nodes
         self.modelNode = modelNode_Player.rootNode.childNodes[0]
         self.modelNode.position = spawnPosition
+        self.modelNode.presentation.position = spawnPosition
         self.modelNode.name = nodeName
         self.mesh = modelNode.geometry ?? SCNGeometry()
         self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
-        
-        // Add a physics body to the player
-        self.modelNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil
-        )
-        
-        self.modelNode.physicsBody?.friction 
-        = 0.99
-        
-        //set the collision params
-        setCollisionBitMask()
         
         // Read the anmations file and add it to the player
         self.animations = animationController.loadAnimations(animationFile: animationFile)
@@ -80,13 +71,4 @@ class PlayerCharacter {
         self.animationController.playAnimation(animations: self.animations, key: "walk")
     }
 
-    // Set the bit mask for player
-    private func setCollisionBitMask() {
-        // Player own bitmask
-        modelNode.physicsBody!.categoryBitMask = SolariumCollisionBitMask.player.rawValue
-        
-        // Bitmask of things the player will collide with
-        modelNode.physicsBody!.collisionBitMask = SolariumCollisionBitMask.interactable.rawValue | SolariumCollisionBitMask.ground.rawValue | 1
-    }
-    
 }

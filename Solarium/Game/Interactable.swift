@@ -6,7 +6,7 @@
 //
 import SceneKit
 
-enum TriggerPriority: Int, Comparable {
+enum TriggerPriority: Int, Comparable, CaseIterable {
     case noPriority, lowPriority, mediumPriority, highPriority
     
     static func < (lhs: TriggerPriority, rhs: TriggerPriority) -> Bool {
@@ -14,19 +14,40 @@ enum TriggerPriority: Int, Comparable {
     }
 }
 
-protocol Interactable: SCNNode {
-    var mesh : SCNGeometry { get }
+class Interactable {
+    var node: SCNNode
     
     // Priority of the Interactable
-    var priority: TriggerPriority { get }
+    var priority: TriggerPriority
     
     // Area in which the event gets triggerd
-    var triggerVolume: Float { get }
+    var triggerVolume: Float?
     
     // Text on the button that get displayed on the button
-    var displayText: String { get }
+    var displayText: String?
     
-    // Innteract function that is happens on the click
-    func doInteract(_ sender: JKButtonNode)
+    @Published var doInteractDelegate: (() -> Void)?
     
+    init(node: SCNNode, priority: TriggerPriority, displayText: String?) {
+        self.node = node
+        self.priority = priority
+        triggerVolume = 5
+        self.displayText = displayText
+        doInteractDelegate = Interactable.defaultInteract
+    }
+    
+    func setInteractDelegate(function: (()->Void)?) {
+        self.doInteractDelegate = function
+    }
+        
+    // Innteract function that is happens on the click, override this.
+    func doInteract(_ sender: JKButtonNode) {
+        doInteractDelegate!()
+    }
+    
+    static func defaultInteract(){
+        print("this dont do shit - Jas")
+    }
 }
+
+
