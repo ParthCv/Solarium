@@ -90,9 +90,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         gameView.delegate = self
         
         //Degub Options
-        gameView.debugOptions = [
-            SCNDebugOptions.showPhysicsShapes
-        ]
+//        gameView.debugOptions = [
+//            SCNDebugOptions.showPhysicsShapes
+//        ]
         
         setUpInteractButton()
         

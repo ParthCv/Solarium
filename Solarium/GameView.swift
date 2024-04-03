@@ -46,8 +46,8 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         pauseMenuBtn.size = CGSizeMake(buttonSize,buttonSize)
         pauseMenuBtn.canPlaySounds = false
         pauseMenuBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
-        pauseMenuBtn.position.x = self.bounds.height - buttonSize - 15
-        pauseMenuBtn.position.y = self.bounds.width - buttonSize - 15
+        pauseMenuBtn.position.x = self.bounds.height - buttonSize - 50
+        pauseMenuBtn.position.y = self.bounds.width - buttonSize - 35
         pauseMenuBtn.isHidden = true
         pauseMenuBtn.action = pauseBtnCallback
         pauseMenuBtn.name = "PauseMenuBtn"
