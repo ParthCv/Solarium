@@ -39,7 +39,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
 
     
     func setupTitleScreen() {
-        
+        // Setup pause menu
         let buttonSize: CGFloat = 20
         pauseMenuBtn = JKButtonNode(title: "⏸", state: .normal)
         pauseMenuBtn.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
@@ -51,7 +51,6 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         pauseMenuBtn.isHidden = true
         pauseMenuBtn.action = pauseBtnCallback
         pauseMenuBtn.name = "PauseMenuBtn"
-        
         pauseMenuResumeBtn = JKButtonNode(title: "Resume", state: .normal)
         pauseMenuResumeBtn.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
         pauseMenuResumeBtn.size = CGSizeMake(200,50)
@@ -63,6 +62,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         pauseMenuResumeBtn.action = resumeBtnCallback
         pauseMenuResumeBtn.name = "PauseMenuResumeBtn"
         
+        // Set up main menue
         let mmImage = UIImage(named: "art.scnassets/TitleScreenBackground.png")!
         let mmTexture = SKTexture(image: mmImage)
         mainMenuImageNode = SKSpriteNode(texture: mmTexture)

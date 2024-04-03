@@ -5,6 +5,12 @@
 //  Created by Richard Le on 2024-03-12.
 //
 
+/**
+ 
+ JUST A TEST CLASS NOT USED ANYMORE
+ 
+ */
+
 import SceneKit
 
 class Puzzle0 : Puzzle {
@@ -20,7 +26,7 @@ class Puzzle0 : Puzzle {
     override func checkPuzzleWinCon() {
         if (!solved && self.door.isOpen) {
             solved = true
-            (sceneTemplate as! s01_TutorialScene).nextPuzzle() //TODO: EW GROSS change SceneTemplate from protocol to class
+            (sceneTemplate as! s01_TutorialScene).nextPuzzle()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
         }
     }

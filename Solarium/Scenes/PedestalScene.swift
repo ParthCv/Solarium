@@ -5,6 +5,12 @@
 //  Created by Parth Chaturvedi on 2024-03-14.
 //
 
+/**
+ 
+ JUST A TEST CLASS NOT USED ANYMORE
+ 
+ */
+
 import SceneKit
 
 class PedestalScene: SceneTemplate {
@@ -63,7 +69,6 @@ extension PedestalScene {
         
         baseNode.addChildNode(ballNode)
         ballNode.worldPosition = batteryNodePos.worldPosition
-        print("ball - ", ballNode.position, " battery - ", batteryNodePos.worldPosition)
     }
     
 }

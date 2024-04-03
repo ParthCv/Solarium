@@ -118,7 +118,7 @@ class AudioManager {
                 bgmFileName = "Loop#4"
             case .SCN4:
                 bgmFileName = "Loop#5"
-        case .SCN5:
+            case .SCN5:
                 bgmFileName = "Loop#5"
         }
         
@@ -150,7 +150,7 @@ class AudioManager {
                 bgmFileName = "Loop#4"
             case .SCN4:
                 bgmFileName = "Loop#5"
-        case .SCN5:
+            case .SCN5:
                 bgmFileName = "Loop#5"
         }
         

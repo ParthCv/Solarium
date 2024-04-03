@@ -8,6 +8,7 @@
 import SceneKit
 
 class Puzzle1 : Puzzle {
+    
     var isFinalDoorOpen = false
     
     // Function called when entities assigned
@@ -47,15 +48,13 @@ class Puzzle1 : Puzzle {
         
         batteryNodePos.addChildNode(ballNode)
         ballNode.worldPosition = batteryNodePos.worldPosition
-        print("ball - ", ballNode.position, " battery - ", batteryNodePos.worldPosition)
-//        let objectPosOnPedNode = self.sceneTemplate.scene.rootNode.childNode(withName: "BatteryRoot", recursively: true)!
     }
     
     
     func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> (){
         let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
         return {
-            // if the player isnt holdin smthg and the base node is the parent of the ball
+            // if the player isnt holdin smthg and the base node is empty -> pick up the ball
             if (!self.sceneTemplate.playerCharacter.isHoldingSmthg && !batRootNode.childNodes.isEmpty) {
                 // TODO: Replace with reparenting to objectPosOnPlayerNode and play pickup animation
                 let ballNode = batRootNode.childNodes[0]

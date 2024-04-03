@@ -5,6 +5,12 @@
 //  Created by Kyle Ng on 2024-03-26.
 //
 
+/**
+ 
+ JUST A TEST CLASS NOT USED ANYMORE
+ 
+ */
+
 import SceneKit
 
 class TeleportScene: SceneTemplate{
