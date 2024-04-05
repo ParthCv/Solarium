@@ -25,7 +25,7 @@ extension SCNNode {
 }
 
 extension UIImage {
-
+    // Add alpha to UIImage
     func alpha(_ value:CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
@@ -35,6 +35,7 @@ extension UIImage {
     }
 }
 
+// Add and subtract two vectors
 func +(left:SCNVector3, right:SCNVector3) -> SCNVector3 {
     
     return SCNVector3(left.x + right.x, left.y + right.y, left.z + right.z)
@@ -44,6 +45,7 @@ func -(left:SCNVector3, right:SCNVector3) -> SCNVector3 {
     return SCNVector3(left.x - right.x, left.y - right.y, left.z - right.z)
 }
 
+// Adjust the font of a text label in a CGRect
 func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, rect:CGRect) {
 
    // Determine the font scaling factor that should let the label text fit in the given rectangle.
@@ -56,8 +58,7 @@ func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, rect:CGRect) {
    labelNode.position = CGPoint(x: rect.midX, y: rect.midY - labelNode.frame.height / 2.0)
 }
 
-
-
+// Function to find a sceneTemplate in a dictionary of enum to scenetemplates
 func findKey(mvalue: SceneTemplate, dict: [SceneEnum:SceneTemplate])-> SceneEnum {
 
    for (key, value) in dict {

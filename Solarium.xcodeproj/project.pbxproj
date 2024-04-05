@@ -20,14 +20,10 @@
 		B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */; };
 		B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4701E2B7C26D80078612C /* AnimationController.swift */; };
 		B5EE1CBF2BB3616C00012F5F /* TeleportScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EE1CBE2BB3616C00012F5F /* TeleportScene.swift */; };
-		E2120AF52B918BA70024EC74 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF42B918BA70024EC74 /* SceneController.swift */; };
 		E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF72B918CE90024EC74 /* SceneTemplate.swift */; };
-		E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AF92B9194F50024EC74 /* BaseScene.swift */; };
-		E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2120AFB2B919B380024EC74 /* OtherScene.swift */; };
 		E2291B2F2BB6869500A7D4FC /* Puzzle4.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */; };
 		E2291B312BB68A4E00A7D4FC /* s04_Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2291B302BB68A4E00A7D4FC /* s04_Tree.swift */; };
 		E22E054C2BA398C000B9955D /* PedestalScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054B2BA398C000B9955D /* PedestalScene.swift */; };
-		E22E054E2BA3B25F00B9955D /* PickUpInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054D2BA3B25F00B9955D /* PickUpInteractable.swift */; };
 		E22E05502BA3EE9A00B9955D /* PuzzlePedestalTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */; };
 		E268A2A22BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E268A2A12BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift */; };
 		E268A2A42BB4F80F0023E281 /* PlatformScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E268A2A32BB4F80F0023E281 /* PlatformScene.swift */; };
@@ -68,14 +64,10 @@
 		B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DummyAnimations.json; sourceTree = "<group>"; };
 		B5E4701E2B7C26D80078612C /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
 		B5EE1CBE2BB3616C00012F5F /* TeleportScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeleportScene.swift; sourceTree = "<group>"; };
-		E2120AF42B918BA70024EC74 /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		E2120AF72B918CE90024EC74 /* SceneTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTemplate.swift; sourceTree = "<group>"; };
-		E2120AF92B9194F50024EC74 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
-		E2120AFB2B919B380024EC74 /* OtherScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScene.swift; sourceTree = "<group>"; };
 		E2291B2E2BB6869500A7D4FC /* Puzzle4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle4.swift; sourceTree = "<group>"; };
 		E2291B302BB68A4E00A7D4FC /* s04_Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s04_Tree.swift; sourceTree = "<group>"; };
 		E22E054B2BA398C000B9955D /* PedestalScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PedestalScene.swift; sourceTree = "<group>"; };
-		E22E054D2BA3B25F00B9955D /* PickUpInteractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpInteractable.swift; sourceTree = "<group>"; };
 		E22E054F2BA3EE9A00B9955D /* PuzzlePedestalTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzlePedestalTest.swift; sourceTree = "<group>"; };
 		E268A2A12BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleMovingPlatformTest.swift; sourceTree = "<group>"; };
 		E268A2A32BB4F80F0023E281 /* PlatformScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformScene.swift; sourceTree = "<group>"; };
@@ -124,8 +116,6 @@
 		E2120AF62B918BE60024EC74 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				E2120AF92B9194F50024EC74 /* BaseScene.swift */,
-				E2120AFB2B919B380024EC74 /* OtherScene.swift */,
 				B5EE1CBE2BB3616C00012F5F /* TeleportScene.swift */,
 				E22E054B2BA398C000B9955D /* PedestalScene.swift */,
 				B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */,
@@ -144,7 +134,6 @@
 			children = (
 				E2DC40872B9709CD003DFE95 /* SceneChangeInteractable.swift */,
 				E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */,
-				E22E054D2BA3B25F00B9955D /* PickUpInteractable.swift */,
 			);
 			path = Interactables;
 			sourceTree = "<group>";
@@ -156,7 +145,6 @@
 				E2DE13D62B7C1370002B6CBD /* PlayerCharacter.swift */,
 				E2DE13D72B7C1370002B6CBD /* PlayerController.swift */,
 				B5E4701E2B7C26D80078612C /* AnimationController.swift */,
-				E2120AF42B918BA70024EC74 /* SceneController.swift */,
 				E2120AF72B918CE90024EC74 /* SceneTemplate.swift */,
 				E2DC40842B96FF79003DFE95 /* Interactable.swift */,
 			);
@@ -326,14 +314,11 @@
 				1AAE3F0B2BB9522D0064DD8B /* AudioManager.swift in Sources */,
 				B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */,
 				E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */,
-				E22E054E2BA3B25F00B9955D /* PickUpInteractable.swift in Sources */,
 				B55F153F2BB65EA600909D6C /* Door.swift in Sources */,
-				E2120AF52B918BA70024EC74 /* SceneController.swift in Sources */,
 				E2E00A632B72EA5000B35D6C /* GameViewController.swift in Sources */,
 				B50159DE2BB7601B00D44221 /* s02_Agriculture.swift in Sources */,
 				E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */,
 				B5722A042B743E0D0088CB64 /* GameView.swift in Sources */,
-				E2120AFC2B919B380024EC74 /* OtherScene.swift in Sources */,
 				E268A2A22BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift in Sources */,
 				EE0B3C5B2BA10077008FAD06 /* Puzzle1.swift in Sources */,
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,
@@ -347,7 +332,6 @@
 				B5EE1CBF2BB3616C00012F5F /* TeleportScene.swift in Sources */,
 				EEF095EE2B9BD0C800E420A1 /* Puzzle.swift in Sources */,
 				E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */,
-				E2120AFA2B9194F50024EC74 /* BaseScene.swift in Sources */,
 				E22E05502BA3EE9A00B9955D /* PuzzlePedestalTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -35,15 +35,8 @@ class PlayerController {
         let rotationAction = SCNAction.rotateTo(x: 0, y: CGFloat(rotAngle), z: 0, duration: 0.0)
         playerCharacterNode.runAction(rotationAction)
 
-//        // move the player by applying force on the physics body
-//        playerCharacterNode.physicsBody?.applyForce(SCNVector3(changeInX/forceDampingFactor, 0, changeInZ/forceDampingFactor), asImpulse: false)
-//        
-        //reset the node position to the physcis body
         playerCharacterNode.position = playerCharacterNode.presentation.worldPosition
-        
-//        //rest the transformations
-//        playerCharacterNode.physicsBody?.resetTransform()
-//
+
         playerCharacterNode.position = SCNVector3(
             playerCharacterNode.position.x + (changeInX * defaultPlayerSpeed * Float(deltaTime)),
             playerCharacterNode.position.y,
@@ -90,7 +83,7 @@ class PlayerController {
         cameraPosition = SCNVector3(cameraXPos, cameraYPos, cameraZPos)
         mainCamera.position = cameraPosition
         mainCamera.look(at: playerCharacterNode.position) //Camera has rotation
-//        print(mainCamera.eulerAngles)
+
     }
     
     // Setter and getter for the player state

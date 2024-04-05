@@ -109,7 +109,7 @@ class Puzzle6: Puzzle {
     }
     
 
-    // 1-off pedestal that is not part of the puzzle (Closest pedestal to spawn for testing)
+    // Delagate for just pick up and drop off the ball on the pedestal
     func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> () {
         
         let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
@@ -153,6 +153,7 @@ class Puzzle6: Puzzle {
         }
     }
     
+    // Delgate maker for the pesdestal that check for the win condition for the puzzle when the correct ball is placed on it
     func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode, nameOfBall: String, index: Int) -> () -> () {
         let batRootNode = baseNode.childNode(withName: "BatteryRoot", recursively: true)!
         return {
@@ -205,6 +206,7 @@ class Puzzle6: Puzzle {
         return batteryRoot.childNodes[0].name! == correctBallName
     }
     
+    // Set up the hint overlay
     func setupFileOverlay() {
         self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createHintTexture(nodeName: "hint1", texturePath: "art.scnassets/hintRiddle6/hint1_riddle6.png"))
         self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createHintTexture(nodeName: "hint2", texturePath: "art.scnassets/hintRiddle6/hint2_riddle6.png"))
@@ -216,6 +218,7 @@ class Puzzle6: Puzzle {
         self.sceneTemplate.gvc.gameView.overlaySKScene!.addChild(createCloseBtns(btnName: "btnCls4", nodeToHide: "hint4"))
     }
     
+    // Add the hint as a texture
     func createHintTexture(nodeName: String, texturePath: String) -> (SKSpriteNode) {
         let backgroundImage = UIImage(named: texturePath)!
         let texture = SKTexture(image: backgroundImage)
@@ -230,6 +233,7 @@ class Puzzle6: Puzzle {
         return hint
     }
     
+    // Create close btns for the hints
     func createCloseBtns(btnName: String, nodeToHide: String) -> (JKButtonNode) {
         let interactButton = JKButtonNode(title: "X", state: .normal)
         interactButton.action = closeBtnDelgateMaker(skNodeToHide: nodeToHide)
@@ -245,6 +249,7 @@ class Puzzle6: Puzzle {
         return interactButton
     }
     
+    //Delegate maker for the close btn
     func closeBtnDelgateMaker(skNodeToHide: String) -> ((JKButtonNode)->()) {
         return {(_ sender: JKButtonNode) in
             sender.isHidden = true

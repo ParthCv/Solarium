@@ -39,10 +39,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     // The current scene as SceneTemplate
     var currentScene: SceneTemplate?
     
+    // interact btn for the game
     let interactButton = JKButtonNode(title: "Interact", state: .normal)
     
     var lastTickTime: TimeInterval = 0.0
     
+    // array for all puzzles completed in a scene
     var scenesPuzzleComplete: [SceneEnum : Bool] = [:]
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -91,7 +93,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         
         //Degub Options
         gameView.debugOptions = [
-            SCNDebugOptions.showPhysicsShapes
+            //SCNDebugOptions.showPhysicsShapes
         ]
         
         setUpInteractButton()
@@ -176,9 +178,6 @@ extension GameViewController {
     
     // roation for the d-pad
     private func calculateTilt() -> Float{
-//        if(pow(dPadDirectionInPixels.x ,2) + pow(dPadDirectionInPixels.y,2) < pow(Float(gameView.deadZoneRadius), 2)){
-//            return 0
-//        }
         let normalized = normalize(dPadDirectionInPixels)
         let degree = atan2(normalized.x, normalized.y)
         return degree
@@ -223,6 +222,7 @@ extension GameViewController{
     }
 }
 
+// Class to share spawn location in a scene
 class SharedData {
     static let sharedData = SharedData()
     var playerSpawnIndex = 0
