@@ -92,7 +92,7 @@ class Puzzle4: Puzzle {
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor4!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor5!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
         
-        let objectPosOnPlayerNode = sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         
         solutionBallOrder = [trackedEntities[13], trackedEntities[14], trackedEntities[15], trackedEntities[16], trackedEntities[17]]
         

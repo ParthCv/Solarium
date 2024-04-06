@@ -59,7 +59,7 @@ class Puzzle6: Puzzle {
     
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
-        let objectPosOnPlayerNode = sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         
         storePedestals = [trackedEntities[0], trackedEntities[1], trackedEntities[2], trackedEntities[3], trackedEntities[4]]
         

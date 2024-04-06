@@ -19,7 +19,7 @@ class Puzzle1 : Puzzle {
         let button = trackedEntities[3]!
         let door = Door(node: trackedEntities[4]!.node, openState: nil)
         
-        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         
         ped1.doInteractDelegate = pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped1.node)
         ped2.doInteractDelegate = pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped2.node)

@@ -100,7 +100,7 @@ class Puzzle3: Puzzle {
         btnAC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeCSmldrain, nodeAIndex: 0, nodeBIndex: 2, nodeBMax: smlDrainMax)
         btnCA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeABigdrain, nodeAIndex: 2, nodeBIndex: 0, nodeBMax: bigDrainMax)
         
-        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         ball.doInteractDelegate = ballPickUpDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, ball: ball)
         ped!.doInteractDelegate = pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped!.node)
     }

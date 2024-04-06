@@ -20,7 +20,7 @@ class TeleportScene: SceneTemplate{
         scene = SCNScene(named: "scenes.scnassets/TeleportScene.scn")
         deletableNodes = []
         puzzles = []
-        playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
+        //playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester.scn", nodeName: "PlayerNode_Wife")
         mainCamera = SCNNode()
     }
     

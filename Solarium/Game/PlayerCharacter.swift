@@ -16,7 +16,7 @@ class PlayerCharacter {
     let animationFile = "DummyAnimations"
     
     // File path for the model
-    var modelFilePath: String
+    var modelFilePath: String = "art.scnassets/SkeletalMesh/Player/SK_Eve.scn"
     
     // Node for the model
     var modelNode: SCNNode!
@@ -29,8 +29,8 @@ class PlayerCharacter {
     
     var isHoldingSmthg: Bool = false
     
-    init(modelFilePath: String, nodeName: String) {
-        self.modelFilePath = modelFilePath
+    init(nodeName: String) {
+        //self.modelFilePath = modelFilePath
         self.nodeName = nodeName
         //self.playerController = PlayerController(playerCharacterNode: modelNode, playerCharacter: self)
     }
@@ -59,6 +59,10 @@ class PlayerCharacter {
         
         playIdleAnimation()
         return modelNode
+    }
+    
+    func getObjectHoldNode() -> SCNNode{
+        return modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
     }
     
     // Animation funtions

@@ -22,7 +22,7 @@ class PlatformScene: SceneTemplate {
         deletableNodes = []
         puzzles = []
         currentPuzzle = 0
-        playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
+        playerCharacter = PlayerCharacter(nodeName: "PlayerNode_Wife")
         mainCamera = SCNNode()
     }
     
