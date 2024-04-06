@@ -34,6 +34,9 @@ class SceneTemplate {
     // list of all deletable nodes
     var deletableNodes: [SCNNode]
     
+    // Flag to control scene change interactions
+    var sceneChangeInteractionEnabled = true
+    
     required init(gvc: GameViewController){
         self.gvc = gvc
         isUnloadable = false
@@ -48,8 +51,32 @@ class SceneTemplate {
         
     }
     
+    // Function to handle scene change interactions
+    func handleSceneChangeInteraction(targetScene: SceneEnum, targetSpawnPoint: Int) {
+        // Check if scene change interaction is enabled
+        guard sceneChangeInteractionEnabled else { return }
+        
+        // Disable further scene change interactions
+        sceneChangeInteractionEnabled = false
+        
+        // Door interact sound is the default that will be played when transitioning between Scenes.
+        self.gvc.audioManager?.playInteractSound(interactableName: "Door")
+        // Stop current scene BGM. Playing the next scene BGM handled in GameViewController.switchScene()
+        self.gvc.audioManager?.stopCurrentStageBGM()
+        
+        DispatchQueue.main.async {
+            SharedData.sharedData.playerSpawnIndex = targetSpawnPoint
+            self.gvc.switchScene(currScn: self, nextScn: targetScene)
+            
+            // Re-enable scene change interactions after a delay to prevent multiple taps
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.sceneChangeInteractionEnabled = true
+            }
+        }
+    }
+    
     // preload for the scene
-    @MainActor func load(){
+    @MainActor func load() {
         //get spawn points
         scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
             if let name = node.name, name.range(of: "SP_", options: .regularExpression) != nil {
@@ -73,15 +100,8 @@ class SceneTemplate {
                     print(targetScene)
                     let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                     scnInteract.doInteractDelegate = {
-                        // Door interact sound is the default that will be played when transitioning between Scenes.
-                        self.gvc.audioManager?.playInteractSound(interactableName: "Door")
-                        // Stop current scene BGM. Playing the next scene BGM handled in GameViewController.switchScene()
-                        self.gvc.audioManager?.stopCurrentStageBGM()
-                        //self.gvc.audioManager?.playCurrentStageBGM(sceneName: targetScene)
-                        DispatchQueue.main.async(execute: {
-                            SharedData.sharedData.playerSpawnIndex = scnInteract.targetSpawnPoint
-                            self.gvc.switchScene(currScn: self, nextScn: targetScene)
-                        })
+                        // Handle scene change interaction: Accounting for multiple inputs, but perform load once only.
+                        self.handleSceneChangeInteraction(targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                     }
                     sceneChangeInteractables.append(scnInteract)
                 }
