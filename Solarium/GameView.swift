@@ -33,44 +33,41 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         setup2DOverlay()
-        setupTitleScreen()
     }
     
 
     
     func setupTitleScreen() {
-        // Setup pause menu
+        
+        let pauseBtnOffset: CGFloat = min(self.bounds.width, self.bounds.height) * 0.05 // Calculate the offset based on the screen size
         let buttonSize: CGFloat = 20
         pauseMenuBtn = JKButtonNode(title: "⏸", state: .normal)
         pauseMenuBtn.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
         pauseMenuBtn.size = CGSizeMake(buttonSize,buttonSize)
         pauseMenuBtn.canPlaySounds = false
         pauseMenuBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
-        pauseMenuBtn.position.x = self.bounds.height - buttonSize - 15
-        pauseMenuBtn.position.y = self.bounds.width - buttonSize - 15
+        pauseMenuBtn.position.x = self.bounds.width - buttonSize - pauseBtnOffset
+        pauseMenuBtn.position.y = self.bounds.height - buttonSize - pauseBtnOffset
         pauseMenuBtn.isHidden = true
         pauseMenuBtn.action = pauseBtnCallback
-        pauseMenuBtn.name = "PauseMenuBtn"
+        
         pauseMenuResumeBtn = JKButtonNode(title: "Resume", state: .normal)
         pauseMenuResumeBtn.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
         pauseMenuResumeBtn.size = CGSizeMake(200,50)
         pauseMenuResumeBtn.canPlaySounds = false
         pauseMenuResumeBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
-        pauseMenuResumeBtn.position.x = self.bounds.height / 2
-        pauseMenuResumeBtn.position.y = (self.bounds.width / 2) - 100
+        pauseMenuResumeBtn.position.x = self.bounds.width / 2
+        pauseMenuResumeBtn.position.y = (self.bounds.height / 2) - 100
         pauseMenuResumeBtn.isHidden = true
         pauseMenuResumeBtn.action = resumeBtnCallback
-        pauseMenuResumeBtn.name = "PauseMenuResumeBtn"
         
-        // Set up main menue
         let mmImage = UIImage(named: "art.scnassets/TitleScreenBackground.png")!
         let mmTexture = SKTexture(image: mmImage)
         mainMenuImageNode = SKSpriteNode(texture: mmTexture)
-        // Set the size of the background node to match the size of the scene. Width and height are flipped for some reason.
-        mainMenuImageNode.size.width = self.bounds.size.height
-        mainMenuImageNode.size.height = self.bounds.size.width
-        mainMenuImageNode.position.x = self.bounds.height / 2
-        mainMenuImageNode.position.y = self.bounds.width / 2
+        mainMenuImageNode.size.width = self.bounds.size.width
+        mainMenuImageNode.size.height = self.bounds.size.height
+        mainMenuImageNode.position.x = self.bounds.width / 2
+        mainMenuImageNode.position.y = self.bounds.height / 2
         mainMenuImageNode.isHidden = false
         
         mainMenuStartBtn = JKButtonNode(title: "Start Game", state: .normal)
@@ -78,10 +75,9 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         mainMenuStartBtn.size = CGSizeMake(200,50)
         mainMenuStartBtn.canPlaySounds = false
         mainMenuStartBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.yellow)
-        mainMenuStartBtn.position.x = self.bounds.height / 2
-        mainMenuStartBtn.position.y = (self.bounds.width / 2) - 100
+        mainMenuStartBtn.position.x = self.bounds.width / 2
+        mainMenuStartBtn.position.y = (self.bounds.height / 2) - 100
         mainMenuStartBtn.action = startBtnCallback
-        mainMenuStartBtn.name = "PauseMenuResumeBtn"
         mainMenuStartBtn.isHidden = false
         
         self.overlaySKScene?.addChild(mainMenuImageNode)
