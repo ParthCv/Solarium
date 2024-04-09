@@ -115,7 +115,7 @@ class SceneTemplate {
             if let name = node.name, name.range(of: "D_", options: .regularExpression) != nil {
                 let nameParts = name.components(separatedBy: "_")
                 if nameParts.count >= 2 {
-                    Door(node: node, openState: (nameParts[2] == "1"))
+                    _ = Door(node: node, openState: (nameParts[2] == "1"))
                 }
                 return true
             }

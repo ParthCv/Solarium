@@ -34,7 +34,7 @@ class s03_Lights: SceneTemplate{
         
         //All the Pedstals
         let puzzle1_ped0 = scene.rootNode.childNode(withName: "P0_7_2_pedestalBtm", recursively: true)!
-        let puzzle1_ped2 = scene.rootNode.childNode(withName: "P0_8_2_pedestalF1", recursively: true)!
+//        let puzzle1_ped2 = scene.rootNode.childNode(withName: "P0_8_2_pedestalF1", recursively: true)!
         let puzzle1_ped3 = scene.rootNode.childNode(withName: "P0_9_2_pedestalF2", recursively: true)!
         let puzzle1_ped4 = scene.rootNode.childNode(withName: "P0_10_2_pedestalF3", recursively: true)!
         let puzzle1_ped5 = scene.rootNode.childNode(withName: "P0_11_2_pedestalF4", recursively: true)!

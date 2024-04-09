@@ -62,7 +62,6 @@ class PuzzleMovingPlatformTest: Puzzle {
         
         currPlatformPosIndex = (currPlatformPosIndex!+1) % platformPositions!.count
         
-        let startPos = platformStart!.node.childNodes[1].worldPosition
         let endPos = platformPositions![currPlatformPosIndex!]
 
         print("curr pos ", currPlatformPosIndex!)

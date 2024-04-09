@@ -22,7 +22,7 @@ class s01_TutorialScene: SceneTemplate{
     
     override func gameInit() {
         if (self.gvc.scenesPuzzleComplete[.SCN2]! && self.gvc.scenesPuzzleComplete[.SCN3]!) {
-            let door = Door(node: self.scene.rootNode.childNode(withName: "D_Door_0", recursively: true)!, openState: true)
+            _ = Door(node: self.scene.rootNode.childNode(withName: "D_Door_0", recursively: true)!, openState: true)
             
         }
         super.gameInit()

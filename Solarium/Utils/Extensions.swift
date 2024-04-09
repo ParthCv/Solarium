@@ -49,7 +49,7 @@ func -(left:SCNVector3, right:SCNVector3) -> SCNVector3 {
 func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, rect:CGRect) {
 
    // Determine the font scaling factor that should let the label text fit in the given rectangle.
-   let scalingFactor = min(rect.width / labelNode.frame.width, rect.height / labelNode.frame.height)
+//   let scalingFactor = min(rect.width / labelNode.frame.width, rect.height / labelNode.frame.height)
 
    // Change the fontSize.
    //labelNode.fontSize *= scalingFactor
