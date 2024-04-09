@@ -103,6 +103,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
         
+        // UI setup done last, reliant on the screen size info which is only populated after view loads
+        gameView.setupTitleScreen()
+        
         // Pause game after everything has been loaded - no inputs taken in Title Screen
         gameView.isPaused = true
         gameView.scene?.isPaused = true
