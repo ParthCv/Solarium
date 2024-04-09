@@ -39,25 +39,5 @@ class s01_TutorialScene: SceneTemplate{
 }
 
 extension s01_TutorialScene {
-    
-    func addAmbientLighting() -> SCNNode {
-        let ambientLight = SCNNode()
-        ambientLight.light = SCNLight()
-        ambientLight.light?.type = .ambient
-        deletableNodes.append(ambientLight)
-        return ambientLight
-    }
-    
-    func createFloor() -> SCNNode {
-        let floorNode = SCNNode()
-        floorNode.geometry = SCNFloor()
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
 
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        floorNode.physicsBody!.rollingFriction = 1
-        floorNode.physicsBody!.friction = 1
-        deletableNodes.append(floorNode)
-        return floorNode
-    }
-    
 }

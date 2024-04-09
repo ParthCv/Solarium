@@ -50,12 +50,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.sceneDictionary = [
-            .SCN0: s05_Water(gvc: self),
+            //.SCN0: s05_Water(gvc: self),
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
             .SCN4: s04_Tree(gvc: self),
-            .SCN5: s06_Riddle(gvc: self)
+            //.SCN5: s06_Riddle(gvc: self)
         ]
         for scene in self.sceneDictionary {
             scenesPuzzleComplete[scene.key] = false
@@ -65,12 +65,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sceneDictionary = [
-            .SCN0: s05_Water(gvc: self),
+            //.SCN0: s05_Water(gvc: self),
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
             .SCN4: s04_Tree(gvc: self),
-            .SCN5: s06_Riddle(gvc: self)
+            //.SCN5: s06_Riddle(gvc: self)
         ]
         for scene in self.sceneDictionary {
             scenesPuzzleComplete[scene.key] = false
@@ -193,7 +193,7 @@ extension GameViewController {
     }
     
     func setUpInteractButton() {
-        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
         interactButton.canPlaySounds = false
         interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
         interactButton.position.x = 750

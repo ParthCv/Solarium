@@ -1,4 +1,4 @@
 {
-    "open" : "art.scnassets/SK_DoorOpenAnim.scn",
-    "close" : "art.scnassets/SK_DoorCloseAnim.scn"
+    "open" : "art.scnassets/SkeletalMesh/SK_DoorOpenAnim.scn",
+    "close" : "art.scnassets/SkeletalMesh/SK_DoorCloseAnim.scn"
 }

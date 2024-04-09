@@ -283,6 +283,30 @@ class SceneTemplate {
     }
 }
 
+extension SceneTemplate {
+    func addAmbientLighting() -> SCNNode {
+        let ambientLight = SCNNode()
+        ambientLight.light = SCNLight()
+        ambientLight.light?.type = .ambient
+        deletableNodes.append(ambientLight)
+        return ambientLight
+    }
+    
+    func createFloor() -> SCNNode {
+        let floorNode = SCNNode()
+        let floor = SCNFloor()
+        floor.reflectivity = 0.001
+        floorNode.geometry = floor
+        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/textures/grid.png"
+        
+        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        floorNode.physicsBody!.rollingFriction = 1
+        floorNode.physicsBody!.friction = 1
+        deletableNodes.append(floorNode)
+        return floorNode
+    }
+}
+
 extension SceneTemplate: Comparable {
     static func == (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
         return type(of: lhs) == type(of: rhs)

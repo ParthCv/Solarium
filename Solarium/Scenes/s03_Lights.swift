@@ -93,30 +93,6 @@ class s03_Lights: SceneTemplate{
 
 extension s03_Lights {
     
-    func addAmbientLighting() -> SCNNode {
-        let ambientLight = SCNNode()
-        ambientLight.light = SCNLight()
-        ambientLight.light?.type = .ambient
-        deletableNodes.append(ambientLight)
-        return ambientLight
-    }
-    
-    func createFloor() -> SCNNode {
-        let floorNode = SCNNode()
-        let floor = SCNFloor()
-        floor.reflectivity = 0.001
-        floorNode.geometry = floor
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-        
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        floorNode.physicsBody?.friction = 1
-        floorNode.physicsBody?.restitution = 0
-        floorNode.physicsBody?.rollingFriction = 1
-        
-        deletableNodes.append(floorNode)
-        return floorNode
-    }
-    
     func setUpButtonsOnPlatform() {
         let platformNode: SCNNode = scene.rootNode.childNode(withName: "P0_5_0_Platform", recursively: true)!
         let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P0_6_2_up", recursively: true)!

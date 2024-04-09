@@ -72,22 +72,6 @@ class s04_Tree: SceneTemplate {
 
 extension s04_Tree{
     
-    func createFloor() -> SCNNode {
-        let floorNode = SCNNode()
-        let floor = SCNFloor()
-        floor.reflectivity = 0.001
-        floorNode.geometry = floor
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-        
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        
-        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
-
-        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
-        deletableNodes.append(floorNode)
-        return floorNode
-    }
-    
     func setUpButtonsOnPlatform() {
         let platformNode: SCNNode = scene.rootNode.childNode(withName: "P0_5_0_platform", recursively: true)!
         let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P0_6_2_up", recursively: true)!
