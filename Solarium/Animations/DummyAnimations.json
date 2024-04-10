@@ -1,5 +1,7 @@
 {
     "idle": "art.scnassets/SkeletalMesh/Player/SK_Eve_IdleAnim.scn",
-    "walk": "art.scnassets/SkeletalMesh/Player/SK_Eve_BootUp.scn",
+    "walk": "art.scnassets/SkeletalMesh/Player/SK_Eve_MovingLoop.scn",
+    "idletowalk": "art.scnassets/SkeletalMesh/Player/SK_Eve_IdleToMoving.scn",
+    "walktoidle": "art.scnassets/SkeletalMesh/Player/SK_Eve_MovingToIdle.scn",
     "boot": "art.scnassets/SkeletalMesh/Player/SK_Eve_BootUp.scn"
 }

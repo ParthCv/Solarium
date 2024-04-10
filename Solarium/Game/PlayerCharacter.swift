@@ -74,5 +74,13 @@ class PlayerCharacter {
     func playWalkAnimation() {
         self.animationController.playAnimation(animations: self.animations, key: "walk")
     }
+    
+    func playIdleToWalkAnimation() {
+        self.animationController.playAnimation(animations: self.animations, key: "idletowalk")
+    }
+    
+    func playWalkToIdleAnimation() {
+        self.animationController.playAnimation(animations: self.animations, key: "walktoidle")
+    }
 
 }

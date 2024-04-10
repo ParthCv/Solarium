@@ -51,6 +51,7 @@ class PlayerController {
             if (playerState != PlayerState.IDLE) {
                 setPlayerState(PlayerState.IDLE)
                 playerCharacterNode.removeAllActions()
+                playerCharacter.playWalkToIdleAnimation()
                 playerCharacter.playIdleAnimation()
             }
             return
@@ -58,6 +59,7 @@ class PlayerController {
         
         if(playerState != PlayerState.WALKING) {
             setPlayerState(PlayerState.WALKING)
+            playerCharacter.playIdleToWalkAnimation()
             playerCharacter.playWalkAnimation()
         }
 
