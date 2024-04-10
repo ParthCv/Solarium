@@ -229,4 +229,6 @@ extension GameViewController{
 class SharedData {
     static let sharedData = SharedData()
     var playerSpawnIndex = 0
+    
+    var cameraOffset = CameraBoxTrigger.defaultTrigger
 }

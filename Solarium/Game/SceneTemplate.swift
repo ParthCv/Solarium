@@ -22,6 +22,7 @@ class SceneTemplate {
     var spawnPoints: [Int: SCNNode]
     var sceneChangeInteractables: [SceneChangeInteractable]
     var autoTriggerEntities: [Interactable]
+    var cameraBoxTriggers: [CameraBoxTrigger]
     
     // flag to make the scene unloaded after the switch
     var isUnloadable: Bool
@@ -43,6 +44,7 @@ class SceneTemplate {
         spawnPoints = [:]
         sceneChangeInteractables = []
         autoTriggerEntities = []
+        cameraBoxTriggers = []
         deletableNodes = []
         puzzles = []
         currentPuzzle = 0
@@ -151,6 +153,23 @@ class SceneTemplate {
             return false
         })
         
+        scene.rootNode.childNodes(passingTest: { (node,stop) -> Bool in
+            if let name = node.name, name.range(of: "CBT_", options: .regularExpression) != nil{
+                let nameParts = name.components(separatedBy: "_")
+                if nameParts.count >= 4 {
+//                    let boxIndex = Int(String(nameParts[1]))!
+                    let camRotX = Float(nameParts[1]) ?? CameraBoxTrigger.defaultTrigger.camRotationX
+                    let offsetY = Float(nameParts[2]) ?? CameraBoxTrigger.defaultTrigger.offsetY
+                    let offsetZ = Float(nameParts[3]) ?? CameraBoxTrigger.defaultTrigger.offsetZ
+                    let cbt = CameraBoxTrigger(node: node, camRotationX: camRotX, offsetY: offsetY, offsetZ: offsetZ)
+                    print("CBT: ", cbt)
+                    cameraBoxTriggers.append(cbt)
+                }
+                return true
+            }
+            return false
+        })
+        
         // Add the player to the scene
         let playerNode = playerCharacter.loadPlayerCharacter(spawnPosition: spawnPoints[SharedData.sharedData.playerSpawnIndex]!.worldPosition)
         scene.rootNode.addChildNode(playerNode)
@@ -168,6 +187,7 @@ class SceneTemplate {
         spawnPoints.removeAll()
         sceneChangeInteractables.removeAll()
         autoTriggerEntities.removeAll()
+        cameraBoxTriggers.removeAll()
         puzzles.removeAll()
         print(spawnPoints.count)
         print(sceneChangeInteractables.count)
@@ -280,7 +300,15 @@ class SceneTemplate {
             gameViewController.interactButton.title.text = interactableObject!.displayText
             gameViewController.interactButton.isHidden = false
         }
+        
+        SharedData.sharedData.cameraOffset = CameraBoxTrigger.defaultTrigger
+        for cbt in cameraBoxTriggers {
+            if(cbt.comparePos(other: playerCharacter.modelNode.position)){
+                SharedData.sharedData.cameraOffset = cbt.cameraOffset
+            }
+        }
     }
+    
 }
 
 extension SceneTemplate {
@@ -315,4 +343,33 @@ extension SceneTemplate: Comparable {
     static func < (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
         return false
     }
+}
+
+class CameraBoxTrigger {
+    static let defaultTrigger = CameraOffset(camRotationX: -45, offsetY: 30, offsetZ: 30)
+    
+    struct CameraOffset{
+        let camRotationX: Float
+        let offsetY: Float
+        let offsetZ: Float
+    }
+    
+    let cameraOffset: CameraOffset
+    let origin: SCNVector3
+    let min: SCNVector3
+    let max: SCNVector3
+    
+    
+    init(node: SCNNode?, camRotationX: Float, offsetY: Float, offsetZ: Float) {
+        self.origin = node?.worldPosition ?? SCNVector3Zero
+        self.cameraOffset = CameraOffset(camRotationX: camRotationX, offsetY: offsetY, offsetZ: offsetZ)
+        
+        self.min = (node?.boundingBox.min ?? SCNVector3Zero) + origin
+        self.max = (node?.boundingBox.max ?? SCNVector3Zero) + origin
+    }
+    
+    func comparePos(other: SCNVector3) -> Bool {
+        return other.x > min.x && other.x < max.x && other.y > min.y && other.y < max.y && other.z > min.z && other.z < max.z
+    }
+    
 }

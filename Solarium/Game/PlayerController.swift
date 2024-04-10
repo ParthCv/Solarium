@@ -15,7 +15,7 @@ class PlayerController {
     
     let forceDampingFactor: Float = 90
     
-    let cameraOffset: Float = 30
+    //let cameraOffset: Float = 30
     
     var playerCharacter: PlayerCharacter!
     
@@ -69,8 +69,9 @@ class PlayerController {
         let cameraDamping: Float = 0.9
         let playerPosition = playerCharacterNode.position
         
+        let cameraOffset = SharedData.sharedData.cameraOffset
         // Calculate the position of the target position of the camera
-        let targetPosition = SCNVector3(x: playerPosition.x, y: playerPosition.y + cameraOffset, z: playerPosition.z + cameraOffset)
+        let targetPosition = SCNVector3(x: playerPosition.x, y: playerPosition.y + cameraOffset.offsetY, z: playerPosition.z + cameraOffset.offsetZ)
         
         var cameraPosition: SCNVector3 = mainCamera.position
         
@@ -81,6 +82,8 @@ class PlayerController {
         
         // set the position of the camera
         cameraPosition = SCNVector3(cameraXPos, cameraYPos, cameraZPos)
+        mainCamera.eulerAngles.x = cameraOffset.camRotationX
+        
         mainCamera.position = cameraPosition
         mainCamera.look(at: playerCharacterNode.position) //Camera has rotation
 
