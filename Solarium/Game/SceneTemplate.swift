@@ -252,7 +252,7 @@ class SceneTemplate {
         )
         
         // Make the camera follow the player
-        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
+        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera, deltaTime: time - gameViewController.lastTickTime)
     }
     
     /// physics updates for the scene
@@ -346,15 +346,15 @@ extension SceneTemplate: Comparable {
 }
 
 class CameraBoxTrigger {
-    static let defaultTrigger = CameraOffset(camRotationX: -45, offsetY: 30, offsetZ: 30)
+    static let defaultTrigger = CameraProperties(camRotationX: -40, offsetY: 30, offsetZ: 30)
     
-    struct CameraOffset{
+    struct CameraProperties{
         let camRotationX: Float
         let offsetY: Float
         let offsetZ: Float
     }
     
-    let cameraOffset: CameraOffset
+    let cameraOffset: CameraProperties
     let origin: SCNVector3
     let min: SCNVector3
     let max: SCNVector3
@@ -362,7 +362,7 @@ class CameraBoxTrigger {
     
     init(node: SCNNode?, camRotationX: Float, offsetY: Float, offsetZ: Float) {
         self.origin = node?.worldPosition ?? SCNVector3Zero
-        self.cameraOffset = CameraOffset(camRotationX: camRotationX, offsetY: offsetY, offsetZ: offsetZ)
+        self.cameraOffset = CameraProperties(camRotationX: camRotationX, offsetY: offsetY, offsetZ: offsetZ)
         
         self.min = (node?.boundingBox.min ?? SCNVector3Zero) + origin
         self.max = (node?.boundingBox.max ?? SCNVector3Zero) + origin
