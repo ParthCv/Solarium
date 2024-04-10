@@ -84,9 +84,12 @@ class Puzzle2 : Puzzle {
             for set in sets {
                 self.tubePuzzleState[set.key] = !self.tubePuzzleState[set.key]
                 let tubePos = set.value!.node.worldPosition
-                let toPos = self.tubePuzzleState[set.key] ? SCNVector3(x: tubePos.x, y: 30, z: tubePos.z): SCNVector3(x: tubePos.x, y: 60, z: tubePos.z)
+                let toPos = self.tubePuzzleState[set.key] ? SCNVector3(x: tubePos.x, y: 15, z: tubePos.z): SCNVector3(x: tubePos.x, y: -20, z: tubePos.z)
                 let moveAction = SCNAction.move(to: toPos, duration: 2)
                 set.value?.node.runAction(moveAction){
+                    if (!self.tubePuzzleState[set.key]){
+                        set.value?.node.position.y = 45
+                    }
                     self.unfillTank()
                 }
                 self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")

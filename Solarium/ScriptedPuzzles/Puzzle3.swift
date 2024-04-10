@@ -152,7 +152,7 @@ class Puzzle3: Puzzle {
     }
     
     func setupFileOverlay() {
-        let backgroundImage = UIImage(named: "art.scnassets/files.png")!.alpha(1)
+        let backgroundImage = UIImage(named: "art.scnassets/hintPuzzle4/files.png")!.alpha(1)
         let texture = SKTexture(image: backgroundImage)
         let bound = self.sceneTemplate.gvc.gameView.bounds
         let fileImageNode = SKSpriteNode(texture: texture)
@@ -178,7 +178,7 @@ class Puzzle3: Puzzle {
         
         let interactButton = JKButtonNode(title: "X", state: .normal)
         interactButton.action = hideHintCallBack
-        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
         interactButton.size = CGSizeMake(45,45)
         interactButton.canPlaySounds = false
         interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
