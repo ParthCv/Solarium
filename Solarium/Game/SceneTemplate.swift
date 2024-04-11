@@ -162,7 +162,7 @@ class SceneTemplate {
                     let offsetY = Float(nameParts[2]) ?? CameraBoxTrigger.defaultTrigger.offsetY
                     let offsetZ = Float(nameParts[3]) ?? CameraBoxTrigger.defaultTrigger.offsetZ
                     let cbt = CameraBoxTrigger(node: node, camRotationX: camRotX, offsetY: offsetY, offsetZ: offsetZ)
-                    print("CBT: ", cbt)
+                    print("CBT: ", cbt.min, cbt.max)
                     cameraBoxTriggers.append(cbt)
                 }
                 return true
