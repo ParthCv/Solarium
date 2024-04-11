@@ -15,7 +15,7 @@ class PlayerController {
     
     let forceDampingFactor: Float = 90
     
-    let cameraOffset: Float = 30
+    //let cameraOffset: Float = 30
     
     var playerCharacter: PlayerCharacter!
     
@@ -66,26 +66,20 @@ class PlayerController {
     }
     
     // make the camera follow the player
-    func repositionCameraToFollowPlayer(mainCamera: SCNNode) {
+    func repositionCameraToFollowPlayer(mainCamera: SCNNode, deltaTime: TimeInterval) {
         // damping facto for the lerp of the camera
-        let cameraDamping: Float = 0.9
-        let playerPosition = playerCharacterNode.position
+        let cameraDamping: Float = 0.01
+        let playerPosition = playerCharacterNode.worldPosition
         
+        let cameraOffset = SharedData.sharedData.cameraOffset
         // Calculate the position of the target position of the camera
-        let targetPosition = SCNVector3(x: playerPosition.x, y: playerPosition.y + cameraOffset, z: playerPosition.z + cameraOffset)
+        var targetPosition = SCNVector3(x: playerPosition.x, y: playerPosition.y + cameraOffset.offsetY, z: playerPosition.z + cameraOffset.offsetZ )
+        var changeInPos = mainCamera.worldPosition - targetPosition
+        let scalar = (Float(deltaTime) > 1 ? cameraDamping : Float(deltaTime))
+        let lerpPos = mainCamera.worldPosition * (1.0 - scalar) + (targetPosition) * scalar
         
-        var cameraPosition: SCNVector3 = mainCamera.position
-        
-        // lerp the posiotion of the camera
-        let cameraXPos = cameraPosition.x * (1.0 - cameraDamping) + targetPosition.x * cameraDamping
-        let cameraYPos = cameraPosition.y * (1.0 - cameraDamping) + targetPosition.y * cameraDamping
-        let cameraZPos = cameraPosition.z * (1.0 - cameraDamping) + targetPosition.z * cameraDamping
-        
-        // set the position of the camera
-        cameraPosition = SCNVector3(cameraXPos, cameraYPos, cameraZPos)
-        mainCamera.position = cameraPosition
-        mainCamera.look(at: playerCharacterNode.position) //Camera has rotation
-
+        mainCamera.position = lerpPos
+        mainCamera.eulerAngles.x = mainCamera.eulerAngles.x * (1.0 - scalar) + (cameraOffset.camRotationX * Float.pi / 180) * scalar
     }
     
     // Setter and getter for the player state
