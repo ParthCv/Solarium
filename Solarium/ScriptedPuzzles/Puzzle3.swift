@@ -22,6 +22,7 @@ class Puzzle3: Puzzle {
     var medDrain: Interactable?
     var smlDrain: Interactable?
     
+    //TODO: create a valvewheel entity class to call the valve wheel animation
     //Btns
     var btnAB: Interactable?
     var btnBA: Interactable?
