@@ -19,6 +19,9 @@ class Puzzle4: Puzzle {
     //Platform
     var platform: Interactable?
     var platformBtnUp: Interactable?
+    var platformBtnDown: Interactable?
+    var platformBtnReset: Interactable?
+    let platformSpeed: Float = 7.5
     
     //Puzzle Solutions
     /*
@@ -84,6 +87,8 @@ class Puzzle4: Puzzle {
         
         platform = trackedEntities[5]
         platformBtnUp = trackedEntities[6]
+        platformBtnDown = trackedEntities[19]
+        platformBtnReset = trackedEntities[20]
         
         // Setup the position for the platform
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor1!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
@@ -110,7 +115,9 @@ class Puzzle4: Puzzle {
         }
        
         currPlatformPosIndex = 0
-        platformBtnUp!.setInteractDelegate(function: movePlatformUpIntercatDelegate)
+        platformBtnUp!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return (currPlatformPosIndex! + 1) % platformPositions!.count}))
+        platformBtnDown!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return (currPlatformPosIndex! - 1) % platformPositions!.count}))
+        platformBtnReset!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return 0}))
     }
     
     // Per Puzzle Check for Win condition
@@ -122,23 +129,82 @@ class Puzzle4: Puzzle {
             print("Puzzle Solved")
         }
     }
-    
-    func movePlatformUpIntercatDelegate() {
-        currPlatformPosIndex = (currPlatformPosIndex! + 1) % platformPositions!.count
-        let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
-        print(pos)
-        let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/7.5)))
+
+    func platformInteractDelegateMaker(platformIndexCalc: @escaping ()->Int) -> (()->()){
+        return { [weak self] in
+            self.currPlatformPosIndex = platformIndexCalc()
+            let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
+            // print(pos)
+            let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
         
-        platformBtnUp!.priority = .noPriority
+            platformBtnUp!.priority = .noPriority
+            platformBtnDown!.priority = .noPriority
         
-        self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-        
-        platform!.node.runAction(moveAction) {
-            self.platformBtnUp!.priority = .mediumPriority
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-        }
         
+            platform!.node.runAction(moveAction) {
+                self.platformBtnUp!.priority = .mediumPriority
+                self.platformBtnDown!.priority = .mediumPriority
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            }
+        }
     }
+    
+    // func movePlatformUpIntercatDelegate() {
+    //     currPlatformPosIndex = (currPlatformPosIndex! + 1) % platformPositions!.count
+    //     let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
+    //     // print(pos)
+    //     let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
+        
+    //     platformBtnUp!.priority = .noPriority
+    //     platformBtnDown!.priority = .noPriority
+        
+    //     self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+        
+    //     platform!.node.runAction(moveAction) {
+    //         self.platformBtnUp!.priority = .mediumPriority
+    //         self.platformBtnDown!.priority = .mediumPriority
+    //         self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+    //     }
+        
+    // }
+
+    // func movePlatformDownIntercatDelegate() {
+    //     currPlatformPosIndex = (currPlatformPosIndex! - 1) % platformPositions!.count
+    //     let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
+    //     // print(pos)
+    //     let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
+        
+    //     platformBtnUp!.priority = .noPriority
+    //     platformBtnDown!.priority = .noPriority
+        
+    //     self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+        
+    //     platform!.node.runAction(moveAction) {
+    //         self.platformBtnUp!.priority = .mediumPriority
+    //         self.platformBtnDown!.priority = .mediumPriority
+    //         self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+    //     }
+        
+    // }
+
+    // func resetPlatformIntercatDelegate() {
+    //     currPlatformPosIndex = 0
+    //     let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
+    //     let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
+        
+    //     platformBtnUp!.priority = .noPriority
+    //     platformBtnDown!.priority = .noPriority
+        
+    //     self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+        
+    //     platform!.node.runAction(moveAction) {
+    //         self.platformBtnUp!.priority = .mediumPriority
+    //         self.platformBtnDown!.priority = .mediumPriority
+    //         self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+    //     }
+        
+    // }
     
     
     
