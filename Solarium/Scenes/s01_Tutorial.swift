@@ -38,8 +38,6 @@ class s01_TutorialScene: SceneTemplate{
         // rightWingWire.geometry!.firstMaterial! = rightWingMat
         // rightWingLight.geometry!.firstMaterial! = rightWingMat
         
-
-        super.gameInit()
         let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
