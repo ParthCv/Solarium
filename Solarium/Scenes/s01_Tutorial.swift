@@ -21,8 +21,12 @@ class s01_TutorialScene: SceneTemplate{
     }
     
     override func gameInit() {
+        // Check if both left (argiculture) scene puzzles + right (light room) scene puzzles are completed
+        // Opens door leading up to the Solarium
         if (self.gvc.scenesPuzzleComplete[.SCN2]! && self.gvc.scenesPuzzleComplete[.SCN3]!) {
             _ = Door(node: self.scene.rootNode.childNode(withName: "D_Door_0", recursively: true)!, openState: true)
+            
+            gvc.audioManager?.playInteractSound(interactableName: "CentralDoorPowered")
         }
 
         // let leftWingWire = scene.rootNode.childNode(withName: "LeftWingWire", recursively: true)!

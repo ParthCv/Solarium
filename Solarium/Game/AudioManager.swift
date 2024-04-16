@@ -35,7 +35,11 @@ class AudioManager {
     
     private func preloadSFX() {
         
-        let sfxFiles = ["Interact_Button", "Interact_Door", "Interact_Orb"]
+        let sfxFiles = [ "Interact_Button",
+                         "Interact_Door",
+                         "Interact_Orb",
+                         "Progress_CentralDoorPowered",
+                         "Progress_ElectricityPowerOn" ]
         
         for sfxFile in sfxFiles {
             // Check if SFX Loaded
