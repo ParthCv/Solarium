@@ -38,6 +38,8 @@ class s01_TutorialScene: SceneTemplate{
         // rightWingWire.geometry!.firstMaterial! = rightWingMat
         // rightWingLight.geometry!.firstMaterial! = rightWingMat
         
+        setUpButtonsOnPlatform()
+        
         let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
@@ -51,5 +53,14 @@ class s01_TutorialScene: SceneTemplate{
 }
 
 extension s01_TutorialScene {
-
+    func setUpButtonsOnPlatform() {
+        let platformNode: SCNNode = scene.rootNode.childNode(withName: "EndPlatform", recursively: true)!
+        let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P1_5_3_Up", recursively: true)!
+        
+        var curBtnWolrdPos = upButtonNode.worldPosition
+        var scl = upButtonNode.scale
+        platformNode.addChildNode(upButtonNode)
+        upButtonNode.scale = SCNVector3(0.25, 0.25, 0.25	)
+        upButtonNode.worldPosition = curBtnWolrdPos
+    }
 }
