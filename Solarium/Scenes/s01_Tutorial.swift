@@ -16,15 +16,29 @@ class s01_TutorialScene: SceneTemplate{
     
     override func load() {
         scene.rootNode.addChildNode(addAmbientLighting())
-        scene.rootNode.addChildNode(createFloor())
+        //scene.rootNode.addChildNode(createFloor())
         super.load()
     }
     
     override func gameInit() {
         if (self.gvc.scenesPuzzleComplete[.SCN2]! && self.gvc.scenesPuzzleComplete[.SCN3]!) {
             _ = Door(node: self.scene.rootNode.childNode(withName: "D_Door_0", recursively: true)!, openState: true)
-            
         }
+
+        // let leftWingWire = scene.rootNode.childNode(withName: "LeftWingWire", recursively: true)!
+        // let leftWingLight = scene.rootNode.childNode(withName: "LeftWingLight", recursively: true)!
+        // let rightWingWire = scene.rootNode.childNode(withName: "RightWingWire", recursively: true)!
+        // let rightWingLight = scene.rootNode.childNode(withName: "RightWingLight", recursively: true)!
+
+        // let leftWingMat = (self.gvc.scenesPuzzleComplete[.SCN2]!) ? : 
+        // leftWingWire.geometry!.firstMaterial! = leftWingMat
+        // leftWingLight.geometry!.firstMaterial! = leftWingMat
+
+        // let rightWingMat = (self.gvc.scenesPuzzleComplete[.SCN3]!) ? : 
+        // rightWingWire.geometry!.firstMaterial! = rightWingMat
+        // rightWingLight.geometry!.firstMaterial! = rightWingMat
+        
+
         super.gameInit()
         let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)

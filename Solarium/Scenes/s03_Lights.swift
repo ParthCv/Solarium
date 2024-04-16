@@ -96,10 +96,15 @@ extension s03_Lights {
     func setUpButtonsOnPlatform() {
         let platformNode: SCNNode = scene.rootNode.childNode(withName: "P0_5_0_Platform", recursively: true)!
         let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P0_6_2_up", recursively: true)!
+        let downButtonNode: SCNNode = scene.rootNode.childNode(withName: "P0_19_2_Down", recursively: true)!
         let btnRoot = platformNode.childNodes[0]
-        let curBtnWolrdPos = upButtonNode.worldPosition
+        var curBtnWolrdPos = upButtonNode.worldPosition
         platformNode.addChildNode(upButtonNode)
         upButtonNode.worldPosition = curBtnWolrdPos
+        
+        curBtnWolrdPos = downButtonNode.worldPosition
+        platformNode.addChildNode(downButtonNode)
+        downButtonNode.worldPosition = curBtnWolrdPos
         btnRoot.physicsBody?.resetTransform()
     }
     

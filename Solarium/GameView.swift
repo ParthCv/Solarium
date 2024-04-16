@@ -80,7 +80,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         mainMenuStartBtn.action = startBtnCallback
         mainMenuStartBtn.isHidden = false
         
-        self.overlaySKScene?.addChild(mainMenuImageNode)
+        	self.overlaySKScene?.addChild(mainMenuImageNode)
         self.overlaySKScene?.addChild(mainMenuStartBtn)
         self.overlaySKScene?.addChild(pauseMenuBtn)
         self.overlaySKScene?.addChild(pauseMenuResumeBtn)
@@ -100,6 +100,19 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         joyStick.isHidden = true
         pauseMenuResumeBtn.isHidden = false
         
+        pauseGame()
+    }
+    
+    func resumeBtnCallback(_ sender: JKButtonNode) {
+        sender.isHidden = true
+        joyStick.isHidden = false
+        pauseMenuBtn.isHidden = false
+        
+        resumeGame()
+    }
+    
+    
+    func pauseGame() {
         // Pause player physics manually, dealing with situation where paused while on moving platforms
         let player = scene?.rootNode.childNode(withName: "PlayerNode_Wife", recursively: true)!
         player?.physicsBody?.velocity = SCNVector3Zero
@@ -109,11 +122,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         self.scene!.isPaused = true
     }
     
-    func resumeBtnCallback(_ sender: JKButtonNode) {
-        sender.isHidden = true
-        joyStick.isHidden = false
-        pauseMenuBtn.isHidden = false
-        
+    func resumeGame() {
         isPaused = false
         self.scene!.isPaused = false
     }
