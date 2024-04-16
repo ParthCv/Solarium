@@ -82,5 +82,9 @@ class PlayerCharacter {
     func playWalkToIdleAnimation() {
         self.animationController.playAnimation(animations: self.animations, key: "walktoidle")
     }
+    
+    func playBootUpAnimation() {
+        self.animationController.playAnimation(animations: self.animations, key: "boot")
+    }
 
 }
