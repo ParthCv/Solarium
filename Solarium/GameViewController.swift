@@ -107,8 +107,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         gameView.setupTitleScreen()
         
         // Pause game after everything has been loaded - no inputs taken in Title Screen
-        gameView.isPaused = true
-        gameView.scene?.isPaused = true
+        gameView.isPaused = false
+        gameView.pauseGame()
     }
     
     // Physics Loops

@@ -80,7 +80,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         mainMenuStartBtn.action = startBtnCallback
         mainMenuStartBtn.isHidden = false
         
-        	self.overlaySKScene?.addChild(mainMenuImageNode)
+        //self.overlaySKScene?.addChild(mainMenuImageNode)
         self.overlaySKScene?.addChild(mainMenuStartBtn)
         self.overlaySKScene?.addChild(pauseMenuBtn)
         self.overlaySKScene?.addChild(pauseMenuResumeBtn)

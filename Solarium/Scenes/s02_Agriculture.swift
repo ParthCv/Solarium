@@ -15,7 +15,7 @@ class s02_Agriculture: SceneTemplate{
     }
     
     override func load() {
-        scene.rootNode.addChildNode(addAmbientLighting())        
+        //scene.rootNode.addChildNode(addAmbientLighting())        
         super.load()
     }
     
