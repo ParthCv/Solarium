@@ -79,96 +79,134 @@ class SceneTemplate {
     
     // preload for the scene
     @MainActor func load() {
-        //get spawn points
-        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
-            if let name = node.name, name.range(of: "SP_", options: .regularExpression) != nil {
+
+        scene.rootNode.childNodes(passingTest: {(node, stop) -> Bool in
+            if let name = node.name {          
                 let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 1 {
-                    let interactableIndex = nameParts[1]
-                    let intCast = Int(String(interactableIndex))!
-                    spawnPoints[intCast] = node
-                }
-                return true
-            }
-            return false
-            
-        })
-        
-        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
-            if let name = node.name, name.range(of: "ST_", options: .regularExpression) != nil {
-                let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 2 {
-                    let targetScene = SceneEnum(rawValue: nameParts[1])!
-                    print(targetScene)
-                    let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
-                    scnInteract.doInteractDelegate = {
-                        // Handle scene change interaction: Accounting for multiple inputs, but perform load once only.
-                        self.handleSceneChangeInteraction(targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
-                    }
-                    sceneChangeInteractables.append(scnInteract)
-                }
-                return true
-            }
-            return false
-            
-        })
-        
-        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
-            if let name = node.name, name.range(of: "D_", options: .regularExpression) != nil {
-                let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 2 {
-                    _ = Door(node: node, openState: (nameParts[2] == "1"))
-                }
-                return true
-            }
-            return false
-            
-        })
-        
-        scene.rootNode.childNodes(passingTest: { (node,stop) -> Bool in
-            if let name = node.name, name.range(of: "AT_", options: .regularExpression) != nil{
-                let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 2 {
-                    switch nameParts[1]{
-                    case "Teleport":
-                        if nameParts.count >= 4 {
-                            let target = nameParts[3]
-                            let tpInteract = Interactable(node: node, priority: TriggerPriority.noPriority, displayText: nil)
-                            tpInteract.doInteractDelegate = { [weak self] in
-                                let player = self!.playerCharacter.modelNode
-                                
-                                let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
-                                player?.runAction(moveAction)
-                                // TODO: ADD TELEPORT INTERACT SOUND HERE FOR FINAL
-                            }
-                            autoTriggerEntities.append(tpInteract)
+                if nameParts.count <= 1 { return false }
+                switch nameParts[0]{
+                    case "SP":
+                        if nameParts.count >= 1 {
+                            let interactableIndex = nameParts[1]
+                            let intCast = Int(String(interactableIndex))!
+                            spawnPoints[intCast] = node
                         }
-                        break
-                    default: break
-                    }
-                    
+                    case "ST":
+                        if nameParts.count >= 2 {
+                            let targetScene = SceneEnum(rawValue: nameParts[1])!
+                            print(targetScene)
+                            let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
+                            scnInteract.doInteractDelegate = {
+                                // Handle scene change interaction: Accounting for multiple inputs, but perform load once only.
+                                self.handleSceneChangeInteraction(targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
+                            }
+                            sceneChangeInteractables.append(scnInteract)
+                        }
+                    case "D":
+                        if nameParts.count >= 2 {
+                            _ = Door(node: node, openState: (nameParts[2] == "1"))
+                        }
+                    case "AT":
+                        if nameParts.count >= 2 {
+                            setUpActiveTrigger(node: node, nameParts: nameParts)                        
+                        }
+                    default:
+                        return false
                 }
                 return true
             }
             return false
         })
+        //get spawn points
+//         scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
+//             if let name = node.name, name.range(of: "SP_", options: .regularExpression) != nil {
+//                 let nameParts = name.components(separatedBy: "_")
+//                 if nameParts.count >= 1 {
+//                     let interactableIndex = nameParts[1]
+//                     let intCast = Int(String(interactableIndex))!
+//                     spawnPoints[intCast] = node
+//                 }
+//                 return true
+//             }
+//             return false
+            
+//         })
         
-        scene.rootNode.childNodes(passingTest: { (node,stop) -> Bool in
-            if let name = node.name, name.range(of: "CBT_", options: .regularExpression) != nil{
-                let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 4 {
-//                    let boxIndex = Int(String(nameParts[1]))!
-                    let camRotX = Float(nameParts[1]) ?? CameraBoxTrigger.defaultTrigger.camRotationX
-                    let offsetY = Float(nameParts[2]) ?? CameraBoxTrigger.defaultTrigger.offsetY
-                    let offsetZ = Float(nameParts[3]) ?? CameraBoxTrigger.defaultTrigger.offsetZ
-                    let cbt = CameraBoxTrigger(node: node, camRotationX: camRotX, offsetY: offsetY, offsetZ: offsetZ)
-                    print("CBT: ", cbt.min, cbt.max)
-                    cameraBoxTriggers.append(cbt)
-                }
-                return true
-            }
-            return false
-        })
+//         scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
+//             if let name = node.name, name.range(of: "ST_", options: .regularExpression) != nil {
+//                 let nameParts = name.components(separatedBy: "_")
+//                 if nameParts.count >= 2 {
+//                     let targetScene = SceneEnum(rawValue: nameParts[1])!
+//                     print(targetScene)
+//                     let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
+//                     scnInteract.doInteractDelegate = {
+//                         // Handle scene change interaction: Accounting for multiple inputs, but perform load once only.
+//                         self.handleSceneChangeInteraction(targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
+//                     }
+//                     sceneChangeInteractables.append(scnInteract)
+//                 }
+//                 return true
+//             }
+//             return false
+            
+//         })
+        
+//         scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
+//             if let name = node.name, name.range(of: "D_", options: .regularExpression) != nil {
+//                 let nameParts = name.components(separatedBy: "_")
+//                 if nameParts.count >= 2 {
+//                     _ = Door(node: node, openState: (nameParts[2] == "1"))
+//                 }
+//                 return true
+//             }
+//             return false
+            
+//         })
+        
+//         scene.rootNode.childNodes(passingTest: { (node,stop) -> Bool in
+//             if let name = node.name, name.range(of: "AT_", options: .regularExpression) != nil{
+//                 let nameParts = name.components(separatedBy: "_")
+//                 if nameParts.count >= 2 {
+//                     switch nameParts[1]{
+//                     case "Teleport":
+//                         if nameParts.count >= 4 {
+//                             let target = nameParts[3]
+//                             let tpInteract = Interactable(node: node, priority: TriggerPriority.noPriority, displayText: nil)
+//                             tpInteract.doInteractDelegate = { [weak self] in
+//                                 let player = self!.playerCharacter.modelNode
+                                
+//                                 let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
+//                                 player?.runAction(moveAction)
+//                                 // TODO: ADD TELEPORT INTERACT SOUND HERE FOR FINAL
+//                             }
+//                             autoTriggerEntities.append(tpInteract)
+//                         }
+//                         break
+//                     default: break
+//                     }
+                    
+//                 }
+//                 return true
+//             }
+//             return false
+//         })
+        
+//         scene.rootNode.childNodes(passingTest: { (node,stop) -> Bool in
+//             if let name = node.name, name.range(of: "CBT_", options: .regularExpression) != nil{
+//                 let nameParts = name.components(separatedBy: "_")
+//                 if nameParts.count >= 4 {
+// //                    let boxIndex = Int(String(nameParts[1]))!
+//                     let camRotX = Float(nameParts[1]) ?? CameraBoxTrigger.defaultTrigger.camRotationX
+//                     let offsetY = Float(nameParts[2]) ?? CameraBoxTrigger.defaultTrigger.offsetY
+//                     let offsetZ = Float(nameParts[3]) ?? CameraBoxTrigger.defaultTrigger.offsetZ
+//                     let cbt = CameraBoxTrigger(node: node, camRotationX: camRotX, offsetY: offsetY, offsetZ: offsetZ)
+//                     print("CBT: ", cbt.min, cbt.max)
+//                     cameraBoxTriggers.append(cbt)
+//                 }
+//                 return true
+//             }
+//             return false
+//         })
         
         // Add the player to the scene
         let playerNode = playerCharacter.loadPlayerCharacter(spawnPosition: spawnPoints[SharedData.sharedData.playerSpawnIndex]!.worldPosition)
@@ -312,6 +350,25 @@ class SceneTemplate {
 }
 
 extension SceneTemplate {
+    func setUpActiveTrigger(node: SCNNode, nameParts: [String]){
+        switch nameParts[1]{
+            case "Teleport":
+                if nameParts.count >= 4 {
+                    let target = nameParts[3]
+                    let tpInteract = Interactable(node: node, priority: TriggerPriority.noPriority, displayText: nil)
+                    tpInteract.doInteractDelegate = { [weak self] in
+                        let player = self!.playerCharacter.modelNode
+                        
+                        let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
+                        player?.runAction(moveAction)
+                        // TODO: ADD TELEPORT INTERACT SOUND HERE FOR FINAL
+                    }
+                    autoTriggerEntities.append(tpInteract)
+                }
+            default: break
+        }
+    }
+
     func addAmbientLighting() -> SCNNode {
         let ambientLight = SCNNode()
         ambientLight.light = SCNLight()
