@@ -140,7 +140,7 @@ class Puzzle4: Puzzle {
             platformBtnUp!.priority = .noPriority
             platformBtnDown!.priority = .noPriority
         
-            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Energy")
         
             platform!.node.runAction(moveAction) {
                 self.platformBtnUp!.priority = .mediumPriority

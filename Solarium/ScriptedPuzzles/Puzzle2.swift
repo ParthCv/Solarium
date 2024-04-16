@@ -92,7 +92,7 @@ class Puzzle2 : Puzzle {
                     }
                     self.unfillTank()
                 }
-                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Water")
             }
         }
     }

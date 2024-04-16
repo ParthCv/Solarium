@@ -37,7 +37,9 @@ class AudioManager {
         
         let sfxFiles = [ "Interact_Button",
                          "Interact_Door",
+                         "Interact_Energy",
                          "Interact_Orb",
+                         "Interact_Water",
                          "Progress_CentralDoorPowered",
                          "Progress_ElectricityPowerOn" ]
         
