@@ -87,8 +87,8 @@ class Puzzle4: Puzzle {
         
         platform = trackedEntities[5]
         platformBtnUp = trackedEntities[6]
-        platformBtnDown = trackedEntities[19]
-        platformBtnReset = trackedEntities[20]
+//        platformBtnDown = trackedEntities[19]
+//        platformBtnReset = trackedEntities[20]
         
         // Setup the position for the platform
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor1!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
@@ -115,9 +115,9 @@ class Puzzle4: Puzzle {
         }
        
         currPlatformPosIndex = 0
-        platformBtnUp!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return (currPlatformPosIndex! + 1) % platformPositions!.count}))
-        platformBtnDown!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return (currPlatformPosIndex! - 1) % platformPositions!.count}))
-        platformBtnReset!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return 0}))
+        platformBtnUp!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return (self.currPlatformPosIndex! + 1) % self.platformPositions!.count}))
+//        platformBtnDown!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return (self.currPlatformPosIndex! - 1) % self.platformPositions!.count}))
+//        platformBtnReset!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return 0}))
     }
     
     // Per Puzzle Check for Win condition
@@ -131,7 +131,7 @@ class Puzzle4: Puzzle {
     }
 
     func platformInteractDelegateMaker(platformIndexCalc: @escaping ()->Int) -> (()->()){
-        return { [weak self] in
+        return { [unowned self] in
             self.currPlatformPosIndex = platformIndexCalc()
             let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
             // print(pos)
