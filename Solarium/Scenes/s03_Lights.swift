@@ -15,9 +15,8 @@ class s03_Lights: SceneTemplate{
     }
     
     override func load() {
-        scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
-        scene.rootNode.addChildNode(createFloor())
+        //scene.rootNode.addChildNode(createFloor())
         
         super.load()
         
