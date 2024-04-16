@@ -77,7 +77,7 @@ class AudioManager {
 
     private func preloadBGM() {
         
-        let bgmFiles = ["Loop#1", "Loop#2", "Loop#3", "Loop#4", "Loop#5"]
+        let bgmFiles = ["Loop#1", "TutorialOST", "AgricultureOST", "LightsOST", "TreeOST"]
         
         for bgmFile in bgmFiles {
             
@@ -90,7 +90,7 @@ class AudioManager {
             do {
                 let bgmPlayer = try AVAudioPlayer(contentsOf: musicURL)
                 bgmPlayer.numberOfLoops = -1 // Loop indefinitely
-                bgmPlayer.volume = 0.1 // prevent earblast
+                bgmPlayer.volume = 0.5 // prevent earblast
                 backgroundMusicPlayer.append(bgmPlayer)
             } catch {
                 print("Error loading background music \(bgmFile): \(error.localizedDescription)")
@@ -111,13 +111,13 @@ class AudioManager {
             case .SCN0:
                 bgmFileName = "Loop#1"
             case .SCN1:
-                bgmFileName = "Loop#2"
+                bgmFileName = "TutorialOST"
             case .SCN2:
-                bgmFileName = "Loop#3"
+                bgmFileName = "AgricultureOST"
             case .SCN3:
-                bgmFileName = "Loop#4"
+                bgmFileName = "LightsOST"
             case .SCN4:
-                bgmFileName = "Loop#5"
+                bgmFileName = "TreeOST"
             case .SCN5:
                 bgmFileName = "Loop#5"
         }
@@ -143,13 +143,13 @@ class AudioManager {
             case .SCN0:
                 bgmFileName = "Loop#1"
             case .SCN1:
-                bgmFileName = "Loop#2"
+                bgmFileName = "TutorialOST"
             case .SCN2:
-                bgmFileName = "Loop#3"
+                bgmFileName = "AgricultureOST"
             case .SCN3:
-                bgmFileName = "Loop#4"
+                bgmFileName = "LightsOST"
             case .SCN4:
-                bgmFileName = "Loop#5"
+                bgmFileName = "TreeOST"
             case .SCN5:
                 bgmFileName = "Loop#5"
         }
