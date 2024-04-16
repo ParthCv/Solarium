@@ -20,7 +20,7 @@ class Puzzle1 : Puzzle {
         let ped1 = trackedEntities[1]!
         let ped2 = trackedEntities[2]!
         let button = trackedEntities[3]!
-        let door = Door(node: trackedEntities[4]!.node, openState: nil)
+        let door = GateDoor(node: trackedEntities[4]!.node, openState: nil)
         
         let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         
