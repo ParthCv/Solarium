@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		1AAE3F0B2BB9522D0064DD8B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE3F0A2BB9522D0064DD8B /* AudioManager.swift */; };
 		2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */; };
-		4DE504922BC8B15000385540 /* ValveWheelAnimations in Resources */ = {isa = PBXBuildFile; fileRef = 4DE504912BC8B15000385540 /* ValveWheelAnimations */; };
+		4DA394AF2BCEFC0200DD3CDB /* ValveWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA394AE2BCEFC0200DD3CDB /* ValveWheel.swift */; };
+		4DE504922BC8B15000385540 /* ValveWheelAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DE504912BC8B15000385540 /* ValveWheelAnimations.json */; };
 		B50159DE2BB7601B00D44221 /* s02_Agriculture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */; };
 		B50159E02BB7602700D44221 /* s03_Lights.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DF2BB7602700D44221 /* s03_Lights.swift */; };
 		B50159E22BB7742E00D44221 /* Puzzle2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159E12BB7742E00D44221 /* Puzzle2.swift */; };
@@ -55,7 +56,8 @@
 		1AAE3F092BB952000064DD8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AAE3F0A2BB9522D0064DD8B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s01_Tutorial.swift; sourceTree = "<group>"; };
-		4DE504912BC8B15000385540 /* ValveWheelAnimations */ = {isa = PBXFileReference; explicitFileType = text.json; path = ValveWheelAnimations; sourceTree = "<group>"; };
+		4DA394AE2BCEFC0200DD3CDB /* ValveWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValveWheel.swift; sourceTree = "<group>"; };
+		4DE504912BC8B15000385540 /* ValveWheelAnimations.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = ValveWheelAnimations.json; sourceTree = "<group>"; };
 		B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s02_Agriculture.swift; sourceTree = "<group>"; };
 		B50159DF2BB7602700D44221 /* s03_Lights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s03_Lights.swift; sourceTree = "<group>"; };
 		B50159E12BB7742E00D44221 /* Puzzle2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle2.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				B55F153E2BB65EA600909D6C /* Door.swift */,
+				4DA394AE2BCEFC0200DD3CDB /* ValveWheel.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -224,7 +227,7 @@
 				B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */,
 				B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */,
 				B583159C2BB6048600F9C602 /* DoorAnimations.json */,
-				4DE504912BC8B15000385540 /* ValveWheelAnimations */,
+				4DE504912BC8B15000385540 /* ValveWheelAnimations.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -288,7 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B53193042B97EBAE0036E05D /* scenes.scnassets in Resources */,
-				4DE504922BC8B15000385540 /* ValveWheelAnimations in Resources */,
+				4DE504922BC8B15000385540 /* ValveWheelAnimations.json in Resources */,
 				B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */,
 				B55F153C2BB62A0900909D6C /* DoorAnimations.json in Resources */,
 				E2E00A612B72EA5000B35D6C /* art.scnassets in Resources */,
@@ -338,6 +341,7 @@
 				B5EE1CBF2BB3616C00012F5F /* TeleportScene.swift in Sources */,
 				EEF095EE2B9BD0C800E420A1 /* Puzzle.swift in Sources */,
 				E2DE13D82B7C1370002B6CBD /* PlayerCharacter.swift in Sources */,
+				4DA394AF2BCEFC0200DD3CDB /* ValveWheel.swift in Sources */,
 				E22E05502BA3EE9A00B9955D /* PuzzlePedestalTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

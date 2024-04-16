@@ -11,6 +11,9 @@ class Puzzle1 : Puzzle {
     
     var isFinalDoorOpen = false
     
+    var introPlatform: SCNNode?
+    
+    
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
         let ball = trackedEntities[0]!
@@ -33,6 +36,18 @@ class Puzzle1 : Puzzle {
                 self.checkPuzzleWinCon()
             }
         }
+        
+        introPlatform = self.sceneTemplate.scene.rootNode.childNode(withName: "IntroPlatform", recursively: true)!
+        let startAction = SCNAction.moveBy(x: 0, y: 12, z: 0, duration: 4)
+        let player = self.sceneTemplate.playerCharacter.modelNode
+        let bootUpAction = SCNAction.customAction(duration: 1.5) { (node, elapsedTime) -> () in }
+        self.introPlatform!.runAction(startAction) {
+            self.sceneTemplate.playerCharacter.playBootUpAnimation()
+            player!.runAction(bootUpAction) {
+                self.sceneTemplate.playerCharacter.playIdleAnimation()
+            }
+        }
+        
     }
     
     override func checkPuzzleWinCon(){
