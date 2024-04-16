@@ -22,7 +22,6 @@ class Puzzle3: Puzzle {
     var medDrain: Interactable?
     var smlDrain: Interactable?
     
-    //TODO: create a valvewheel entity class to call the valve wheel animation
     //Btns
     var btnAB: Interactable?
     var btnBA: Interactable?
@@ -58,7 +57,7 @@ class Puzzle3: Puzzle {
         b->c
         c->a
      
-     if u fuk up refill a and the do it again
+     if you mess up refill a and the do it again
      */
     
     override init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate: SceneTemplate) {
@@ -94,12 +93,12 @@ class Puzzle3: Puzzle {
         setupFileOverlay()
         
         //Set up delegates for all the buttons
-        btnAB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeBMeddrain, nodeAIndex: 0, nodeBIndex: 1, nodeBMax: medDrainMax)
-        btnBA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeABigdrain, nodeAIndex: 1, nodeBIndex: 0, nodeBMax: bigDrainMax)
-        btnBC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeCSmldrain, nodeAIndex: 1, nodeBIndex: 2, nodeBMax: smlDrainMax)
-        btnCB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeBMeddrain, nodeAIndex: 2, nodeBIndex: 1, nodeBMax: medDrainMax)
-        btnAC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeCSmldrain, nodeAIndex: 0, nodeBIndex: 2, nodeBMax: smlDrainMax)
-        btnCA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeABigdrain, nodeAIndex: 2, nodeBIndex: 0, nodeBMax: bigDrainMax)
+        btnAB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeBMeddrain, nodeAIndex: 0, nodeBIndex: 1, nodeBMax: medDrainMax, node: btnAB!.node)
+        btnBA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeABigdrain, nodeAIndex: 1, nodeBIndex: 0, nodeBMax: bigDrainMax, node: btnBA!.node)
+        btnBC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeCSmldrain, nodeAIndex: 1, nodeBIndex: 2, nodeBMax: smlDrainMax, node: btnBC!.node)
+        btnCB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeBMeddrain, nodeAIndex: 2, nodeBIndex: 1, nodeBMax: medDrainMax, node: btnCB!.node)
+        btnAC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeCSmldrain, nodeAIndex: 0, nodeBIndex: 2, nodeBMax: smlDrainMax, node: btnAC!.node)
+        btnCA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeABigdrain, nodeAIndex: 2, nodeBIndex: 0, nodeBMax: bigDrainMax, node: btnCA!.node)
         
         let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         ball.doInteractDelegate = ballPickUpDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, ball: ball)
@@ -121,7 +120,7 @@ class Puzzle3: Puzzle {
         }
     }
     
-    func AtoBDelegateMaker(nodeA: SCNNode, nodeB: SCNNode,  nodeAIndex: Int, nodeBIndex: Int, nodeBMax: Int) -> ( ()->()) {
+    func AtoBDelegateMaker(nodeA: SCNNode, nodeB: SCNNode,  nodeAIndex: Int, nodeBIndex: Int, nodeBMax: Int, node: SCNNode) -> ( ()->()) {
         // the array for the indices of the drain position is made a unowned reference cuz there is a string reference cycle
         return { [unowned self] () in
 
@@ -148,6 +147,9 @@ class Puzzle3: Puzzle {
             nodeB.runAction(nodeBAction)
             
             self.checkTankDoor()
+            
+            let test = ValveWheel(node: node, openState: nil)
+            test.spinWheel()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
         }
     }
