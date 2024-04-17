@@ -126,6 +126,8 @@ class AudioManager {
                 bgmFileName = "TreeOST"
             case .SCN5:
                 bgmFileName = "Loop#5"
+            case .SCN6:
+                bgmFileName = "TreeOST"
         }
         
         if let bgmPlayer = backgroundMusicPlayer.first(where: { $0.url?.lastPathComponent == "\(bgmFileName).wav" }) {
@@ -158,6 +160,8 @@ class AudioManager {
                 bgmFileName = "TreeOST"
             case .SCN5:
                 bgmFileName = "Loop#5"
+            case .SCN6:
+                bgmFileName = "TreeOST"
         }
         
         if let bgmPlayer = backgroundMusicPlayer.first(where: { $0.url?.lastPathComponent == "\(bgmFileName).wav" }) {
