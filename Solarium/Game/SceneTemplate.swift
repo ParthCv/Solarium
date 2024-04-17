@@ -95,7 +95,7 @@ class SceneTemplate {
                     if nameParts.count >= 2 {
                         let targetScene = SceneEnum(rawValue: nameParts[1])!
                         print(targetScene)
-                        let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
+                        let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: nil, targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                         scnInteract.doInteractDelegate = {
                             // Handle scene change interaction: Accounting for multiple inputs, but perform load once only.
                             self.handleSceneChangeInteraction(targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
