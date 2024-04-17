@@ -15,7 +15,7 @@ class s07_Final: SceneTemplate {
     }
     
     override func load() {
-        scene.rootNode.addChildNode(createFloor())
+//        scene.rootNode.addChildNode(createFloor())
         super.load()
         
         
@@ -31,5 +31,29 @@ class s07_Final: SceneTemplate {
     
     override func gameInit() {
         currentPuzzle = 0
+        let nodes = scene.rootNode.childNodes
+        var tubes: [Tube] = []
+        for node in nodes {
+            if ((node.name?.contains("theTUBE")) != nil){
+                tubes.append(Tube(node: node, openState: nil))
+            }
+        }
+        
+        var eves: [Eve] = []
+        for node in nodes {
+            if ((node.name?.contains("SK_Eve")) != nil){
+                eves.append(Eve(node: node, openState: nil))
+            }
+        }
+        
+        if(true){ // self.gvc.scenesPuzzleComplete[.SCN2]! && self.gvc.scenesPuzzleComplete[.SCN3]!
+//            for tube in tubes {
+//                tube.rise()
+//            }
+            
+//            for eve in eves {
+//                eve.playBootUpAnimation()
+//            }
+        }
     }
 }
