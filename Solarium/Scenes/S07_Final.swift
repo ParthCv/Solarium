@@ -11,7 +11,7 @@ class s07_Final: SceneTemplate {
     
     required init(gvc: GameViewController) {
         super.init(gvc: gvc)
-        scene = SCNScene(named: "scenes.scnassets/Puzzle4.scn")
+        scene = SCNScene(named: "scenes.scnassets/S07_Final.scn")
     }
     
     override func load() {
