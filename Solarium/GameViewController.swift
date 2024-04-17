@@ -12,7 +12,7 @@ import GameplayKit
 
 // Enum to hold all th escens in the game
 enum SceneEnum : String{
-    case SCN0, SCN1, SCN2, SCN3, SCN4, SCN5
+    case SCN0, SCN1, SCN2, SCN3, SCN4, SCN5, SCN6
 }
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
@@ -55,6 +55,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
             .SCN4: s04_Tree(gvc: self),
+            .SCN6: s07_Final(gvc: self),
             //.SCN5: s06_Riddle(gvc: self)
         ]
         for scene in self.sceneDictionary {
@@ -70,6 +71,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
             .SCN4: s04_Tree(gvc: self),
+            .SCN6: s07_Final(gvc: self),
             //.SCN5: s06_Riddle(gvc: self)
         ]
         for scene in self.sceneDictionary {
