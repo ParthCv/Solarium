@@ -28,7 +28,9 @@ class Puzzle1 : Puzzle {
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Energy")
             self.sceneTemplate.scene.rootNode.childNode(withName: "EndPlatform", recursively: true)!.runAction(SCNAction.moveBy(x: 0, y: 20, z: 0, duration: 4)) {
                 self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-                self.sceneTemplate.gvc.switchScene(currScn: self.sceneTemplate.gvc.currentScene, nextScn: SceneEnum.SCN6)
+                DispatchQueue.main.async{
+                    self.sceneTemplate.gvc.switchScene(currScn: self.sceneTemplate.gvc.currentScene, nextScn: SceneEnum.SCN6)
+                }
             }
         }
         
