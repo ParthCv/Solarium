@@ -31,6 +31,25 @@ class s02_Agriculture: SceneTemplate{
         }
     }
     
+    override func allPuzzlesDone() {
+        super.allPuzzlesDone()
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeLeft", recursively: true)!
+        let leftWingLight = scene.rootNode.childNode(withName: "Light_Status_Water", recursively: true)!
+        
+        if (self.gvc.scenesPuzzleComplete[.SCN2]!) {
+            let leftWingMat = SCNMaterial()
+            leftWingMat.diffuse.contents = UIColor.yellow
+            leftWingMat.emission.contents = UIColor.yellow
+            leftWingWire.geometry!.firstMaterial = leftWingMat
+            leftWingLight.geometry!.firstMaterial = leftWingMat
+        } else {
+            let leftWingMat = SCNMaterial()
+            leftWingMat.diffuse.contents = UIColor.red
+            leftWingMat.emission.contents = UIColor.red
+            leftWingLight.geometry!.firstMaterial = leftWingMat
+        }
+        
+    }
 }
 
 extension s02_Agriculture {
