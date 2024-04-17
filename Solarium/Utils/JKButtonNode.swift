@@ -242,7 +242,7 @@ class JKButtonNode: SKSpriteNode {
     /**Set specific backgrounds for each of the button states.*/
     func setBackgroundsForState(normal: String, highlighted: String, disabled: String) {
         self.normalBG = SKTexture(imageNamed: normal)
-        self.size = CGSize(width: 175, height: 50)
+        self.size = CGSize(width: 75, height: 75)
         self.highlightedBG = SKTexture(imageNamed: highlighted)
         self.disabledBG = SKTexture(imageNamed: disabled)
         set(state: self.state)
