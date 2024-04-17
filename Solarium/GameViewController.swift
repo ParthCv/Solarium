@@ -85,7 +85,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         audioManager = AudioManager()
 
         // Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN1)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN3)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
