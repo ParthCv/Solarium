@@ -11,7 +11,7 @@
 		2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */; };
 		4DA394AF2BCEFC0200DD3CDB /* ValveWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA394AE2BCEFC0200DD3CDB /* ValveWheel.swift */; };
 		4DA394B32BCF295600DD3CDB /* GateDoorAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DA394B22BCF295600DD3CDB /* GateDoorAnimations.json */; };
-		4DA394B52BCF297F00DD3CDB /* GateDoor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA394B42BCF297F00DD3CDB /* GateDoor.swift */; };
+		4DA394B52BCF297F00DD3CDB /* OtherDoors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA394B42BCF297F00DD3CDB /* OtherDoors.swift */; };
 		4DE504922BC8B15000385540 /* ValveWheelAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DE504912BC8B15000385540 /* ValveWheelAnimations.json */; };
 		B50159DE2BB7601B00D44221 /* s02_Agriculture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */; };
 		B50159E02BB7602700D44221 /* s03_Lights.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50159DF2BB7602700D44221 /* s03_Lights.swift */; };
@@ -22,6 +22,7 @@
 		B5722A042B743E0D0088CB64 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5722A032B743E0D0088CB64 /* GameView.swift */; };
 		B581A5F52BC6070300E1811E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AAE3F092BB952000064DD8B /* Assets.xcassets */; };
 		B5A19D1E2BCF41AA00A63319 /* SecurityDoorAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5A19D1D2BCF41AA00A63319 /* SecurityDoorAnimations.json */; };
+		B5A19D202BCF509200A63319 /* PipeDoorAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5A19D1F2BCF509200A63319 /* PipeDoorAnimations.json */; };
 		B5D395E02B7D5CEC008C2CB2 /* WifeAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */; };
 		B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */ = {isa = PBXBuildFile; fileRef = B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */; };
 		B5E4701F2B7C26D80078612C /* AnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4701E2B7C26D80078612C /* AnimationController.swift */; };
@@ -61,7 +62,7 @@
 		2940F5192B96D6BB00C9A303 /* s01_Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s01_Tutorial.swift; sourceTree = "<group>"; };
 		4DA394AE2BCEFC0200DD3CDB /* ValveWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValveWheel.swift; sourceTree = "<group>"; };
 		4DA394B22BCF295600DD3CDB /* GateDoorAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GateDoorAnimations.json; sourceTree = "<group>"; };
-		4DA394B42BCF297F00DD3CDB /* GateDoor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GateDoor.swift; sourceTree = "<group>"; };
+		4DA394B42BCF297F00DD3CDB /* OtherDoors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherDoors.swift; sourceTree = "<group>"; };
 		4DE504912BC8B15000385540 /* ValveWheelAnimations.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = ValveWheelAnimations.json; sourceTree = "<group>"; };
 		B50159DD2BB7601B00D44221 /* s02_Agriculture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s02_Agriculture.swift; sourceTree = "<group>"; };
 		B50159DF2BB7602700D44221 /* s03_Lights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s03_Lights.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		B5722A032B743E0D0088CB64 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		B583159C2BB6048600F9C602 /* DoorAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DoorAnimations.json; sourceTree = "<group>"; };
 		B5A19D1D2BCF41AA00A63319 /* SecurityDoorAnimations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SecurityDoorAnimations.json; sourceTree = "<group>"; };
+		B5A19D1F2BCF509200A63319 /* PipeDoorAnimations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PipeDoorAnimations.json; sourceTree = "<group>"; };
 		B5D395DF2B7D5CEC008C2CB2 /* WifeAnimations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WifeAnimations.json; sourceTree = "<group>"; };
 		B5D395E12B7D5D2C008C2CB2 /* DummyAnimations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DummyAnimations.json; sourceTree = "<group>"; };
 		B5E4701E2B7C26D80078612C /* AnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationController.swift; sourceTree = "<group>"; };
@@ -121,7 +123,7 @@
 			children = (
 				B55F153E2BB65EA600909D6C /* Door.swift */,
 				4DA394AE2BCEFC0200DD3CDB /* ValveWheel.swift */,
-				4DA394B42BCF297F00DD3CDB /* GateDoor.swift */,
+				4DA394B42BCF297F00DD3CDB /* OtherDoors.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -237,6 +239,7 @@
 				4DE504912BC8B15000385540 /* ValveWheelAnimations.json */,
 				4DA394B22BCF295600DD3CDB /* GateDoorAnimations.json */,
 				B5A19D1D2BCF41AA00A63319 /* SecurityDoorAnimations.json */,
+				B5A19D1F2BCF509200A63319 /* PipeDoorAnimations.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				4DA394B32BCF295600DD3CDB /* GateDoorAnimations.json in Resources */,
 				B53193042B97EBAE0036E05D /* scenes.scnassets in Resources */,
 				4DE504922BC8B15000385540 /* ValveWheelAnimations.json in Resources */,
+				B5A19D202BCF509200A63319 /* PipeDoorAnimations.json in Resources */,
 				B5D395E22B7D5D2C008C2CB2 /* DummyAnimations.json in Resources */,
 				B55F153C2BB62A0900909D6C /* DoorAnimations.json in Resources */,
 				E2E00A612B72EA5000B35D6C /* art.scnassets in Resources */,
@@ -343,7 +347,7 @@
 				EE0B3C5B2BA10077008FAD06 /* Puzzle1.swift in Sources */,
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,
 				2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */,
-				4DA394B52BCF297F00DD3CDB /* GateDoor.swift in Sources */,
+				4DA394B52BCF297F00DD3CDB /* OtherDoors.swift in Sources */,
 				E2120AF82B918CE90024EC74 /* SceneTemplate.swift in Sources */,
 				E2E00A5F2B72EA5000B35D6C /* AppDelegate.swift in Sources */,
 				E2A996422BBB8BA800D79004 /* Puzzle6.swift in Sources */,
