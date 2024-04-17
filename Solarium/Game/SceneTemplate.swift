@@ -149,8 +149,8 @@ class SceneTemplate {
         autoTriggerEntities.removeAll()
         cameraBoxTriggers.removeAll()
         puzzles.removeAll()
-        print(spawnPoints.count)
-        print(sceneChangeInteractables.count)
+//        print(spawnPoints.count)
+//        print(sceneChangeInteractables.count)
     }
     
     /// The function called on the scene to perform Solarium game setup logic
@@ -169,7 +169,7 @@ class SceneTemplate {
                     let interactableIndex = nameParts[1]
                     let intCast = Int(String(interactableIndex))!
                     foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText:"")
-                    print("Interactable created - ", nameParts[3], "with priority - ", nameParts[2])
+//                    print("Interactable created - ", nameParts[3], "with priority - ", nameParts[2])
                 }
                 return true
             }

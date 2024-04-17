@@ -89,8 +89,7 @@ extension s01_TutorialScene {
         let platformNode: SCNNode = scene.rootNode.childNode(withName: "EndPlatform", recursively: true)!
         let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P1_5_3_Up", recursively: true)!
         
-        var curBtnWolrdPos = upButtonNode.worldPosition
-        var scl = upButtonNode.scale
+        let curBtnWolrdPos = upButtonNode.worldPosition
         platformNode.addChildNode(upButtonNode)
         upButtonNode.scale = SCNVector3(0.25, 0.25, 0.25	)
         upButtonNode.worldPosition = curBtnWolrdPos

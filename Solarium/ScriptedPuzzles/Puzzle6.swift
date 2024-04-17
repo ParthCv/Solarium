@@ -90,7 +90,7 @@ class Puzzle6: Puzzle {
     override func checkPuzzleWinCon(){
         let condition = self.puzzleStateArray.allSatisfy({$0 == true})
         if( condition ) {
-            print("Puzzle Complete")
+//            print("Puzzle Complete")
             self.sceneTemplate.nextPuzzle()
         }
     }
@@ -202,7 +202,7 @@ class Puzzle6: Puzzle {
     }
     
     func checkIfBallIsInRightPlace(batteryRoot: SCNNode, correctBallName: String) -> Bool {
-        print("comparing ", batteryRoot.childNodes[0].name!, " and ", correctBallName)
+//        print("comparing ", batteryRoot.childNodes[0].name!, " and ", correctBallName)
         return batteryRoot.childNodes[0].name! == correctBallName
     }
     

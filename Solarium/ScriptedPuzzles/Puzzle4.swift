@@ -126,7 +126,7 @@ class Puzzle4: Puzzle {
             solved = true
             doorComplete!.toggleDoor()
             sceneTemplate.nextPuzzle()
-            print("Puzzle Solved")
+//            print("Puzzle Solved")
         }
     }
 
@@ -149,64 +149,6 @@ class Puzzle4: Puzzle {
             }
         }
     }
-    
-    // func movePlatformUpIntercatDelegate() {
-    //     currPlatformPosIndex = (currPlatformPosIndex! + 1) % platformPositions!.count
-    //     let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
-    //     // print(pos)
-    //     let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
-        
-    //     platformBtnUp!.priority = .noPriority
-    //     platformBtnDown!.priority = .noPriority
-        
-    //     self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-        
-    //     platform!.node.runAction(moveAction) {
-    //         self.platformBtnUp!.priority = .mediumPriority
-    //         self.platformBtnDown!.priority = .mediumPriority
-    //         self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-    //     }
-        
-    // }
-
-    // func movePlatformDownIntercatDelegate() {
-    //     currPlatformPosIndex = (currPlatformPosIndex! - 1) % platformPositions!.count
-    //     let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
-    //     // print(pos)
-    //     let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
-        
-    //     platformBtnUp!.priority = .noPriority
-    //     platformBtnDown!.priority = .noPriority
-        
-    //     self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-        
-    //     platform!.node.runAction(moveAction) {
-    //         self.platformBtnUp!.priority = .mediumPriority
-    //         self.platformBtnDown!.priority = .mediumPriority
-    //         self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-    //     }
-        
-    // }
-
-    // func resetPlatformIntercatDelegate() {
-    //     currPlatformPosIndex = 0
-    //     let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
-    //     let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
-        
-    //     platformBtnUp!.priority = .noPriority
-    //     platformBtnDown!.priority = .noPriority
-        
-    //     self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-        
-    //     platform!.node.runAction(moveAction) {
-    //         self.platformBtnUp!.priority = .mediumPriority
-    //         self.platformBtnDown!.priority = .mediumPriority
-    //         self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-    //     }
-        
-    // }
-    
-    
     
     // Delagate for just pick up and drop off the ball on the pedestal
     func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> () {

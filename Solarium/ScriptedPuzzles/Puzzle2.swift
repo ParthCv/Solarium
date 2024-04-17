@@ -55,7 +55,7 @@ class Puzzle2 : Puzzle {
     
     override func checkPuzzleWinCon() {
         if (!solved && isDoorOpen) {
-            print("Puzzle 0 Complete")
+//            print("Puzzle 0 Complete")
             solved = true
             sceneTemplate.nextPuzzle()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
@@ -66,7 +66,6 @@ class Puzzle2 : Puzzle {
         let toPos = sprinkler.worldPosition + SCNVector3(0, sprinkler.scale.y,0)
         let moveAction = SCNAction.move(to: toPos, duration: 1)
         sprinkler.runAction(moveAction)
-        //TODO: Play water sound in the future
     }
     
     func unfillTank(){

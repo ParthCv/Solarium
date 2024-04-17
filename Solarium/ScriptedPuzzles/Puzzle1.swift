@@ -68,7 +68,7 @@ class Puzzle1 : Puzzle {
     override func checkPuzzleWinCon(){
         if (!solved && isFinalDoorOpen) {
             self.solved = true
-            (sceneTemplate as! s01_TutorialScene).allPuzzlesDone() //TODO: EW GROSS change SceneTemplate from protocol to class
+            (sceneTemplate as! s01_TutorialScene).allPuzzlesDone()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
         }
     }
