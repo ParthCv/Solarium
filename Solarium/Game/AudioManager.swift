@@ -96,7 +96,7 @@ class AudioManager {
             do {
                 let bgmPlayer = try AVAudioPlayer(contentsOf: musicURL)
                 bgmPlayer.numberOfLoops = -1 // Loop indefinitely
-                bgmPlayer.volume = 0.5 // prevent earblast
+                bgmPlayer.volume = 0.1 // prevent earblast
                 backgroundMusicPlayer.append(bgmPlayer)
             } catch {
                 print("Error loading background music \(bgmFile): \(error.localizedDescription)")
