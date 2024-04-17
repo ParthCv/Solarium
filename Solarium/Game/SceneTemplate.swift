@@ -187,9 +187,12 @@ class SceneTemplate {
         currentPuzzle += 1
         sceneComplete = currentPuzzle == puzzles.count
         //if(sceneComplete) //TODO: tell gvc room complete
+        
+        // Scene Complete - All puzzles in scene solved
         if (sceneComplete) {
             // Update global flags for the complete scenes
             self.gvc.scenesPuzzleComplete[findKey(mvalue: self, dict: self.gvc.sceneDictionary)] = sceneComplete
+            self.gvc.audioManager?.playInteractSound(interactableName: "ElectricityPowerOn")
         }
         print("current puzzle: ", currentPuzzle)
         print("scene complete: ", sceneComplete)
