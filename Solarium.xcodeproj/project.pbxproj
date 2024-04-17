@@ -38,6 +38,7 @@
 		E2982DE02BB91995002B88F5 /* s05_Water.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2982DDF2BB91995002B88F5 /* s05_Water.swift */; };
 		E2A996402BBB8B9500D79004 /* s06_Riddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A9963F2BBB8B9500D79004 /* s06_Riddle.swift */; };
 		E2A996422BBB8BA800D79004 /* Puzzle6.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A996412BBB8BA800D79004 /* Puzzle6.swift */; };
+		E2D83CC62BD03A7400F56B03 /* S07_Final.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D83CC52BD03A7400F56B03 /* S07_Final.swift */; };
 		E2DC40812B96C362003DFE95 /* JKButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40802B96C362003DFE95 /* JKButtonNode.swift */; };
 		E2DC40852B96FF79003DFE95 /* Interactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40842B96FF79003DFE95 /* Interactable.swift */; };
 		E2DC408A2B970DBE003DFE95 /* ConsumableInteractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DC40892B970DBE003DFE95 /* ConsumableInteractable.swift */; };
@@ -88,6 +89,7 @@
 		E2982DDF2BB91995002B88F5 /* s05_Water.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s05_Water.swift; sourceTree = "<group>"; };
 		E2A9963F2BBB8B9500D79004 /* s06_Riddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = s06_Riddle.swift; sourceTree = "<group>"; };
 		E2A996412BBB8BA800D79004 /* Puzzle6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle6.swift; sourceTree = "<group>"; };
+		E2D83CC52BD03A7400F56B03 /* S07_Final.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S07_Final.swift; sourceTree = "<group>"; };
 		E2DC40802B96C362003DFE95 /* JKButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKButtonNode.swift; sourceTree = "<group>"; };
 		E2DC40822B96F1D6003DFE95 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E2DC40842B96FF79003DFE95 /* Interactable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactable.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				E2291B302BB68A4E00A7D4FC /* s04_Tree.swift */,
 				E2982DDF2BB91995002B88F5 /* s05_Water.swift */,
 				E2A9963F2BBB8B9500D79004 /* s06_Riddle.swift */,
+				E2D83CC52BD03A7400F56B03 /* S07_Final.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				B5722A042B743E0D0088CB64 /* GameView.swift in Sources */,
 				E268A2A22BB4F06B0023E281 /* PuzzleMovingPlatformTest.swift in Sources */,
 				EE0B3C5B2BA10077008FAD06 /* Puzzle1.swift in Sources */,
+				E2D83CC62BD03A7400F56B03 /* S07_Final.swift in Sources */,
 				E2DE13D92B7C1370002B6CBD /* PlayerController.swift in Sources */,
 				2940F51A2B96D6BB00C9A303 /* s01_Tutorial.swift in Sources */,
 				4DA394B52BCF297F00DD3CDB /* OtherDoors.swift in Sources */,
