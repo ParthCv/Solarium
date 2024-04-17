@@ -150,7 +150,7 @@ class Puzzle3: Puzzle {
             
             let test = ValveWheel(node: node, openState: nil)
             test.spinWheel()
-            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Water")
         }
     }
     

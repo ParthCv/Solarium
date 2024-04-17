@@ -35,7 +35,13 @@ class AudioManager {
     
     private func preloadSFX() {
         
-        let sfxFiles = ["Interact_Button", "Interact_Door", "Interact_Orb"]
+        let sfxFiles = [ "Interact_Button",
+                         "Interact_Door",
+                         "Interact_Energy",
+                         "Interact_Orb",
+                         "Interact_Water",
+                         "Progress_CentralDoorPowered",
+                         "Progress_ElectricityPowerOn" ]
         
         for sfxFile in sfxFiles {
             // Check if SFX Loaded
@@ -90,7 +96,7 @@ class AudioManager {
             do {
                 let bgmPlayer = try AVAudioPlayer(contentsOf: musicURL)
                 bgmPlayer.numberOfLoops = -1 // Loop indefinitely
-                bgmPlayer.volume = 0.5 // prevent earblast
+                bgmPlayer.volume = 0.1 // prevent earblast
                 backgroundMusicPlayer.append(bgmPlayer)
             } catch {
                 print("Error loading background music \(bgmFile): \(error.localizedDescription)")

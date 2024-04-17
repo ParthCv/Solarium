@@ -20,8 +20,8 @@ class Puzzle2 : Puzzle {
     override func linkEntitiesToPuzzleLogic() {
         
         tank = trackedEntities[0]!.node
-        let doorA = Door(node: trackedEntities[1]!.node, openState: false)
-        let doorB = Door(node: trackedEntities[13]!.node, openState: false)
+        let doorA = PipeDoor(node: trackedEntities[1]!.node, openState: false)
+        let doorB = PipeDoor(node: trackedEntities[13]!.node, openState: false)
         sprinkler = trackedEntities[2]!.node
         
         let buttons = [ trackedEntities[3]!, trackedEntities[4]!, trackedEntities[5]!, trackedEntities[6]!]
@@ -92,7 +92,7 @@ class Puzzle2 : Puzzle {
                     }
                     self.unfillTank()
                 }
-                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Water")
             }
         }
     }

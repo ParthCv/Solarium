@@ -106,7 +106,7 @@ class Puzzle4: Puzzle {
         pedestalBtm!.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &pedestalBtm!.node))
         solutionPedestals = [trackedEntities[8], trackedEntities[9], trackedEntities[10], trackedEntities[11], trackedEntities[12]]
         
-        doorComplete = Door(node: trackedEntities[18]!.node, openState: nil)
+        doorComplete = SecurityDoor(node: trackedEntities[18]!.node, openState: nil)
         
         // Set the dlegates for the solution pedestals
         for i in 0 ..< solutionPedestals.count {
@@ -140,7 +140,7 @@ class Puzzle4: Puzzle {
             platformBtnUp!.priority = .noPriority
             platformBtnDown!.priority = .noPriority
         
-            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Energy")
         
             platform!.node.runAction(moveAction) {
                 self.platformBtnUp!.priority = .mediumPriority
