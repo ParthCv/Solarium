@@ -20,7 +20,17 @@ class Puzzle1 : Puzzle {
         let ped1 = trackedEntities[1]!
         let ped2 = trackedEntities[2]!
         let button = trackedEntities[3]!
-        let door = Door(node: trackedEntities[4]!.node, openState: nil)
+        let door = GateDoor(node: trackedEntities[4]!.node, openState: nil)
+        
+        let finBtn = trackedEntities[5]!
+        
+        finBtn.setInteractDelegate {
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Energy")
+            self.sceneTemplate.scene.rootNode.childNode(withName: "EndPlatform", recursively: true)!.runAction(SCNAction.moveBy(x: 0, y: 20, z: 0, duration: 4)) {
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+                self.sceneTemplate.gvc.switchScene(currScn: self.sceneTemplate.gvc.currentScene, nextScn: SceneEnum.SCN2)
+            }
+        }
         
         let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         
@@ -47,6 +57,7 @@ class Puzzle1 : Puzzle {
                 self.sceneTemplate.playerCharacter.playIdleAnimation()
             }
         }
+        
         
     }
     

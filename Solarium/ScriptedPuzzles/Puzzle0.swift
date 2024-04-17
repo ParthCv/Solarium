@@ -16,7 +16,7 @@ import SceneKit
 class Puzzle0 : Puzzle {
     var door: Door!
     override func linkEntitiesToPuzzleLogic() {
-        door = Door(node: self.trackedEntities[1]!.node, openState: nil)
+        door = GateDoor(node: self.trackedEntities[1]!.node, openState: nil)
         trackedEntities[0]!.doInteractDelegate = {
             self.door.toggleDoor()
             self.checkPuzzleWinCon()

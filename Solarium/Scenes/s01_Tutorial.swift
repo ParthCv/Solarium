@@ -28,22 +28,50 @@ class s01_TutorialScene: SceneTemplate{
             
             gvc.audioManager?.playInteractSound(interactableName: "CentralDoorPowered")
         }
-
-        // let leftWingWire = scene.rootNode.childNode(withName: "LeftWingWire", recursively: true)!
-        // let leftWingLight = scene.rootNode.childNode(withName: "LeftWingLight", recursively: true)!
-        // let rightWingWire = scene.rootNode.childNode(withName: "RightWingWire", recursively: true)!
-        // let rightWingLight = scene.rootNode.childNode(withName: "RightWingLight", recursively: true)!
-
-        // let leftWingMat = (self.gvc.scenesPuzzleComplete[.SCN2]!) ? : 
-        // leftWingWire.geometry!.firstMaterial! = leftWingMat
-        // leftWingLight.geometry!.firstMaterial! = leftWingMat
-
-        // let rightWingMat = (self.gvc.scenesPuzzleComplete[.SCN3]!) ? : 
-        // rightWingWire.geometry!.firstMaterial! = rightWingMat
-        // rightWingLight.geometry!.firstMaterial! = rightWingMat
         
-
-        super.gameInit()
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeLeft", recursively: true)!
+        let leftWingLight = scene.rootNode.childNode(withName: "Light_Status_Water", recursively: true)!
+        let rightWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeRight", recursively: true)!
+        let rightWingLight = scene.rootNode.childNode(withName: "Light_Status_Grow", recursively: true)!
+        
+        if (self.gvc.scenesPuzzleComplete[.SCN2]!) {
+            let leftWingMat = SCNMaterial()
+            leftWingMat.diffuse.contents = UIColor.yellow
+            leftWingMat.emission.contents = UIColor.yellow
+            leftWingWire.geometry!.firstMaterial = leftWingMat
+            leftWingLight.geometry!.firstMaterial = leftWingMat
+        } else {
+            let leftWingMat = SCNMaterial()
+            leftWingMat.diffuse.contents = UIColor.red
+            leftWingMat.emission.contents = UIColor.red
+            leftWingLight.geometry!.firstMaterial = leftWingMat
+        }
+        
+        if (self.gvc.scenesPuzzleComplete[.SCN3]!) {
+            let rightWingMat = SCNMaterial()
+            rightWingMat.diffuse.contents = UIColor.yellow
+            rightWingMat.emission.contents = UIColor.yellow
+            rightWingWire.geometry!.firstMaterial = rightWingMat
+            rightWingLight.geometry!.firstMaterial = rightWingMat
+        } else {
+            let rightWingMat = SCNMaterial()
+            rightWingMat.diffuse.contents = UIColor.red
+            rightWingMat.emission.contents = UIColor.red
+            rightWingLight.geometry!.firstMaterial = rightWingMat
+        }
+        
+        if (self.gvc.scenesPuzzleComplete[.SCN2]! && self.gvc.scenesPuzzleComplete[.SCN3]!) {
+            _ = Door(node: self.scene.rootNode.childNode(withName: "D_Door_0", recursively: true)!, openState: true)
+            
+            let lightMat = SCNMaterial()
+            lightMat.diffuse.contents = UIColor.green
+            lightMat.emission.contents = UIColor.green
+            leftWingLight.geometry!.firstMaterial = lightMat
+            rightWingLight.geometry!.firstMaterial = lightMat
+        }
+        
+        setUpButtonsOnPlatform()
+        
         let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
@@ -57,5 +85,14 @@ class s01_TutorialScene: SceneTemplate{
 }
 
 extension s01_TutorialScene {
-
+    func setUpButtonsOnPlatform() {
+        let platformNode: SCNNode = scene.rootNode.childNode(withName: "EndPlatform", recursively: true)!
+        let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P1_5_3_Up", recursively: true)!
+        
+        var curBtnWolrdPos = upButtonNode.worldPosition
+        var scl = upButtonNode.scale
+        platformNode.addChildNode(upButtonNode)
+        upButtonNode.scale = SCNVector3(0.25, 0.25, 0.25	)
+        upButtonNode.worldPosition = curBtnWolrdPos
+    }
 }
