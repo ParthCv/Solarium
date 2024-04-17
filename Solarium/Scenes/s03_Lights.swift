@@ -86,6 +86,25 @@ class s03_Lights: SceneTemplate{
         }
         
         currentPuzzle = 0
+        
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeRight-001", recursively: true)!
+        
+        if (sceneComplete) {
+            let leftWingMat = SCNMaterial()
+            leftWingMat.diffuse.contents = UIColor.yellow
+            leftWingMat.emission.contents = UIColor.yellow
+            leftWingWire.geometry!.firstMaterial = leftWingMat
+        }
+    }
+    
+    override func allPuzzlesDone() {
+        super.allPuzzlesDone()
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeRight-001", recursively: true)!
+        let leftWingMat = SCNMaterial()
+        leftWingMat.diffuse.contents = UIColor.yellow
+        leftWingMat.emission.contents = UIColor.yellow
+        leftWingWire.geometry!.firstMaterial = leftWingMat
+    
     }
     
 }

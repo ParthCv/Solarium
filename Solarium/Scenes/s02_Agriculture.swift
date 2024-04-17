@@ -29,26 +29,25 @@ class s02_Agriculture: SceneTemplate{
         for puzzle in puzzles {
             getPuzzleTrackedEntities(puzzleObj: puzzle)
         }
-    }
-    
-    override func allPuzzlesDone() {
-        super.allPuzzlesDone()
-        let leftWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeLeft", recursively: true)!
-        let leftWingLight = scene.rootNode.childNode(withName: "Light_Status_Water", recursively: true)!
         
-        if (self.gvc.scenesPuzzleComplete[.SCN2]!) {
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_PipeWaterRoom", recursively: true)!
+        
+        if (sceneComplete) {
             let leftWingMat = SCNMaterial()
             leftWingMat.diffuse.contents = UIColor.yellow
             leftWingMat.emission.contents = UIColor.yellow
             leftWingWire.geometry!.firstMaterial = leftWingMat
-            leftWingLight.geometry!.firstMaterial = leftWingMat
-        } else {
-            let leftWingMat = SCNMaterial()
-            leftWingMat.diffuse.contents = UIColor.red
-            leftWingMat.emission.contents = UIColor.red
-            leftWingLight.geometry!.firstMaterial = leftWingMat
         }
-        
+    }
+    
+    override func allPuzzlesDone() {
+        super.allPuzzlesDone()
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_PipeWaterRoom", recursively: true)!
+        let leftWingMat = SCNMaterial()
+        leftWingMat.diffuse.contents = UIColor.yellow
+        leftWingMat.emission.contents = UIColor.yellow
+        leftWingWire.geometry!.firstMaterial = leftWingMat
+    
     }
 }
 
