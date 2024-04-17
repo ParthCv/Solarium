@@ -195,7 +195,7 @@ extension GameViewController {
     }
     
     func setUpInteractButton() {
-        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "art.scnassets/UI/TextClick.png", disabled: "art.scnassets/UI/TextClick.png")
         interactButton.canPlaySounds = false
         interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
         interactButton.position.x = 750

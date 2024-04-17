@@ -42,7 +42,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         let pauseBtnOffset: CGFloat = min(self.bounds.width, self.bounds.height) * 0.05 // Calculate the offset based on the screen size
         let buttonSize: CGFloat = 20
         pauseMenuBtn = JKButtonNode(title: "⏸", state: .normal)
-        pauseMenuBtn.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
+        pauseMenuBtn.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png", highlighted: "art.scnassets/UI/TextClick.png", disabled: "art.scnassets/UI/TextClick.png")
         pauseMenuBtn.size = CGSizeMake(buttonSize,buttonSize)
         pauseMenuBtn.canPlaySounds = false
         pauseMenuBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
@@ -52,7 +52,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         pauseMenuBtn.action = pauseBtnCallback
         
         pauseMenuResumeBtn = JKButtonNode(title: "Resume", state: .normal)
-        pauseMenuResumeBtn.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
+        pauseMenuResumeBtn.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png", highlighted: "art.scnassets/UI/TextClick.png", disabled: "art.scnassets/UI/TextClick.png")
         pauseMenuResumeBtn.size = CGSizeMake(200,50)
         pauseMenuResumeBtn.canPlaySounds = false
         pauseMenuResumeBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)
@@ -71,7 +71,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         mainMenuImageNode.isHidden = false
         
         mainMenuStartBtn = JKButtonNode(title: "Start Game", state: .normal)
-        mainMenuStartBtn.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
+        mainMenuStartBtn.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png", highlighted: "art.scnassets/UI/TextClick.png", disabled: "art.scnassets/UI/TextClick.png")
         mainMenuStartBtn.size = CGSizeMake(200,50)
         mainMenuStartBtn.canPlaySounds = false
         mainMenuStartBtn.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.yellow)
@@ -153,7 +153,7 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
         
         
         interactButton.action = interactButtonClick
-        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png", highlighted: "art.scnassets/UI/TextClick.png", disabled: "art.scnassets/UI/TextClick.png")
 
         interactButton.canPlaySounds = false
         interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
