@@ -15,10 +15,7 @@ class s07_Final: SceneTemplate {
     }
     
     override func load() {
-//        scene.rootNode.addChildNode(createFloor())
-        super.load()
-        
-        
+        super.load()      
     }
     
     override func unload() {
@@ -44,16 +41,6 @@ class s07_Final: SceneTemplate {
             if ((node.name?.contains("SK_Eve")) != nil){
                 eves.append(Eve(node: node, openState: nil))
             }
-        }
-        
-        if(true){ // self.gvc.scenesPuzzleComplete[.SCN2]! && self.gvc.scenesPuzzleComplete[.SCN3]!
-//            for tube in tubes {
-//                tube.rise()
-//            }
-            
-//            for eve in eves {
-//                eve.playBootUpAnimation()
-//            }
         }
     }
 }

@@ -17,10 +17,12 @@ class AudioManager {
     
     init() {
         
+        // Initialize instanceID
         self.instanceID = UUID()
         currentSceneBGMEnum = SceneEnum.SCN0
         
         do {
+            // Configure AVAudioSession
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playback, mode: .default, options: [])
             try session.setActive(true)
@@ -28,6 +30,7 @@ class AudioManager {
             print("Failed to configure AVAudioSession: \(error.localizedDescription)")
         }
         
+        // Preload BGM and SFX
         preloadBGM()
         preloadSFX()
         
@@ -53,8 +56,6 @@ class AudioManager {
             let sfxPlayer = AVPlayer(url: sfxURL)
             sfxPlayer.volume = 0.1
             let puzzleInteractableName = getInteractSFXNameFromFile(from: sfxFile)
-            
-            print(puzzleInteractableName)
             
             interactSFXPlayer[puzzleInteractableName] = sfxPlayer
         }
@@ -113,6 +114,7 @@ class AudioManager {
         
         var bgmFileName: String
         
+        // Switch case to determine which BGM to play
         switch sceneName {
             case .SCN0:
                 bgmFileName = "Loop#1"
@@ -130,6 +132,7 @@ class AudioManager {
                 bgmFileName = "TreeOST"
         }
         
+        // Play BGM
         if let bgmPlayer = backgroundMusicPlayer.first(where: { $0.url?.lastPathComponent == "\(bgmFileName).wav" }) {
             bgmPlayer.play()
             currentSceneBGMEnum = sceneName
@@ -147,6 +150,7 @@ class AudioManager {
         //var sceneType = currentSceneBGMEnum
         var bgmFileName: String
         
+        // Switch case to determine which BGM to stop
         switch currentSceneBGMEnum {
             case .SCN0:
                 bgmFileName = "Loop#1"
@@ -164,6 +168,7 @@ class AudioManager {
                 bgmFileName = "TreeOST"
         }
         
+        // Stop BGM
         if let bgmPlayer = backgroundMusicPlayer.first(where: { $0.url?.lastPathComponent == "\(bgmFileName).wav" }) {
             bgmPlayer.stop()
         } else {

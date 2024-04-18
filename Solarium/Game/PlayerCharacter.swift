@@ -61,6 +61,7 @@ class PlayerCharacter {
         return modelNode
     }
     
+    // Node for the object hold position on the players head
     func getObjectHoldNode() -> SCNNode{
         return modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
     }
