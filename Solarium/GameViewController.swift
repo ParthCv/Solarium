@@ -12,7 +12,7 @@ import GameplayKit
 
 // Enum to hold all th escens in the game
 enum SceneEnum : String{
-    case SCN0, SCN1, SCN2, SCN3, SCN4, SCN5
+    case SCN0, SCN1, SCN2, SCN3, SCN4, SCN5, SCN6
 }
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
@@ -50,12 +50,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.sceneDictionary = [
-            .SCN0: s05_Water(gvc: self),
+            //.SCN0: s05_Water(gvc: self),
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
             .SCN4: s04_Tree(gvc: self),
-            .SCN5: s06_Riddle(gvc: self)
+            .SCN6: s07_Final(gvc: self),
+            //.SCN5: s06_Riddle(gvc: self)
         ]
         for scene in self.sceneDictionary {
             scenesPuzzleComplete[scene.key] = false
@@ -65,12 +66,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sceneDictionary = [
-            .SCN0: s05_Water(gvc: self),
+            //.SCN0: s05_Water(gvc: self),
             .SCN1: s01_TutorialScene(gvc: self),
             .SCN2: s02_Agriculture(gvc: self),
             .SCN3: s03_Lights(gvc: self),
             .SCN4: s04_Tree(gvc: self),
-            .SCN5: s06_Riddle(gvc: self)
+            .SCN6: s07_Final(gvc: self),
+            //.SCN5: s06_Riddle(gvc: self)
         ]
         for scene in self.sceneDictionary {
             scenesPuzzleComplete[scene.key] = false
@@ -85,7 +87,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         audioManager = AudioManager()
 
         // Initialize and load the current scene
-        switchScene(currScn: nil, nextScn: SceneEnum.SCN1)
+        switchScene(currScn: nil, nextScn: SceneEnum.SCN6)
         
         gameView.isPlaying = true
         // Need to directly cast as GameView for Render Delegate
@@ -103,9 +105,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysics
         // Physics Delegate
         currentScene?.scene!.physicsWorld.contactDelegate = self
         
+        // UI setup done last, reliant on the screen size info which is only populated after view loads
+        gameView.setupTitleScreen()
+        
         // Pause game after everything has been loaded - no inputs taken in Title Screen
-        gameView.isPaused = true
-        gameView.scene?.isPaused = true
+        gameView.isPaused = false
+        gameView.pauseGame()
     }
     
     // Physics Loops
@@ -190,7 +195,7 @@ extension GameViewController {
     }
     
     func setUpInteractButton() {
-        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "art.scnassets/UI/TextClick.png", disabled: "art.scnassets/UI/TextClick.png")
         interactButton.canPlaySounds = false
         interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.green)
         interactButton.position.x = 750
@@ -226,4 +231,5 @@ extension GameViewController{
 class SharedData {
     static let sharedData = SharedData()
     var playerSpawnIndex = 0
+    var cameraOffset = CameraBoxTrigger.defaultTrigger
 }

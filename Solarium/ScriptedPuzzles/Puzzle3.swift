@@ -57,7 +57,7 @@ class Puzzle3: Puzzle {
         b->c
         c->a
      
-     if u fuk up refill a and the do it again
+     if you mess up refill a and the do it again
      */
     
     override init (puzzleID: Int, trackedEntities: [Int: Interactable], sceneTemplate: SceneTemplate) {
@@ -93,14 +93,14 @@ class Puzzle3: Puzzle {
         setupFileOverlay()
         
         //Set up delegates for all the buttons
-        btnAB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeBMeddrain, nodeAIndex: 0, nodeBIndex: 1, nodeBMax: medDrainMax)
-        btnBA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeABigdrain, nodeAIndex: 1, nodeBIndex: 0, nodeBMax: bigDrainMax)
-        btnBC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeCSmldrain, nodeAIndex: 1, nodeBIndex: 2, nodeBMax: smlDrainMax)
-        btnCB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeBMeddrain, nodeAIndex: 2, nodeBIndex: 1, nodeBMax: medDrainMax)
-        btnAC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeCSmldrain, nodeAIndex: 0, nodeBIndex: 2, nodeBMax: smlDrainMax)
-        btnCA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeABigdrain, nodeAIndex: 2, nodeBIndex: 0, nodeBMax: bigDrainMax)
+        btnAB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeBMeddrain, nodeAIndex: 0, nodeBIndex: 1, nodeBMax: medDrainMax, node: btnAB!.node)
+        btnBA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeABigdrain, nodeAIndex: 1, nodeBIndex: 0, nodeBMax: bigDrainMax, node: btnBA!.node)
+        btnBC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeBMeddrain, nodeB: waterNodeCSmldrain, nodeAIndex: 1, nodeBIndex: 2, nodeBMax: smlDrainMax, node: btnBC!.node)
+        btnCB?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeBMeddrain, nodeAIndex: 2, nodeBIndex: 1, nodeBMax: medDrainMax, node: btnCB!.node)
+        btnAC?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeABigdrain, nodeB: waterNodeCSmldrain, nodeAIndex: 0, nodeBIndex: 2, nodeBMax: smlDrainMax, node: btnAC!.node)
+        btnCA?.doInteractDelegate = AtoBDelegateMaker(nodeA: waterNodeCSmldrain, nodeB: waterNodeABigdrain, nodeAIndex: 2, nodeBIndex: 0, nodeBMax: bigDrainMax, node: btnCA!.node)
         
-        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         ball.doInteractDelegate = ballPickUpDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, ball: ball)
         ped!.doInteractDelegate = pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped!.node)
     }
@@ -120,7 +120,7 @@ class Puzzle3: Puzzle {
         }
     }
     
-    func AtoBDelegateMaker(nodeA: SCNNode, nodeB: SCNNode,  nodeAIndex: Int, nodeBIndex: Int, nodeBMax: Int) -> ( ()->()) {
+    func AtoBDelegateMaker(nodeA: SCNNode, nodeB: SCNNode,  nodeAIndex: Int, nodeBIndex: Int, nodeBMax: Int, node: SCNNode) -> ( ()->()) {
         // the array for the indices of the drain position is made a unowned reference cuz there is a string reference cycle
         return { [unowned self] () in
 
@@ -147,12 +147,15 @@ class Puzzle3: Puzzle {
             nodeB.runAction(nodeBAction)
             
             self.checkTankDoor()
-            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            
+            let test = ValveWheel(node: node, openState: nil)
+            test.spinWheel()
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Water")
         }
     }
     
     func setupFileOverlay() {
-        let backgroundImage = UIImage(named: "art.scnassets/files.png")!.alpha(1)
+        let backgroundImage = UIImage(named: "art.scnassets/hintPuzzle4/files.png")!.alpha(1)
         let texture = SKTexture(image: backgroundImage)
         let bound = self.sceneTemplate.gvc.gameView.bounds
         let fileImageNode = SKSpriteNode(texture: texture)
@@ -178,7 +181,7 @@ class Puzzle3: Puzzle {
         
         let interactButton = JKButtonNode(title: "X", state: .normal)
         interactButton.action = hideHintCallBack
-        interactButton.setBackgroundsForState(normal: "art.scnassets/TextButtonNormal.png",highlighted: "", disabled: "")
+        interactButton.setBackgroundsForState(normal: "art.scnassets/UI/TextButtonNormal.png",highlighted: "", disabled: "")
         interactButton.size = CGSizeMake(45,45)
         interactButton.canPlaySounds = false
         interactButton.setPropertiesForTitle(fontName: "Monofur", size: 20, color: UIColor.red)

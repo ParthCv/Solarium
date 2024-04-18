@@ -20,8 +20,8 @@ class Puzzle2 : Puzzle {
     override func linkEntitiesToPuzzleLogic() {
         
         tank = trackedEntities[0]!.node
-        let doorA = Door(node: trackedEntities[1]!.node, openState: false)
-        let doorB = Door(node: trackedEntities[13]!.node, openState: false)
+        let doorA = PipeDoor(node: trackedEntities[1]!.node, openState: false)
+        let doorB = PipeDoor(node: trackedEntities[13]!.node, openState: false)
         sprinkler = trackedEntities[2]!.node
         
         let buttons = [ trackedEntities[3]!, trackedEntities[4]!, trackedEntities[5]!, trackedEntities[6]!]
@@ -55,7 +55,7 @@ class Puzzle2 : Puzzle {
     
     override func checkPuzzleWinCon() {
         if (!solved && isDoorOpen) {
-            print("Puzzle 0 Complete")
+//            print("Puzzle 0 Complete")
             solved = true
             sceneTemplate.nextPuzzle()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
@@ -66,7 +66,6 @@ class Puzzle2 : Puzzle {
         let toPos = sprinkler.worldPosition + SCNVector3(0, sprinkler.scale.y,0)
         let moveAction = SCNAction.move(to: toPos, duration: 1)
         sprinkler.runAction(moveAction)
-        //TODO: Play water sound in the future
     }
     
     func unfillTank(){
@@ -84,12 +83,15 @@ class Puzzle2 : Puzzle {
             for set in sets {
                 self.tubePuzzleState[set.key] = !self.tubePuzzleState[set.key]
                 let tubePos = set.value!.node.worldPosition
-                let toPos = self.tubePuzzleState[set.key] ? SCNVector3(x: tubePos.x, y: 30, z: tubePos.z): SCNVector3(x: tubePos.x, y: 60, z: tubePos.z)
+                let toPos = self.tubePuzzleState[set.key] ? SCNVector3(x: tubePos.x, y: 15, z: tubePos.z): SCNVector3(x: tubePos.x, y: -20, z: tubePos.z)
                 let moveAction = SCNAction.move(to: toPos, duration: 2)
                 set.value?.node.runAction(moveAction){
+                    if (!self.tubePuzzleState[set.key]){
+                        set.value?.node.position.y = 45
+                    }
                     self.unfillTank()
                 }
-                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Water")
             }
         }
     }

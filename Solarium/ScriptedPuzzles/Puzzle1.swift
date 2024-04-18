@@ -11,15 +11,32 @@ class Puzzle1 : Puzzle {
     
     var isFinalDoorOpen = false
     
+    var introPlatform: SCNNode?
+    
+    
     // Function called when entities assigned
     override func linkEntitiesToPuzzleLogic(){
         let ball = trackedEntities[0]!
         let ped1 = trackedEntities[1]!
         let ped2 = trackedEntities[2]!
         let button = trackedEntities[3]!
-        let door = Door(node: trackedEntities[4]!.node, openState: nil)
+        let door = GateDoor(node: trackedEntities[4]!.node, openState: nil)
         
-        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        let finBtn = trackedEntities[5]!
+        
+        finBtn.setInteractDelegate {
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Energy")
+            self.sceneTemplate.scene.rootNode.childNode(withName: "EndPlatform", recursively: true)!.runAction(SCNAction.moveBy(x: 0, y: 20, z: 0, duration: 4)) {
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+                DispatchQueue.main.async{
+                    
+                    self.sceneTemplate.handleSceneChangeInteraction(targetScene: SceneEnum.SCN6, targetSpawnPoint: 0)
+                    //gvc.switchScene(currScn: self.sceneTemplate.gvc.currentScene, nextScn: SceneEnum.SCN6)
+                }
+            }
+        }
+        
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         
         ped1.doInteractDelegate = pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped1.node)
         ped2.doInteractDelegate = pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &ped2.node)
@@ -33,12 +50,25 @@ class Puzzle1 : Puzzle {
                 self.checkPuzzleWinCon()
             }
         }
+        
+        introPlatform = self.sceneTemplate.scene.rootNode.childNode(withName: "IntroPlatform", recursively: true)!
+        let startAction = SCNAction.moveBy(x: 0, y: 12, z: 0, duration: 4)
+        let player = self.sceneTemplate.playerCharacter.modelNode
+        let bootUpAction = SCNAction.customAction(duration: 1.5) { (node, elapsedTime) -> () in }
+        self.introPlatform!.runAction(startAction) {
+            self.sceneTemplate.playerCharacter.playBootUpAnimation()
+            player!.runAction(bootUpAction) {
+                self.sceneTemplate.playerCharacter.playIdleAnimation()
+            }
+        }
+        
+        
     }
     
     override func checkPuzzleWinCon(){
         if (!solved && isFinalDoorOpen) {
             self.solved = true
-            (sceneTemplate as! s01_TutorialScene).allPuzzlesDone() //TODO: EW GROSS change SceneTemplate from protocol to class
+            (sceneTemplate as! s01_TutorialScene).allPuzzlesDone()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")
         }
     }

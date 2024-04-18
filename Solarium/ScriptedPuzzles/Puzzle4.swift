@@ -19,6 +19,9 @@ class Puzzle4: Puzzle {
     //Platform
     var platform: Interactable?
     var platformBtnUp: Interactable?
+    var platformBtnDown: Interactable?
+    var platformBtnReset: Interactable?
+    let platformSpeed: Float = 7.5
     
     //Puzzle Solutions
     /*
@@ -84,6 +87,8 @@ class Puzzle4: Puzzle {
         
         platform = trackedEntities[5]
         platformBtnUp = trackedEntities[6]
+        platformBtnDown = trackedEntities[19]
+        platformBtnReset = trackedEntities[20]
         
         // Setup the position for the platform
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor1!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
@@ -92,7 +97,7 @@ class Puzzle4: Puzzle {
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor4!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
         platformPositions!.append(SCNVector3(x: (platform?.node.worldPosition.x)!, y: floor5!.node.worldPosition.y, z: (platform?.node.worldPosition.z)!))
         
-        let objectPosOnPlayerNode = sceneTemplate.playerCharacter.modelNode.childNode(withName: "holdingObjectPosition", recursively: true)!
+        let objectPosOnPlayerNode = self.sceneTemplate.playerCharacter.getObjectHoldNode()
         
         solutionBallOrder = [trackedEntities[13], trackedEntities[14], trackedEntities[15], trackedEntities[16], trackedEntities[17]]
         
@@ -101,7 +106,7 @@ class Puzzle4: Puzzle {
         pedestalBtm!.setInteractDelegate(function: pedestalDelegateMaker(playerBallPosNode: objectPosOnPlayerNode, baseNode: &pedestalBtm!.node))
         solutionPedestals = [trackedEntities[8], trackedEntities[9], trackedEntities[10], trackedEntities[11], trackedEntities[12]]
         
-        doorComplete = Door(node: trackedEntities[18]!.node, openState: nil)
+        doorComplete = SecurityDoor(node: trackedEntities[18]!.node, openState: nil)
         
         // Set the dlegates for the solution pedestals
         for i in 0 ..< solutionPedestals.count {
@@ -110,7 +115,9 @@ class Puzzle4: Puzzle {
         }
        
         currPlatformPosIndex = 0
-        platformBtnUp!.setInteractDelegate(function: movePlatformUpIntercatDelegate)
+        platformBtnUp!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return abs(self.currPlatformPosIndex! + 1) % self.platformPositions!.count}))
+        platformBtnDown!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return abs(self.currPlatformPosIndex! - 1) % self.platformPositions!.count}))
+        platformBtnReset!.setInteractDelegate(function: platformInteractDelegateMaker(platformIndexCalc: {return 0}))
     }
     
     // Per Puzzle Check for Win condition
@@ -119,28 +126,29 @@ class Puzzle4: Puzzle {
             solved = true
             doorComplete!.toggleDoor()
             sceneTemplate.nextPuzzle()
-            print("Puzzle Solved")
+//            print("Puzzle Solved")
         }
     }
-    
-    func movePlatformUpIntercatDelegate() {
-        currPlatformPosIndex = (currPlatformPosIndex! + 1) % platformPositions!.count
-        let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
-        print(pos)
-        let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/7.5)))
+
+    func platformInteractDelegateMaker(platformIndexCalc: @escaping ()->Int) -> (()->()){
+        return { [unowned self] in
+            self.currPlatformPosIndex = platformIndexCalc()
+            let pos = platformPositions![currPlatformPosIndex!] - platform!.node.worldPosition
+            // print(pos)
+            let moveAction = SCNAction.move(to: platformPositions![currPlatformPosIndex!], duration: TimeInterval(abs(pos.y/platformSpeed)))
         
-        platformBtnUp!.priority = .noPriority
+            platformBtnUp!.priority = .noPriority
+            platformBtnDown!.priority = .noPriority
         
-        self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Energy")
         
-        platform!.node.runAction(moveAction) {
-            self.platformBtnUp!.priority = .mediumPriority
-            self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            platform!.node.runAction(moveAction) {
+                self.platformBtnUp!.priority = .mediumPriority
+                self.platformBtnDown!.priority = .mediumPriority
+                self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
+            }
         }
-        
     }
-    
-    
     
     // Delagate for just pick up and drop off the ball on the pedestal
     func pedestalDelegateMaker(playerBallPosNode: SCNNode, baseNode: inout SCNNode) -> () -> () {

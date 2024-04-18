@@ -50,7 +50,7 @@ class Interactable {
     
     // Default Interact function
     static func defaultInteract(){
-        print("No interact callback setup!")
+        //print("No interact callback setup!")
     }
 }
 

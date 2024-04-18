@@ -8,8 +8,8 @@
 import SceneKit
 
 
-class SceneTemplate {    
-
+class SceneTemplate {
+    
     var gvc: GameViewController
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()
@@ -22,6 +22,7 @@ class SceneTemplate {
     var spawnPoints: [Int: SCNNode]
     var sceneChangeInteractables: [SceneChangeInteractable]
     var autoTriggerEntities: [Interactable]
+    var cameraBoxTriggers: [CameraBoxTrigger]
     
     // flag to make the scene unloaded after the switch
     var isUnloadable: Bool
@@ -34,102 +35,100 @@ class SceneTemplate {
     // list of all deletable nodes
     var deletableNodes: [SCNNode]
     
+    // Flag to control scene change interactions
+    var sceneChangeInteractionEnabled = true
+    
     required init(gvc: GameViewController){
         self.gvc = gvc
         isUnloadable = false
         spawnPoints = [:]
         sceneChangeInteractables = []
         autoTriggerEntities = []
+        cameraBoxTriggers = []
         deletableNodes = []
         puzzles = []
         currentPuzzle = 0
-        playerCharacter = PlayerCharacter(modelFilePath: "art.scnassets/SM_ModelTester_collider_on_head.scn", nodeName: "PlayerNode_Wife")
+        playerCharacter = PlayerCharacter(nodeName: "PlayerNode_Wife")
         mainCamera = SCNNode()
         
     }
     
+    // Function to handle scene change interactions
+    func handleSceneChangeInteraction(targetScene: SceneEnum, targetSpawnPoint: Int) {
+        // Check if scene change interaction is enabled
+        guard sceneChangeInteractionEnabled else { return }
+        
+        // Disable further scene change interactions
+        sceneChangeInteractionEnabled = false
+        
+        // Door interact sound is the default that will be played when transitioning between Scenes.
+        self.gvc.audioManager?.playInteractSound(interactableName: "Door")
+        // Stop current scene BGM. Playing the next scene BGM handled in GameViewController.switchScene()
+        self.gvc.audioManager?.stopCurrentStageBGM()
+        
+        DispatchQueue.main.async {
+            SharedData.sharedData.playerSpawnIndex = targetSpawnPoint
+            self.gvc.switchScene(currScn: self, nextScn: targetScene)
+            
+            // Re-enable scene change interactions after a delay to prevent multiple taps
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.sceneChangeInteractionEnabled = true
+            }
+        }
+    }
+    
     // preload for the scene
-    @MainActor func load(){
-        //get spawn points
-        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
-            if let name = node.name, name.range(of: "SP_", options: .regularExpression) != nil {
-                let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 1 {
-                    let interactableIndex = nameParts[1]
-                    let intCast = Int(String(interactableIndex))!
-                    spawnPoints[intCast] = node
-                }
-                return true
-            }
-            return false
-            
-        })
+    @MainActor func load() {
         
-        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
-            if let name = node.name, name.range(of: "ST_", options: .regularExpression) != nil {
+        scene.rootNode.childNodes(passingTest: {(node, stop) -> Bool in
+            if let name = node.name {
                 let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 2 {
-                    let targetScene = SceneEnum(rawValue: nameParts[1])!
-                    print(targetScene)
-                    let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: "GoTo \(targetScene)", targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
-                    scnInteract.doInteractDelegate = {
-                        // Door interact sound is the default that will be played when transitioning between Scenes.
-                        self.gvc.audioManager?.playInteractSound(interactableName: "Door")
-                        // Stop current scene BGM. Playing the next scene BGM handled in GameViewController.switchScene()
-                        self.gvc.audioManager?.stopCurrentStageBGM()
-                        //self.gvc.audioManager?.playCurrentStageBGM(sceneName: targetScene)
-                        DispatchQueue.main.async(execute: {
-                            SharedData.sharedData.playerSpawnIndex = scnInteract.targetSpawnPoint
-                            self.gvc.switchScene(currScn: self, nextScn: targetScene)
-                        })
+                if nameParts.count <= 1 { return false }
+                switch nameParts[0]{
+                case "SP":
+                    if nameParts.count >= 1 {
+                        let interactableIndex = nameParts[1]
+                        let intCast = Int(String(interactableIndex))!
+                        spawnPoints[intCast] = node
                     }
-                    sceneChangeInteractables.append(scnInteract)
-                }
-                return true
-            }
-            return false
-            
-        })
-        
-        scene.rootNode.childNodes(passingTest: { (node, stop) -> Bool in
-            if let name = node.name, name.range(of: "D_", options: .regularExpression) != nil {
-                let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 2 {
-                    Door(node: node, openState: (nameParts[2] == "1"))
-                }
-                return true
-            }
-            return false
-            
-        })
-        
-        scene.rootNode.childNodes(passingTest: { (node,stop) -> Bool in
-            if let name = node.name, name.range(of: "AT_", options: .regularExpression) != nil{
-                let nameParts = name.components(separatedBy: "_")
-                if nameParts.count >= 2 {
-                    switch nameParts[1]{
-                    case "Teleport":
-                        if nameParts.count >= 4 {
-                            let target = nameParts[3]
-                            let tpInteract = Interactable(node: node, priority: TriggerPriority.noPriority, displayText: nil)
-                            tpInteract.doInteractDelegate = { [weak self] in
-                                let player = self!.playerCharacter.modelNode
-                                
-                                let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
-                                player?.runAction(moveAction)
-                                // TODO: ADD TELEPORT INTERACT SOUND HERE FOR FINAL
-                            }
-                            autoTriggerEntities.append(tpInteract)
+                case "ST":
+                    if nameParts.count >= 2 {
+                        let targetScene = SceneEnum(rawValue: nameParts[1])!
+                        print(targetScene)
+                        let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: nil, targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
+                        scnInteract.doInteractDelegate = {
+                            // Handle scene change interaction: Accounting for multiple inputs, but perform load once only.
+                            self.handleSceneChangeInteraction(targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                         }
-                        break
-                    default: break
+                        sceneChangeInteractables.append(scnInteract)
                     }
-                    
+                case "D":
+                    if nameParts.count >= 2 {
+                        _ = Door(node: node, openState: (nameParts[2] == "1"))
+                    }
+                case "AT":
+                    if nameParts.count >= 2 {
+                        setUpActiveTrigger(node: node, nameParts: nameParts)
+                    }
+                case "CBT":
+                    let nameParts = name.components(separatedBy: "_")
+                    if nameParts.count >= 4 {
+                        //                    let boxIndex = Int(String(nameParts[1]))!
+                        let camRotX = Float(nameParts[1]) ?? CameraBoxTrigger.defaultTrigger.camRotationX
+                        let offsetY = Float(nameParts[2]) ?? CameraBoxTrigger.defaultTrigger.offsetY
+                        let offsetZ = Float(nameParts[3]) ?? CameraBoxTrigger.defaultTrigger.offsetZ
+                        let cbt = CameraBoxTrigger(node: node, camRotationX: camRotX, offsetY: offsetY, offsetZ: offsetZ)
+                        print("CBT: ", cbt.min, cbt.max)
+                        cameraBoxTriggers.append(cbt)
+                    }
+                default:
+                    return false
                 }
                 return true
             }
             return false
         })
+       
         
         // Add the player to the scene
         let playerNode = playerCharacter.loadPlayerCharacter(spawnPosition: spawnPoints[SharedData.sharedData.playerSpawnIndex]!.worldPosition)
@@ -148,9 +147,10 @@ class SceneTemplate {
         spawnPoints.removeAll()
         sceneChangeInteractables.removeAll()
         autoTriggerEntities.removeAll()
+        cameraBoxTriggers.removeAll()
         puzzles.removeAll()
-        print(spawnPoints.count)
-        print(sceneChangeInteractables.count)
+//        print(spawnPoints.count)
+//        print(sceneChangeInteractables.count)
     }
     
     /// The function called on the scene to perform Solarium game setup logic
@@ -168,8 +168,8 @@ class SceneTemplate {
                 if nameParts.count >= 2 {
                     let interactableIndex = nameParts[1]
                     let intCast = Int(String(interactableIndex))!
-                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText: nameParts[3])
-                    print("Interactable created - ", nameParts[3], "with priority - ", nameParts[2])
+                    foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText:"")
+//                    print("Interactable created - ", nameParts[3], "with priority - ", nameParts[2])
                 }
                 return true
             }
@@ -185,14 +185,14 @@ class SceneTemplate {
     ///Increment currentPuzzle
     func nextPuzzle() {
         currentPuzzle += 1
-        sceneComplete = currentPuzzle == puzzles.count
-        //if(sceneComplete) //TODO: tell gvc room complete
+        sceneComplete = currentPuzzle == puzzles.count       
+        // Scene Complete - All puzzles in scene solved
         if (sceneComplete) {
             // Update global flags for the complete scenes
             self.gvc.scenesPuzzleComplete[findKey(mvalue: self, dict: self.gvc.sceneDictionary)] = sceneComplete
+            self.gvc.audioManager?.playInteractSound(interactableName: "ElectricityPowerOn")
+            allPuzzlesDone()
         }
-        print("current puzzle: ", currentPuzzle)
-        print("scene complete: ", sceneComplete)
     }
     
     ///Called when all puzzles are done
@@ -212,15 +212,15 @@ class SceneTemplate {
         )
         
         // Make the camera follow the player
-        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera)
+        playerCharacter.playerController.repositionCameraToFollowPlayer(mainCamera: mainCamera, deltaTime: time - gameViewController.lastTickTime)
     }
     
     /// physics updates for the scene
     @MainActor func physicsWorldDidBegin(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController){}
-
+    
     /// physics updates for the scene
     @MainActor func physicsWorldDidEnd(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact,  gameViewController: GameViewController){}
-
+    
     /// physics updates for the scene
     @MainActor func physicsWorldDidUpdate(_ world: SCNPhysicsWorld,  contact: SCNPhysicsContact, gameViewController: GameViewController){}
     
@@ -260,6 +260,57 @@ class SceneTemplate {
             gameViewController.interactButton.title.text = interactableObject!.displayText
             gameViewController.interactButton.isHidden = false
         }
+        
+        SharedData.sharedData.cameraOffset = CameraBoxTrigger.defaultTrigger
+        for cbt in cameraBoxTriggers {
+            if(cbt.comparePos(other: playerCharacter.modelNode.position)){
+                SharedData.sharedData.cameraOffset = cbt.cameraOffset
+            }
+        }
+    }
+    
+}
+
+extension SceneTemplate {
+    func setUpActiveTrigger(node: SCNNode, nameParts: [String]){
+        switch nameParts[1]{
+        case "Teleport":
+            if nameParts.count >= 4 {
+                let target = nameParts[3]
+                let tpInteract = Interactable(node: node, priority: TriggerPriority.noPriority, displayText: nil)
+                tpInteract.doInteractDelegate = { [weak self] in
+                    let player = self!.playerCharacter.modelNode
+                    
+                    let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
+                    player?.runAction(moveAction)
+                    // TODO: ADD TELEPORT INTERACT SOUND HERE FOR FINAL
+                }
+                autoTriggerEntities.append(tpInteract)
+            }
+        default: break
+        }
+    }
+    
+    func addAmbientLighting() -> SCNNode {
+        let ambientLight = SCNNode()
+        ambientLight.light = SCNLight()
+        ambientLight.light?.type = .ambient
+        deletableNodes.append(ambientLight)
+        return ambientLight
+    }
+    
+    func createFloor() -> SCNNode {
+        let floorNode = SCNNode()
+        let floor = SCNFloor()
+        floor.reflectivity = 0.001
+        floorNode.geometry = floor
+        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/textures/grid.png"
+        
+        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        floorNode.physicsBody!.rollingFriction = 1
+        floorNode.physicsBody!.friction = 1
+        deletableNodes.append(floorNode)
+        return floorNode
     }
 }
 
@@ -271,4 +322,33 @@ extension SceneTemplate: Comparable {
     static func < (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
         return false
     }
+}
+
+class CameraBoxTrigger {
+    static let defaultTrigger = CameraProperties(camRotationX: -40, offsetY: 30, offsetZ: 30)
+    
+    struct CameraProperties{
+        let camRotationX: Float
+        let offsetY: Float
+        let offsetZ: Float
+    }
+    
+    let cameraOffset: CameraProperties
+    let origin: SCNVector3
+    let min: SCNVector3
+    let max: SCNVector3
+    
+    
+    init(node: SCNNode?, camRotationX: Float, offsetY: Float, offsetZ: Float) {
+        self.origin = node?.worldPosition ?? SCNVector3Zero
+        self.cameraOffset = CameraProperties(camRotationX: camRotationX, offsetY: offsetY, offsetZ: offsetZ)
+        
+        self.min = (node?.boundingBox.min ?? SCNVector3Zero) + origin
+        self.max = (node?.boundingBox.max ?? SCNVector3Zero) + origin
+    }
+    
+    func comparePos(other: SCNVector3) -> Bool {
+        return other.x > min.x && other.x < max.x && other.y > min.y && other.y < max.y && other.z > min.z && other.z < max.z
+    }
+    
 }

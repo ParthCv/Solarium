@@ -45,11 +45,15 @@ func -(left:SCNVector3, right:SCNVector3) -> SCNVector3 {
     return SCNVector3(left.x - right.x, left.y - right.y, left.z - right.z)
 }
 
+func *(left:SCNVector3, right:Float) -> SCNVector3{
+    return SCNVector3(left.x * right, left.y * right, left.z * right)
+}
+
 // Adjust the font of a text label in a CGRect
 func adjustLabelFontSizeToFitRect(labelNode:SKLabelNode, rect:CGRect) {
 
    // Determine the font scaling factor that should let the label text fit in the given rectangle.
-   let scalingFactor = min(rect.width / labelNode.frame.width, rect.height / labelNode.frame.height)
+//   let scalingFactor = min(rect.width / labelNode.frame.width, rect.height / labelNode.frame.height)
 
    // Change the fontSize.
    //labelNode.fontSize *= scalingFactor

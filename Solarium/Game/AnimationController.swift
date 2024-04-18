@@ -21,7 +21,6 @@ class AnimationController {
                 if let animationList = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
                     // try to read out a string array
                     for (key, value) in animationList{
-                        print(key, value)
                         animations[key] = loadAnimationPlayer(sceneName: value as! String, extensionName: "")
                     }
                 }

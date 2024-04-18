@@ -15,7 +15,7 @@ class s02_Agriculture: SceneTemplate{
     }
     
     override func load() {
-        scene.rootNode.addChildNode(addAmbientLighting())        
+        //scene.rootNode.addChildNode(addAmbientLighting())        
         super.load()
     }
     
@@ -29,30 +29,28 @@ class s02_Agriculture: SceneTemplate{
         for puzzle in puzzles {
             getPuzzleTrackedEntities(puzzleObj: puzzle)
         }
+        
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_PipeWaterRoom", recursively: true)!
+        
+        if (sceneComplete) {
+            let leftWingMat = SCNMaterial()
+            leftWingMat.diffuse.contents = UIColor.yellow
+            leftWingMat.emission.contents = UIColor.yellow
+            leftWingWire.geometry!.firstMaterial = leftWingMat
+        }
     }
     
+    override func allPuzzlesDone() {
+        super.allPuzzlesDone()
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_PipeWaterRoom", recursively: true)!
+        let leftWingMat = SCNMaterial()
+        leftWingMat.diffuse.contents = UIColor.yellow
+        leftWingMat.emission.contents = UIColor.yellow
+        leftWingWire.geometry!.firstMaterial = leftWingMat
+    
+    }
 }
 
 extension s02_Agriculture {
-    
-    func addAmbientLighting() -> SCNNode {
-        let ambientLight = SCNNode()
-        ambientLight.light = SCNLight()
-        ambientLight.light?.type = .ambient
-        deletableNodes.append(ambientLight)
-        return ambientLight
-    }
-    
-    func createFloor() -> SCNNode {
-        let floorNode = SCNNode()
-        floorNode.geometry = SCNFloor()
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        floorNode.physicsBody!.rollingFriction = 1
-        floorNode.physicsBody!.friction = 1
-        deletableNodes.append(floorNode)
-        return floorNode
-    }
     
 }

@@ -29,7 +29,7 @@ class s04_Tree: SceneTemplate {
         
         //All the Pedstals
         let p0 = scene.rootNode.childNode(withName: "P0_7_2_pedestalBtm", recursively: true)!
-        let p1 = scene.rootNode.childNode(withName: "P0_8_2_pedestalF1", recursively: true)!
+//        let p1 = scene.rootNode.childNode(withName: "P0_8_2_pedestalF1", recursively: true)!
         let p2 = scene.rootNode.childNode(withName: "P0_9_2_pedestalF2", recursively: true)!
         let p3 = scene.rootNode.childNode(withName: "P0_10_2_pedestalF3", recursively: true)!
         let p4 = scene.rootNode.childNode(withName: "P0_11_2_pedestalF4", recursively: true)!
@@ -71,22 +71,6 @@ class s04_Tree: SceneTemplate {
 
 
 extension s04_Tree{
-    
-    func createFloor() -> SCNNode {
-        let floorNode = SCNNode()
-        let floor = SCNFloor()
-        floor.reflectivity = 0.001
-        floorNode.geometry = floor
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-        
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        
-        floorNode.physicsBody?.categoryBitMask = SolariumCollisionBitMask.ground.rawValue
-
-        floorNode.physicsBody?.collisionBitMask = SolariumCollisionBitMask.player.rawValue | SolariumCollisionBitMask.interactable.rawValue | 1
-        deletableNodes.append(floorNode)
-        return floorNode
-    }
     
     func setUpButtonsOnPlatform() {
         let platformNode: SCNNode = scene.rootNode.childNode(withName: "P0_5_0_platform", recursively: true)!

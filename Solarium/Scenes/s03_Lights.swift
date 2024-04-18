@@ -15,9 +15,8 @@ class s03_Lights: SceneTemplate{
     }
     
     override func load() {
-        scene.rootNode.addChildNode(addAmbientLighting())
         // Setup collision of scene objects
-        scene.rootNode.addChildNode(createFloor())
+        //scene.rootNode.addChildNode(createFloor())
         
         super.load()
         
@@ -34,7 +33,7 @@ class s03_Lights: SceneTemplate{
         
         //All the Pedstals
         let puzzle1_ped0 = scene.rootNode.childNode(withName: "P0_7_2_pedestalBtm", recursively: true)!
-        let puzzle1_ped2 = scene.rootNode.childNode(withName: "P0_8_2_pedestalF1", recursively: true)!
+//        let puzzle1_ped2 = scene.rootNode.childNode(withName: "P0_8_2_pedestalF1", recursively: true)!
         let puzzle1_ped3 = scene.rootNode.childNode(withName: "P0_9_2_pedestalF2", recursively: true)!
         let puzzle1_ped4 = scene.rootNode.childNode(withName: "P0_10_2_pedestalF3", recursively: true)!
         let puzzle1_ped5 = scene.rootNode.childNode(withName: "P0_11_2_pedestalF4", recursively: true)!
@@ -87,43 +86,43 @@ class s03_Lights: SceneTemplate{
         }
         
         currentPuzzle = 0
+        
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeRight-001", recursively: true)!
+        
+        if (sceneComplete) {
+            let leftWingMat = SCNMaterial()
+            leftWingMat.diffuse.contents = UIColor.yellow
+            leftWingMat.emission.contents = UIColor.yellow
+            leftWingWire.geometry!.firstMaterial = leftWingMat
+        }
+    }
+    
+    override func allPuzzlesDone() {
+        super.allPuzzlesDone()
+        let leftWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeRight-001", recursively: true)!
+        let leftWingMat = SCNMaterial()
+        leftWingMat.diffuse.contents = UIColor.yellow
+        leftWingMat.emission.contents = UIColor.yellow
+        leftWingWire.geometry!.firstMaterial = leftWingMat
+    
     }
     
 }
 
 extension s03_Lights {
     
-    func addAmbientLighting() -> SCNNode {
-        let ambientLight = SCNNode()
-        ambientLight.light = SCNLight()
-        ambientLight.light?.type = .ambient
-        deletableNodes.append(ambientLight)
-        return ambientLight
-    }
-    
-    func createFloor() -> SCNNode {
-        let floorNode = SCNNode()
-        let floor = SCNFloor()
-        floor.reflectivity = 0.001
-        floorNode.geometry = floor
-        floorNode.geometry?.firstMaterial?.diffuse.contents = "art.scnassets/grid.png"
-        
-        floorNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        floorNode.physicsBody?.friction = 1
-        floorNode.physicsBody?.restitution = 0
-        floorNode.physicsBody?.rollingFriction = 1
-        
-        deletableNodes.append(floorNode)
-        return floorNode
-    }
-    
     func setUpButtonsOnPlatform() {
         let platformNode: SCNNode = scene.rootNode.childNode(withName: "P0_5_0_Platform", recursively: true)!
         let upButtonNode: SCNNode = scene.rootNode.childNode(withName: "P0_6_2_up", recursively: true)!
+        let downButtonNode: SCNNode = scene.rootNode.childNode(withName: "P0_19_2_Down", recursively: true)!
         let btnRoot = platformNode.childNodes[0]
-        let curBtnWolrdPos = upButtonNode.worldPosition
+        var curBtnWolrdPos = upButtonNode.worldPosition
         platformNode.addChildNode(upButtonNode)
         upButtonNode.worldPosition = curBtnWolrdPos
+        
+        curBtnWolrdPos = downButtonNode.worldPosition
+        platformNode.addChildNode(downButtonNode)
+        downButtonNode.worldPosition = curBtnWolrdPos
         btnRoot.physicsBody?.resetTransform()
     }
     
