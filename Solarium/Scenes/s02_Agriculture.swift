@@ -15,11 +15,11 @@ class s02_Agriculture: SceneTemplate{
     }
     
     override func load() {
-        //scene.rootNode.addChildNode(addAmbientLighting())        
         super.load()
     }
     
     override func gameInit() {
+        // Initialize puzzles
         let puzzle0 : Puzzle = Puzzle2(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
@@ -32,6 +32,7 @@ class s02_Agriculture: SceneTemplate{
         
         let leftWingWire = scene.rootNode.childNode(withName: "Dec_PipeWaterRoom", recursively: true)!
         
+        // Set up the wire material
         if (sceneComplete) {
             let leftWingMat = SCNMaterial()
             leftWingMat.diffuse.contents = UIColor.yellow

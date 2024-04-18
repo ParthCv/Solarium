@@ -24,14 +24,14 @@ class Puzzle1 : Puzzle {
         
         let finBtn = trackedEntities[5]!
         
+        // Final elevator button delegate to change scene
         finBtn.setInteractDelegate {
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Energy")
             self.sceneTemplate.scene.rootNode.childNode(withName: "EndPlatform", recursively: true)!.runAction(SCNAction.moveBy(x: 0, y: 20, z: 0, duration: 4)) {
                 self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Button")
-                DispatchQueue.main.async{
-                    
+                DispatchQueue.main.async{                    
                     self.sceneTemplate.handleSceneChangeInteraction(targetScene: SceneEnum.SCN6, targetSpawnPoint: 0)
-                    //gvc.switchScene(currScn: self.sceneTemplate.gvc.currentScene, nextScn: SceneEnum.SCN6)
+                    
                 }
             }
         }

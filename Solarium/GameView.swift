@@ -38,7 +38,8 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
 
     
     func setupTitleScreen() {
-        
+        // Setup pause, main menue
+
         let pauseBtnOffset: CGFloat = min(self.bounds.width, self.bounds.height) * 0.05 // Calculate the offset based on the screen size
         let buttonSize: CGFloat = 20
         pauseMenuBtn = JKButtonNode(title: "⏸", state: .normal)
@@ -128,8 +129,9 @@ final class GameView: SCNView, SCNSceneRendererDelegate {
     }
     
     
-    
     func setup2DOverlay() {
+        // Set up D-Pad
+
         let viewHeight = bounds.size.height
         let viewWidth = bounds.size.width
         let sceneSize = CGSize(width: viewWidth, height: viewHeight)

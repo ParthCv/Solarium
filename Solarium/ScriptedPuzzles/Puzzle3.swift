@@ -154,6 +154,7 @@ class Puzzle3: Puzzle {
         }
     }
     
+    // Function to set up the overlay for the hint
     func setupFileOverlay() {
         let backgroundImage = UIImage(named: "art.scnassets/hintPuzzle4/files.png")!.alpha(1)
         let texture = SKTexture(image: backgroundImage)
@@ -195,6 +196,7 @@ class Puzzle3: Puzzle {
         self.sceneTemplate.gvc.gameView.overlaySKScene?.addChild(interactButton)
     }
     
+    // Function to hide the hint overlay
     func hideHintCallBack(_ sender: JKButtonNode) {
         sender.isHidden = true
         let fileNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "fileImage")
@@ -203,6 +205,7 @@ class Puzzle3: Puzzle {
         textNode!.isHidden = true
     }
     
+    // Function to show the hint overlay
     func fileDelegate() {
         let fileNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "fileImage")
         let textNode = self.sceneTemplate.gvc.gameView.overlaySKScene?.childNode(withName: "Hint1")

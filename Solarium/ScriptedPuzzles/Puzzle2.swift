@@ -55,7 +55,6 @@ class Puzzle2 : Puzzle {
     
     override func checkPuzzleWinCon() {
         if (!solved && isDoorOpen) {
-//            print("Puzzle 0 Complete")
             solved = true
             sceneTemplate.nextPuzzle()
             self.sceneTemplate.gvc.audioManager?.playInteractSound(interactableName: "Door")

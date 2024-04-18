@@ -126,7 +126,6 @@ class Puzzle4: Puzzle {
             solved = true
             doorComplete!.toggleDoor()
             sceneTemplate.nextPuzzle()
-//            print("Puzzle Solved")
         }
     }
 

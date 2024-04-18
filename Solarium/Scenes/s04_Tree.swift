@@ -29,7 +29,6 @@ class s04_Tree: SceneTemplate {
         
         //All the Pedstals
         let p0 = scene.rootNode.childNode(withName: "P0_7_2_pedestalBtm", recursively: true)!
-//        let p1 = scene.rootNode.childNode(withName: "P0_8_2_pedestalF1", recursively: true)!
         let p2 = scene.rootNode.childNode(withName: "P0_9_2_pedestalF2", recursively: true)!
         let p3 = scene.rootNode.childNode(withName: "P0_10_2_pedestalF3", recursively: true)!
         let p4 = scene.rootNode.childNode(withName: "P0_11_2_pedestalF4", recursively: true)!

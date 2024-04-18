@@ -16,7 +16,6 @@ class s01_TutorialScene: SceneTemplate{
     
     override func load() {
         scene.rootNode.addChildNode(addAmbientLighting())
-        //scene.rootNode.addChildNode(createFloor())
         super.load()
     }
     
@@ -34,6 +33,7 @@ class s01_TutorialScene: SceneTemplate{
         let rightWingWire = scene.rootNode.childNode(withName: "Dec_CenterRoomPipeRight", recursively: true)!
         let rightWingLight = scene.rootNode.childNode(withName: "Light_Status_Grow", recursively: true)!
         
+        // Switch the materials on the wires and lights based on the puzzle completion of the left and right wings
         if (self.gvc.scenesPuzzleComplete[.SCN2]!) {
             let leftWingMat = SCNMaterial()
             leftWingMat.diffuse.contents = UIColor.yellow
@@ -72,12 +72,14 @@ class s01_TutorialScene: SceneTemplate{
         
         setUpButtonsOnPlatform()
         
+        // Create the two tutorial puzzles
         let puzzle0 : Puzzle = Puzzle0(puzzleID: 0, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle0)
         
         let puzzle1 : Puzzle = Puzzle1(puzzleID: 1, trackedEntities: [Int: Interactable](), sceneTemplate: self)
         puzzles.append(puzzle1)
         
+        // Set up the puzzles with their tracked entities
         for puzzle in puzzles {
             getPuzzleTrackedEntities(puzzleObj: puzzle)
         }

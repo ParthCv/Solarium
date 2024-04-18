@@ -9,8 +9,9 @@ import SceneKit
 
 
 class SceneTemplate {
-    
+    // Instance of the GameViewController
     var gvc: GameViewController
+    
     // Main camera in the scene
     var mainCamera: SCNNode = SCNNode()
     
@@ -19,9 +20,17 @@ class SceneTemplate {
     
     // the scene itself in the scnasset folder
     var scene: SCNScene! = nil
+
+    // spawn points for the player
     var spawnPoints: [Int: SCNNode]
+
+    // Changeable interactables in the scene
     var sceneChangeInteractables: [SceneChangeInteractable]
+
+    // Auto trigger entities in the scene
     var autoTriggerEntities: [Interactable]
+
+    // Camera box triggers in the scene
     var cameraBoxTriggers: [CameraBoxTrigger]
     
     // flag to make the scene unloaded after the switch
@@ -29,7 +38,11 @@ class SceneTemplate {
     
     // the list of puzzles for this scene
     var puzzles: [Puzzle]
+
+    // current puzzle id
     var currentPuzzle: Int
+
+    // flag to check if the scene is complete
     var sceneComplete: Bool = false
     
     // list of all deletable nodes
@@ -66,6 +79,8 @@ class SceneTemplate {
         // Stop current scene BGM. Playing the next scene BGM handled in GameViewController.switchScene()
         self.gvc.audioManager?.stopCurrentStageBGM()
         
+        // Switch to the target scene
+        // Use a DispatchQueue to switch scenes on the main thread so that the scene change is not called in the render loop of the current scene.
         DispatchQueue.main.async {
             SharedData.sharedData.playerSpawnIndex = targetSpawnPoint
             self.gvc.switchScene(currScn: self, nextScn: targetScene)
@@ -79,22 +94,26 @@ class SceneTemplate {
     
     // preload for the scene
     @MainActor func load() {
-        
+        // Regular Expression to create entities in the scene based on their name
+        // SP - spawnPoints ST - scene trasitions D - doors AT - Auto Triggers CBT - Camera Box Triggers
         scene.rootNode.childNodes(passingTest: {(node, stop) -> Bool in
             if let name = node.name {
                 let nameParts = name.components(separatedBy: "_")
                 if nameParts.count <= 1 { return false }
                 switch nameParts[0]{
                 case "SP":
+                    // Check if the name has the correct format
+                    // 1 - Index of the spawn point
                     if nameParts.count >= 1 {
                         let interactableIndex = nameParts[1]
                         let intCast = Int(String(interactableIndex))!
                         spawnPoints[intCast] = node
                     }
                 case "ST":
+                    // Check if the name has the correct format
+                    // 1 - Target Scene, 2 - Target Spawn Point (index)
                     if nameParts.count >= 2 {
                         let targetScene = SceneEnum(rawValue: nameParts[1])!
-                        print(targetScene)
                         let scnInteract = SceneChangeInteractable(node: node, priority: TriggerPriority.lowPriority, displayText: nil, targetScene: targetScene, targetSpawnPoint: Int(nameParts[2])!)
                         scnInteract.doInteractDelegate = {
                             // Handle scene change interaction: Accounting for multiple inputs, but perform load once only.
@@ -103,17 +122,22 @@ class SceneTemplate {
                         sceneChangeInteractables.append(scnInteract)
                     }
                 case "D":
+                    // Check if the name has the correct format
+                    // 1 - Door ID (only used to differntiate doors), 2 - Open State (0 - Closed, 1 - Open)
                     if nameParts.count >= 2 {
                         _ = Door(node: node, openState: (nameParts[2] == "1"))
                     }
                 case "AT":
+                    // Check if the name has the correct format
+                    // 1 - Trigger Type (Teleport) with target, tirgger priority and volume
                     if nameParts.count >= 2 {
                         setUpActiveTrigger(node: node, nameParts: nameParts)
                     }
                 case "CBT":
+                    // Check if the name has the correct format
+                    // 1 - camRotationX, 2- offsetY and 3 - offsetZ
                     let nameParts = name.components(separatedBy: "_")
                     if nameParts.count >= 4 {
-                        //                    let boxIndex = Int(String(nameParts[1]))!
                         let camRotX = Float(nameParts[1]) ?? CameraBoxTrigger.defaultTrigger.camRotationX
                         let offsetY = Float(nameParts[2]) ?? CameraBoxTrigger.defaultTrigger.offsetY
                         let offsetZ = Float(nameParts[3]) ?? CameraBoxTrigger.defaultTrigger.offsetZ
@@ -141,16 +165,16 @@ class SceneTemplate {
     
     // delete the nodes from memeory
     func unload(){
+        // Remove all the nodes from the scene
         for node in deletableNodes {
             node.removeFromParentNode()
         }
+        // Clear the arrays for the next scene
         spawnPoints.removeAll()
         sceneChangeInteractables.removeAll()
         autoTriggerEntities.removeAll()
         cameraBoxTriggers.removeAll()
         puzzles.removeAll()
-//        print(spawnPoints.count)
-//        print(sceneChangeInteractables.count)
     }
     
     /// The function called on the scene to perform Solarium game setup logic
@@ -160,7 +184,9 @@ class SceneTemplate {
     
     /// Searches the node tree for nodes prefixed by the PuzzleID inside puzzleObj
     @MainActor func getPuzzleTrackedEntities(puzzleObj: Puzzle){
+        // Find all interactable nodes in the scene
         var foundKeyValuePairs : [Int: Interactable] = [Int: Interactable]()
+        // Regex with puzzleID and then create Interactable objects
         scene.rootNode.childNodes(passingTest:  { (node, stop) -> Bool in
             if let name = node.name, name.range(of: "P\(puzzleObj.puzzleID)_", options: .regularExpression) != nil {
                 let nameParts = name.components(separatedBy: "_")
@@ -169,7 +195,6 @@ class SceneTemplate {
                     let interactableIndex = nameParts[1]
                     let intCast = Int(String(interactableIndex))!
                     foundKeyValuePairs[intCast] = Interactable(node: node, priority: TriggerPriority.allCases[Int(nameParts[2]) ?? 0], displayText:"")
-//                    print("Interactable created - ", nameParts[3], "with priority - ", nameParts[2])
                 }
                 return true
             }
@@ -229,6 +254,7 @@ class SceneTemplate {
         var highestPriority: TriggerPriority? = nil
         var interactableObject: Interactable? = nil
         
+        // Check if the player is in range of any interactable objects
         for puzzle in puzzles {
             for interactableEntity in puzzle.trackedEntities{
                 if interactableEntity.value.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.value.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.value.priority {
@@ -238,6 +264,7 @@ class SceneTemplate {
             }
         }
         
+        // Check if the player is in range of any scene change interactable objects
         for interactableEntity in sceneChangeInteractables {
             if interactableEntity.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.triggerVolume! && highestPriority ?? TriggerPriority.noPriority < interactableEntity.priority {
                 highestPriority = interactableEntity.priority
@@ -245,12 +272,14 @@ class SceneTemplate {
             }
         }
         
+        // Check if the player is in range of any auto trigger interactable objects
         for interactableEntity in autoTriggerEntities {
             if interactableEntity.node.distanceToNode(to: playerCharacter.modelNode) < interactableEntity.triggerVolume! {
                 interactableEntity.doInteractDelegate!()
             }
         }
         
+        // Set the interact button action and text based on the interactable object
         if (interactableObject == nil) {
             gameViewController.interactButton.action = nil
             gameViewController.interactButton.title.text = ""
@@ -261,6 +290,7 @@ class SceneTemplate {
             gameViewController.interactButton.isHidden = false
         }
         
+        // heck for camer box trigger and set the new camera properties
         SharedData.sharedData.cameraOffset = CameraBoxTrigger.defaultTrigger
         for cbt in cameraBoxTriggers {
             if(cbt.comparePos(other: playerCharacter.modelNode.position)){
@@ -272,8 +302,10 @@ class SceneTemplate {
 }
 
 extension SceneTemplate {
+    // Set up the active triggers in the scene
     func setUpActiveTrigger(node: SCNNode, nameParts: [String]){
         switch nameParts[1]{
+        // Teleport trigger
         case "Teleport":
             if nameParts.count >= 4 {
                 let target = nameParts[3]
@@ -283,7 +315,6 @@ extension SceneTemplate {
                     
                     let moveAction = SCNAction.move(to: self!.scene.rootNode.childNode(withName: "AT_Teleport_\(target)", recursively: true)!.worldPosition, duration: 0)
                     player?.runAction(moveAction)
-                    // TODO: ADD TELEPORT INTERACT SOUND HERE FOR FINAL
                 }
                 autoTriggerEntities.append(tpInteract)
             }
@@ -291,6 +322,7 @@ extension SceneTemplate {
         }
     }
     
+    // Add a light to the scene for testing
     func addAmbientLighting() -> SCNNode {
         let ambientLight = SCNNode()
         ambientLight.light = SCNLight()
@@ -299,6 +331,7 @@ extension SceneTemplate {
         return ambientLight
     }
     
+    // Add a floor to the scene for testing
     func createFloor() -> SCNNode {
         let floorNode = SCNNode()
         let floor = SCNFloor()
@@ -314,6 +347,8 @@ extension SceneTemplate {
     }
 }
 
+// MARK: - Comparable
+// Only to compare a scene template class name to change global values in gvc
 extension SceneTemplate: Comparable {
     static func == (lhs: SceneTemplate, rhs: SceneTemplate) -> Bool {
         return type(of: lhs) == type(of: rhs)
@@ -324,9 +359,11 @@ extension SceneTemplate: Comparable {
     }
 }
 
+// class to represent the camera box trigger
 class CameraBoxTrigger {
     static let defaultTrigger = CameraProperties(camRotationX: -40, offsetY: 30, offsetZ: 30)
     
+    // Struct to represent the camera properties
     struct CameraProperties{
         let camRotationX: Float
         let offsetY: Float
@@ -347,6 +384,7 @@ class CameraBoxTrigger {
         self.max = (node?.boundingBox.max ?? SCNVector3Zero) + origin
     }
     
+    // Compare the position of the player with the camera box trigger
     func comparePos(other: SCNVector3) -> Bool {
         return other.x > min.x && other.x < max.x && other.y > min.y && other.y < max.y && other.z > min.z && other.z < max.z
     }
